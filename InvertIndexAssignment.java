@@ -59,7 +59,11 @@ public class InvertIndexAssignment extends Configured implements Tool {
         return job.waitForCompletion(true) ? 0 : 1;
     }
 
-    public static void main(String[] args) throws Exception {
-        System.exit(ToolRunner.run(new InvertIndexAssignment(), args));
+    public static void main(String[] args) {
+        try {
+            System.exit(ToolRunner.run(new InvertIndexAssignment(), args));
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 }
