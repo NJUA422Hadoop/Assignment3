@@ -3,3 +3,4 @@
 classes/manifest.mf
 *.jar
 *.class
+command.sh
