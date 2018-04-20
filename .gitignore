@@ -5,3 +5,4 @@ classes/manifest.mf
 *.class
 command.sh
 command.bat
+src/source.txt
