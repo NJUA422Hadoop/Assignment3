@@ -7,7 +7,10 @@ import org.apache.hadoop.mapreduce.Reducer;
 import java.io.IOException;
 import java.util.StringTokenizer;
 
-public static class InvertedIndexReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
+public class InvertedIndexReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
+    public final static Class outputKeyClass = Text.class;
+    public final static Class outputValueClass = IntWritable.class;
+
     private IntWritable result =  new IntWritable();
 
     public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException{
