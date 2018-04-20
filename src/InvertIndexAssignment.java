@@ -1,8 +1,8 @@
-import mapper;
-import reducer;
-import partitioner;
-import inputFormat;
-import outputFormat;
+import mapper.InvertIndexMapper;
+import reducer.InvertIndexReducer;
+import partitioner.InvertIndexPartitioner;
+import inputFormat.InvertIndexInputFormat;
+import outputFormat.InvertIndexOutputFormat;
 
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.conf.Configuration;
