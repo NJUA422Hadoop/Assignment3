@@ -30,6 +30,7 @@ import org.apache.hadoop.mapreduce.Job;
  * 1. class name: outputFormat.InvertIndexOutputFormat
  * @author RailgunHamster (王宇鑫 151220114)
  * @version 0.1
+ * @date 2018/4/19
  */
 public class InvertIndexAssignment extends Configured implements Tool {
     @Override
