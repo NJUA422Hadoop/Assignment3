@@ -9,19 +9,19 @@ import org.apache.hadoop.mapreduce.Job;
  * InvertIndexAssignment
  * 依赖实现：
  * Mapper:
- * 1. class name: InvertIndexMapper
+ * 1. class name: mapper.InvertIndexMapper
  * 2. public static Class<? extends Writable> outputKeyClass = <output Key class>;
  * 3. public static Class<? extends Writable> outputValueClass = <output Value class>;
  * Reducer:
- * 1. class name: InvertIndexReducer
+ * 1. class name: reducer.InvertIndexReducer
  * 2. public static Class<? extends Writable> outputKeyClass = <output Key class>;
  * 3. public static Class<? extends Writable> outputValueClass = <output Value class>;
  * Partitioner:
- * 1. class name: InvertIndexPartitioner
+ * 1. class name: partitioner.InvertIndexPartitioner
  * InputFormat:
- * 1. class name: InvertIndexInputFormat
+ * 1. class name: inputFormat.InvertIndexInputFormat
  * OutputFormat:
- * 1. class name: InvertIndexOutputFormat
+ * 1. class name: outputFormat.InvertIndexOutputFormat
  * @author RailgunHamster (王宇鑫 151220114)
  * @version 0.1
  */
