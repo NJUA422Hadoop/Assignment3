@@ -6,3 +6,4 @@ classes/manifest.mf
 command.sh
 command.bat
 src/source.txt
+*.py
