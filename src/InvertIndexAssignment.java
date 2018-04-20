@@ -1,3 +1,9 @@
+import mapper;
+import reducer;
+import partitioner;
+import inputFormat;
+import outputFormat;
+
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
@@ -53,8 +59,8 @@ public class InvertIndexAssignment extends Configured implements Tool {
         job.setOutputFormatClass(InvertIndexOutputFormat.class);
 
         // add input/output path
-        InvertIndexInputFormat.addInputPath(job, new Path(conf.get("input")));
-        InvertIndexOutputFormat.addOutputPath(job, new Path(conf.get("output")));
+        FileInputFormat.addInputPath(job, new Path(conf.get("input")));
+        FileOutputFormat.addOutputPath(job, new Path(conf.get("output")));
 
         return job.waitForCompletion(true) ? 0 : 1;
     }
