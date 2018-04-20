@@ -1,5 +1,7 @@
 package inputFormat;
 
+import org.apache.hadoop.io.Text;
+
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 
 /**
@@ -9,5 +11,5 @@ import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
  * @version 0.1
  * @date 2018/4/20
  */
-public class InvertIndexInputFormat extends TextInputFormat {
+public class InvertIndexInputFormat extends TextInputFormat<Text, Text> {
 }

@@ -10,18 +10,20 @@ import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
 /**
  * InvertIndexAssignment
  * 依赖实现：
  * Mapper:
  * 1. class name: mapper.InvertIndexMapper
- * 2. public static Class<? extends Writable> outputKeyClass = <output Key class>;
- * 3. public static Class<? extends Writable> outputValueClass = <output Value class>;
+ * 2. public final static Class<? extends Writable> outputKeyClass = <output Key class>;
+ * 3. public fianl static Class<? extends Writable> outputValueClass = <output Value class>;
  * Reducer:
  * 1. class name: reducer.InvertIndexReducer
- * 2. public static Class<? extends Writable> outputKeyClass = <output Key class>;
- * 3. public static Class<? extends Writable> outputValueClass = <output Value class>;
+ * 2. public final static Class<? extends Writable> outputKeyClass = <output Key class>;
+ * 3. public fianl static Class<? extends Writable> outputValueClass = <output Value class>;
  * Partitioner:
  * 1. class name: partitioner.InvertIndexPartitioner
  * InputFormat:
