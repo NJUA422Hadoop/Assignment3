@@ -5,3 +5,6 @@
 *.py
 *.properties
 *.lst
+*.prefs
+.project
+.classpath
