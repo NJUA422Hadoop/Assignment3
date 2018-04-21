@@ -1,9 +1,7 @@
 
 .DS_Store
-classes/manifest.mf
 *.jar
 *.class
-command.sh
-command.bat
-src/source.txt
 *.py
+*.properties
+*.lst
