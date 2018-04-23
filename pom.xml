@@ -7,12 +7,18 @@
     <artifactId>InvertedIndex</artifactId>
     <version>0.1</version>
     <name>InvertedIndexAssignment</name>
+    <description>
+        大数据倒排索引
+    </description>
     <!--
         properties
     -->
     <properties>
         <jdkVersion>1.8</jdkVersion>
         <hadoopVersion>2.7.1</hadoopVersion>
+        <junitEngineVersion>5.1.1</junitEngineVersion>
+        <junitProviderVersion>1.1.1</junitProviderVersion>
+        <surefireVersion>2.19.1</surefireVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>${jdkVersion}</maven.compiler.source>
         <maven.compiler.target>${jdkVersion}</maven.compiler.target>
@@ -21,6 +27,13 @@
         dependencies
     -->
     <dependencies>
+        <!--junit-->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junitEngineVersion}</version>
+            <scope>test</scope>
+        </dependency>
         <!--common-->
         <dependency>
             <groupId>org.apache.hadoop</groupId>
@@ -46,35 +59,26 @@
             <version>${hadoopVersion}</version>
         </dependency>
     </dependencies>
-    <!--plugins
+    <!--plugins-->
     <build>
         <plugins>
+            <!--junit-->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <archive>
-                        生成MANIFEST.MF的设置
-                        <manifest>
-                            为依赖包添加路径, 这些路径会写在MANIFEST文件的Class-Path下
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>lib/</classpathPrefix>
-                            jar启动入口类
-                            <mainClass>InvertedIndexAssignment</mainClass>
-                        </manifest>
-                        <manifestEntries>
-                            在Class-Path下添加配置文件的路径
-                            <Class-Path>config/</Class-Path>
-                        </manifestEntries>
-                    </archive>
-                    <includes>
-                        打jar包时，只打包class文件
-                        <include>**/*.class</include>
-                    </includes>
-                </configuration>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefireVersion}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.junit.platform</groupId>
+                        <artifactId>junit-platform-surefire-provider</artifactId>
+                        <version>${junitProviderVersion}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.junit.jupiter</groupId>
+                        <artifactId>junit-jupiter-engine</artifactId>
+                        <version>${junitEngineVersion}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
-    -->
 </project>
