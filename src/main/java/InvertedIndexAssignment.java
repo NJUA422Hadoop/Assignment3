@@ -1,5 +1,6 @@
 import mapper.InvertedIndexMapper;
 import reducer.InvertedIndexReducer;
+import combiner.InvertedIndexCombiner;
 import partitioner.InvertedIndexPartitioner;
 import inputFormat.InvertedIndexInputFormat;
 import outputFormat.InvertedIndexOutputFormat;
@@ -54,6 +55,9 @@ public class InvertedIndexAssignment extends Configured implements Tool {
         job.setReducerClass(InvertedIndexReducer.class);
         job.setOutputKeyClass(InvertedIndexReducer.outputKeyClass);
         job.setOutputValueClass(InvertedIndexReducer.outputValueClass);
+
+        // combiner
+        job.setCombinerClass(InvertedIndexCombiner.class);
 
         // partitioner
         job.setPartitionerClass(InvertedIndexPartitioner.class);
