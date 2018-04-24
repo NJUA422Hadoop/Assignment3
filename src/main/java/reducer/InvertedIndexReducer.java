@@ -7,9 +7,9 @@ import org.apache.hadoop.mapreduce.Reducer;
 import java.io.IOException;
 import java.util.StringTokenizer;
 
-public class InvertedIndexReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
+public class InvertedIndexReducer extends Reducer<Text, IntWritable, Text, Text> {
   public final static Class outputKeyClass  =Text.class;
-  public final static Class outputValueClass=IntWritable.class; 
+  public final static Class outputValueClass = Text.class;
   private String term = new String();//临时存储word#filename中的word
   private String last = " ";//临时存储上一个word
   private int countItem;//统计word出现次数
