@@ -3,6 +3,7 @@ package mapper;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.mapreduce.lib.input.FileSplit;
 
 import java.io.IOException;
 import java.util.StringTokenizer;
