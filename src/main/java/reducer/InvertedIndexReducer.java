@@ -10,33 +10,33 @@ import java.util.StringTokenizer;
 public class InvertedIndexReducer extends Reducer<Text, IntWritable, Text, Text> {
   public final static Class outputKeyClass  =Text.class;
   public final static Class outputValueClass = Text.class;
-  private String term = new String();//临时存储word#filename中的word
-  private String last = " ";//临时存储上一个word
+  private String term = new String();
+  private String last = " ";
   private int if_first=1;
-  private int countItem;//统计word出现次数
-  private int countDoc;//统计word出现文件数
-  private StringBuilder out = new StringBuilder();//临时存储输出的value部分
-  private float f;//临时计算平均出现频率
+  private int countItem;
+  private int countDoc;
+  private StringBuilder out = new StringBuilder();
+  private float f;
   public static final String intervals = "[@#]";
   public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
-      term = key.toString().split(intervals)[0];//获取word
-      if (!term.equals(last)) {//此次word与上次不一样，则将上次进行处理并输出
+      term = key.toString().split(intervals)[0];
+      if (!term.equals(last)) {
         if (if_first==0){
-              out.setLength(out.length() - 1);//删除value部分最后的;符号
-              f = (float) countItem / countDoc;//计算平均出现次数
-              context.write(new Text(last), new Text(String.format("%.2f,%s", f, out.toString())));//value部分拼接后输出
-              countItem = 0;//以下清除变量，初始化计算下一个word
+              out.setLength(out.length() - 1);
+              f = (float) countItem / countDoc;
+              context.write(new Text(last), new Text(String.format("%.2f,%s", f, out.toString())));
+              countItem = 0;
               countDoc = 0;
               out = new StringBuilder();
           }
-          last = term;//更新word，为下一次做准备
+          last = term;
           if_first=0;
       }
-      int sum = 0;//累加相同word和filename中出现次数
+      int sum = 0;
       for (IntWritable val : values) {
           sum += val.get();
       }
-      out.append(key.toString().split(intervals)[1] + ":" + sum + ";");//将filename:NUM; 临时存储
+      out.append(key.toString().split(intervals)[1] + ":" + sum + ";");
       countItem += sum;
       countDoc += 1;
   }
