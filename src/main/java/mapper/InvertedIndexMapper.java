@@ -2,6 +2,7 @@ package mapper;
 
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.lib.input.FileSplit;
 
@@ -15,8 +16,8 @@ import java.util.StringTokenizer;
  */
 
 public class InvertedIndexMapper extends Mapper<Object, Text, Text, IntWritable> {
-    public final static Class outputKeyClass = Text.class;
-    public final static Class outputValueClass = IntWritable.class;
+    public final static Class<? extends Writable> outputKeyClass = Text.class;
+    public final static Class<? extends Writable> outputValueClass = IntWritable.class;
 
     private final static IntWritable one = new IntWritable(1);
     private Text word = new Text();
