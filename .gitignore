@@ -11,3 +11,4 @@
 .vscode/settings.json
 target/surefire-reports/TEST-partitioner.InvertedIndexPartitionerTest.xml
 target/surefire-reports/partitioner.InvertedIndexPartitionerTest.txt
+.vscode/test-launch.json

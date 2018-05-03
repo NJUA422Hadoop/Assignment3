@@ -15,7 +15,7 @@
     -->
     <properties>
         <mainEntry>InvertedIndexAssignment</mainEntry>
-        <jdkVersion>1.8</jdkVersion>
+        <jdkVersion>1.7</jdkVersion>
         <hadoopVersion>2.7.1</hadoopVersion>
         <junitEngineVersion>5.1.1</junitEngineVersion>
         <junitProviderVersion>1.1.1</junitProviderVersion>
