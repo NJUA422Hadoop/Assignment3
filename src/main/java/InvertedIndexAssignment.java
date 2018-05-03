@@ -11,10 +11,7 @@ import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import org.apache.hadoop.mapreduce.Job;
-import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
-import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
-import org.apache.hadoop.mapred.lib.HashPartitioner;
 /**
  * InvertedIndexAssignment
  * 依赖实现：
@@ -67,8 +64,8 @@ public class InvertedIndexAssignment extends Configured implements Tool {
         job.setOutputFormatClass(InvertedIndexOutputFormat.class);
 
         // add input/output path
-        InvertedIndexInputFormat.addInputPath(job, new Path(conf.get("input")));
-        InvertedIndexOutputFormat.setOutputPath(job, new Path(conf.get("output")));
+        InvertedIndexInputFormat.addInputPath(job, new Path(args[0]));
+        InvertedIndexOutputFormat.setOutputPath(job, new Path(args[1]));
 
         return job.waitForCompletion(true) ? 0 : 1;
     }

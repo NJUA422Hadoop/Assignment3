@@ -2,14 +2,14 @@ package reducer;
 
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
-import java.util.StringTokenizer;
 
 public class InvertedIndexReducer extends Reducer<Text, IntWritable, Text, Text> {
-  public final static Class outputKeyClass  =Text.class;
-  public final static Class outputValueClass = Text.class;
+  public final static Class<? extends Writable> outputKeyClass  =Text.class;
+  public final static Class<? extends Writable> outputValueClass = Text.class;
   private String term = new String();
   private String last = " ";
   private int if_first=1;

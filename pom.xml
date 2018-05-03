@@ -14,11 +14,13 @@
         properties
     -->
     <properties>
-        <jdkVersion>1.8</jdkVersion>
+        <mainEntry>InvertedIndexAssignment</mainEntry>
+        <jdkVersion>1.7</jdkVersion>
         <hadoopVersion>2.7.1</hadoopVersion>
         <junitEngineVersion>5.1.1</junitEngineVersion>
         <junitProviderVersion>1.1.1</junitProviderVersion>
         <surefireVersion>2.19.1</surefireVersion>
+        <mavenJarPluginVersion>3.1.0</mavenJarPluginVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>${jdkVersion}</maven.compiler.source>
         <maven.compiler.target>${jdkVersion}</maven.compiler.target>
@@ -62,6 +64,20 @@
     <!--plugins-->
     <build>
         <plugins>
+        <!-- 打包插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>${mavenJarPluginVersion}</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>${mainEntry}</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+
             <!--junit-->
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
