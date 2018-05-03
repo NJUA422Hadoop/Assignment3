@@ -38,6 +38,8 @@ public class InvertedIndexAssignment extends Configured implements Tool {
     public int run(String[] args) throws Exception {
         // config
         Configuration conf = getConf();
+        conf.set("input", args[0]);
+        conf.set("output", args[1]);
 
         // job
         Job job = Job.getInstance(conf, InvertedIndexAssignment.class.getSimpleName());
@@ -64,8 +66,8 @@ public class InvertedIndexAssignment extends Configured implements Tool {
         job.setOutputFormatClass(InvertedIndexOutputFormat.class);
 
         // add input/output path
-        InvertedIndexInputFormat.addInputPath(job, new Path(args[0]));
-        InvertedIndexOutputFormat.setOutputPath(job, new Path(args[1]));
+        InvertedIndexInputFormat.addInputPath(job, new Path(conf.get("input")));
+        InvertedIndexOutputFormat.setOutputPath(job, new Path(conf.get("output")));
 
         return job.waitForCompletion(true) ? 0 : 1;
     }
