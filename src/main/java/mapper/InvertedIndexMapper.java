@@ -23,7 +23,7 @@ public class InvertedIndexMapper extends Mapper<Object, Text, Text, IntWritable>
 
     public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
         FileSplit fileSplit = (FileSplit)context.getInputSplit();
-        String fileName = fileSplit.getPath().getName().replaceAll(".txt.segmented", "");
+        String fileName = fileSplit.getPath().getName().replaceAll(".TXT.segmented", "");
         StringTokenizer itr = new StringTokenizer(value.toString());
         while(itr.hasMoreTokens()) {
             word.set(itr.nextToken() + "@" + fileName);
