@@ -28,7 +28,7 @@ public class InvertedIndexReducer extends TableReducer<Text,IntWritable,Text> {
               out=out.substring(0, out.length()-1);
               f = (float) countItem / countDoc;
               Put put = new Put(key.getBytes());
-              put.add(columnFamily.getBytes(),column.getBytes(),String.format("%.2f", f).getBytes());
+              put.addColumn(columnFamily.getBytes(),column.getBytes(),String.format("%.2f", f).getBytes());
               context.write(key, put);
               countItem = 0;
               countDoc = 0;
@@ -49,7 +49,7 @@ public class InvertedIndexReducer extends TableReducer<Text,IntWritable,Text> {
       out=out.substring(0, out.length()-1);
       f = (float) countItem / countDoc;
       Put put = new Put(last.getBytes());
-      put.add(columnFamily.getBytes(),column.getBytes(),String.format("%.2f", f).getBytes());
+      put.addColumn(columnFamily.getBytes(),column.getBytes(),String.format("%.2f", f).getBytes());
       context.write(new Text(last),put);
   }
 }
