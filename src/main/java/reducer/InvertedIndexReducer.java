@@ -3,20 +3,10 @@ package reducer;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
-import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.hbase.mapreduce.TableReducer;
 import java.io.IOException;
-import java.util.Map;
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.HColumnDescriptor;
-import org.apache.hadoop.hbase.HTableDescriptor;
-import org.apache.hadoop.hbase.client.HBaseAdmin;
-import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.client.Put;
-import org.apache.hadoop.hbase.client.Result;
 
-// public class InvertedIndexReducer extends TableReducer<XXX>
 public class InvertedIndexReducer extends TableReducer<Text,IntWritable,Text> {
   public final static Class<? extends Writable> outputKeyClass  =Text.class;
   public final static Class<? extends Writable> outputValueClass = Text.class;
@@ -26,7 +16,7 @@ public class InvertedIndexReducer extends TableReducer<Text,IntWritable,Text> {
   private int countItem;
   private int countDoc;
   private String out = new String();
-  private float f;
+  private Float f;
   public static final String intervals = "[@#]";
   public final static String columnFamily= "information";
   public final static String column= "avg time";
@@ -36,9 +26,8 @@ public class InvertedIndexReducer extends TableReducer<Text,IntWritable,Text> {
         if (if_first==0){
               out=out.substring(0, out.length()-1);
               f = (float) countItem / countDoc;
-              String avg=f+"";
               Put put = new Put(key.getBytes());
-              put.add(columnFamily.getBytes(),column.getBytes(),avg.getBytes());
+              put.add(columnFamily.getBytes(),column.getBytes(),String.format("%.2f", f).getBytes());
               context.write(key, put);
               countItem = 0;
               countDoc = 0;
@@ -58,9 +47,8 @@ public class InvertedIndexReducer extends TableReducer<Text,IntWritable,Text> {
   public void cleanup(Context context) throws IOException, InterruptedException {
       out=out.substring(0, out.length()-1);
       f = (float) countItem / countDoc;
-      String avg=f+"";
       Put put = new Put(last.getBytes());
-      put.add(columnFamily.getBytes(),column.getBytes(),avg.getBytes());
+      put.add(columnFamily.getBytes(),column.getBytes(),String.format("%.2f", f).getBytes());
       context.write(new Text(last),put);
   }
 }
