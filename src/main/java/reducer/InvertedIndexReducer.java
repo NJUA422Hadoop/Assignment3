@@ -62,6 +62,5 @@ public class InvertedIndexReducer extends TableReducer<Text,IntWritable,Text> {
       Put put = new Put(key.getBytes());
       put.add(columnFamily.getBytes(),column.getBytes(),avg.getBytes());
       context.write(new Text(last), new Text(String.format("%s,%s", avg, out)));
-      context.write(new Text(last), new Text(String.format("%.2f,%s", f, out)));
   }
 }
