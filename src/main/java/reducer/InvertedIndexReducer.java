@@ -39,7 +39,7 @@ public class InvertedIndexReducer extends TableReducer<Text,IntWritable,Text> {
               String avg=f+"";
               Put put = new Put(key.getBytes());
               put.add(columnFamily.getBytes(),column.getBytes(),avg.getBytes());
-              context.write(new Text(last), new Text(String.format("%s,%s", avg, out)));
+              context.write(key, put);
               countItem = 0;
               countDoc = 0;
               out = new String();
@@ -61,6 +61,6 @@ public class InvertedIndexReducer extends TableReducer<Text,IntWritable,Text> {
       String avg=f+"";
       Put put = new Put(last.getBytes());
       put.add(columnFamily.getBytes(),column.getBytes(),avg.getBytes());
-      context.write(new Text(last), new Text(String.format("%s,%s", avg, out)));
+      context.write(new Text(last),put);
   }
 }
