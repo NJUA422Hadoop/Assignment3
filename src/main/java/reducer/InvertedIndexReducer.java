@@ -36,9 +36,10 @@ public class InvertedIndexReducer extends TableReducer<Text,IntWritable,Text> {
         if (if_first==0){
               out=out.substring(0, out.length()-1);
               f = (float) countItem / countDoc;
+              String avg=f+"";
               Put put = new Put(key.getBytes());
-              put.add(columnFamily.getBytes(),column.getBytes(),f.getBytes());
-              context.write(new Text(last), new Text(String.format("%.2f,%s", f, out)));
+              put.add(columnFamily.getBytes(),column.getBytes(),avg.getBytes());
+              context.write(new Text(last), new Text(String.format("%s,%s", avg, out)));
               countItem = 0;
               countDoc = 0;
               out = new String();
@@ -57,8 +58,10 @@ public class InvertedIndexReducer extends TableReducer<Text,IntWritable,Text> {
   public void cleanup(Context context) throws IOException, InterruptedException {
       out=out.substring(0, out.length()-1);
       f = (float) countItem / countDoc;
+      String avg=f+"";
       Put put = new Put(key.getBytes());
-      put.add(columnFamily.getBytes(),column.getBytes(),f.getBytes());
+      put.add(columnFamily.getBytes(),column.getBytes(),avg.getBytes());
+      context.write(new Text(last), new Text(String.format("%s,%s", avg, out)));
       context.write(new Text(last), new Text(String.format("%.2f,%s", f, out)));
   }
 }
