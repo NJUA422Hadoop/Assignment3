@@ -9,20 +9,18 @@ import org.apache.hadoop.hbase.client.HBaseAdmin;
 
 class CreateTable {
     private Configuration conf;
-    private String table;
-    private String columnFamily;
-    CreateTable(Configuration conf, String table) {
+    CreateTable(Configuration conf) {
         this.conf = conf;
-        this.table = table;
     }
 
     void run() throws IOException {
+        String table = this.conf.get("table");
         HBaseAdmin admin = new HBaseAdmin(conf);
-        if (admin.tableExists(this.table)) {
+        if (admin.tableExists(table)) {
             throw new IOException("table already exists");
         }
-        HTableDescriptor tableDescriptor = new HTableDescriptor(this.table);
-        HColumnDescriptor columnDescriptor = new HColumnDescriptor(this.columnFamily);
+        HTableDescriptor tableDescriptor = new HTableDescriptor(table);
+        HColumnDescriptor columnDescriptor = new HColumnDescriptor(conf.get("columnFamily"));
         tableDescriptor.addFamily(columnDescriptor);
         admin.createTable(tableDescriptor);
     }

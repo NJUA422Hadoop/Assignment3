@@ -47,7 +47,7 @@ public class InvertedIndexAssignment extends Configured implements Tool {
         String table = "Wuxia";
 
         HBase hbase = new HBase();
-        hbase.createTable(table);
+        hbase.createTable(table, InvertedIndexReducer.columnFamily);
 
         // job
         Job job = Job.getInstance(conf, InvertedIndexAssignment.class.getSimpleName());
