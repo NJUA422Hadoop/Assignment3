@@ -19,12 +19,16 @@ public class InvertedIndexReducer extends Reducer<Text, IntWritable, Text, Text>
   private String out = new String();
   private float f;
   public static final String intervals = "[@#]";
+  public final static String columnFamily= "information";
+  public final static String column= "avg time";
   public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
       term = key.toString().split(intervals)[0];
       if (!term.equals(last)) {
         if (if_first==0){
               out=out.substring(0, out.length()-1);
               f = (float) countItem / countDoc;
+              Put put = new Put(key.get());
+              put.add(Bytes.toBytes(columnFamily),Bytes.toBytes(column),Bytes.toBytes(f));
               context.write(new Text(last), new Text(String.format("%.2f,%s", f, out)));
               countItem = 0;
               countDoc = 0;
@@ -44,6 +48,8 @@ public class InvertedIndexReducer extends Reducer<Text, IntWritable, Text, Text>
   public void cleanup(Context context) throws IOException, InterruptedException {
       out=out.substring(0, out.length()-1);
       f = (float) countItem / countDoc;
+      Put put = new Put(key.get());
+      put.add(Bytes.toBytes(columnFamily),Bytes.toBytes(column),Bytes.toBytes(f));
       context.write(new Text(last), new Text(String.format("%.2f,%s", f, out)));
   }
 }
