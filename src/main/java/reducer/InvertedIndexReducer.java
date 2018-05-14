@@ -4,11 +4,12 @@ import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.Reducer;
+import org.apache.hadoop.hbase.mapreduce.TableReducer;
 
 import java.io.IOException;
 
 // public class InvertedIndexReducer extends TableReducer<XXX>
-public class InvertedIndexReducer extends Reducer<Text, IntWritable, Text, Text> {
+public class InvertedIndexReducer extends TableReducer<Text, IntWritable, Text, Text> {
   public final static Class<? extends Writable> outputKeyClass  =Text.class;
   public final static Class<? extends Writable> outputValueClass = Text.class;
   private String term = new String();
