@@ -1,3 +1,5 @@
+package hbase;
+
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.client.HTable;
@@ -10,8 +12,13 @@ import java.io.*;
 /**
  * Created by WaterYe on 18-5-14.
  */
-public class SaveTableToFile {
-    public static void main(String []args) throws IOException {
+class SaveTableToLocal {
+    private String tableName;
+    SaveTableToLocal(String tableName) {
+        this.tableName = tableName;
+    }
+
+    void run() throws IOException {
         File file = new File("table.txt");
         if(!file.exists()) {
             file.createNewFile();
@@ -19,7 +26,7 @@ public class SaveTableToFile {
         FileWriter fw = new FileWriter(file, true);
         PrintWriter pw = new PrintWriter(file);
         Configuration configuration = HBaseConfiguration.create();
-        HTable table = new HTable(configuration, "Wuxia");
+        HTable table = new HTable(configuration, tableName);
         ResultScanner rs = table.getScanner(new Scan());
         StringBuilder sb = new StringBuilder();
         for(Result r : rs) {

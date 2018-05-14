@@ -7,6 +7,7 @@ import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
 
+// public class InvertedIndexReducer extends TableReducer<XXX>
 public class InvertedIndexReducer extends Reducer<Text, IntWritable, Text, Text> {
   public final static Class<? extends Writable> outputKeyClass  =Text.class;
   public final static Class<? extends Writable> outputValueClass = Text.class;

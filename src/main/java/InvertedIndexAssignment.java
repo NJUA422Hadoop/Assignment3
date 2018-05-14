@@ -4,6 +4,7 @@ import combiner.InvertedIndexCombiner;
 import partitioner.InvertedIndexPartitioner;
 import inputFormat.InvertedIndexInputFormat;
 import outputFormat.InvertedIndexOutputFormat;
+import hbase.HBase;
 
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.conf.Configuration;
@@ -30,7 +31,7 @@ import org.apache.hadoop.mapreduce.Job;
  * OutputFormat:
  * 1. class name: outputFormat.InvertIndexOutputFormat
  * @author RailgunHamster (王宇鑫 151220114)
- * @version 0.1
+ * @version 1.1
  * @date 2018/4/19
  */
 public class InvertedIndexAssignment extends Configured implements Tool {
@@ -40,6 +41,9 @@ public class InvertedIndexAssignment extends Configured implements Tool {
         Configuration conf = getConf();
         conf.set("input", args[0]);
         conf.set("output", args[1]);
+
+        HBase hbase = new HBase();
+        hbase.createTable("Wuxia");
 
         // job
         Job job = Job.getInstance(conf, InvertedIndexAssignment.class.getSimpleName());

@@ -17,6 +17,7 @@
         <mainEntry>InvertedIndexAssignment</mainEntry>
         <jdkVersion>1.7</jdkVersion>
         <hadoopVersion>2.7.1</hadoopVersion>
+        <hbaseVersion>1.2.6</hbaseVersion>
         <junitEngineVersion>5.1.1</junitEngineVersion>
         <junitProviderVersion>1.1.1</junitProviderVersion>
         <surefireVersion>2.19.1</surefireVersion>
@@ -60,6 +61,12 @@
             <artifactId>hadoop-client</artifactId>
             <version>${hadoopVersion}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.hbase/hbase-client -->
+        <dependency>
+            <groupId>org.apache.hbase</groupId>
+            <artifactId>hbase-client</artifactId>
+            <version>${hbaseVersion}</version>
+        </dependency>
     </dependencies>
     <!--plugins-->
     <build>
@@ -69,6 +76,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>${mavenJarPluginVersion}</version>
+                <!--不能要main entry（多任务）
                 <configuration>
                     <archive>
                         <manifest>
@@ -76,6 +84,7 @@
                         </manifest>
                     </archive>
                 </configuration>
+                -->
             </plugin>
 
             <!--junit-->
