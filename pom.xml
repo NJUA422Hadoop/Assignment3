@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>NJUA422Hadoop</groupId>
     <artifactId>InvertedIndex</artifactId>
-    <version>0.1</version>
+    <version>1.1</version>
     <name>InvertedIndexAssignment</name>
     <description>
         大数据倒排索引
