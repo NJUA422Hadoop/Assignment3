@@ -15,5 +15,6 @@ class CreateTable {
 
     void run() throws IOException {
         HBaseAdmin admin = new HBaseAdmin(conf);
+        // TODO: 实现表的创建操作
     }
 }
