@@ -5,6 +5,7 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.hbase.mapreduce.TableReducer;
 import java.io.IOException;
+
 import org.apache.hadoop.hbase.client.Put;
 
 public class InvertedIndexReducer extends TableReducer<Text,IntWritable,Text> {

@@ -1,32 +1,40 @@
 package hbase;
 
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.client.HTable;
+import org.apache.hadoop.hbase.TableName;
+import org.apache.hadoop.hbase.client.Connection;
+import org.apache.hadoop.hbase.client.ConnectionFactory;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Scan;
+import org.apache.hadoop.hbase.client.Table;
 
 import java.io.*;
 
 /**
  * Created by WaterYe on 18-5-14.
  */
-class SaveTableToLocal {
+class SaveTableToLocal extends Runner {
     private Configuration conf;
-    SaveTableToLocal(Configuration conf) {
+    SaveTableToLocal(Configuration conf) throws IOException {
         this.conf = conf;
     }
 
-    void run() throws IOException {
+    private Connection connection;
+    private Table table;
+    @Override
+    protected void pre() throws IOException {
+        connection = ConnectionFactory.createConnection(conf);
+        table = connection.getTable(TableName.valueOf(conf.get("Table")));
+    }
+
+    @Override
+    protected void run() throws IOException {
         File file = new File(conf.get("savePath"));
         if(!file.exists()) {
             file.createNewFile();
         }
-        FileWriter fw = new FileWriter(file, true);
         PrintWriter pw = new PrintWriter(file);
-        Configuration configuration = HBaseConfiguration.create();
-        HTable table = new HTable(configuration, conf.get("table"));
         ResultScanner rs = table.getScanner(new Scan());
         StringBuilder sb = new StringBuilder();
         for(Result r : rs) {
@@ -37,6 +45,11 @@ class SaveTableToLocal {
         pw.print(sb.toString());
         pw.flush();
         pw.close();
-        fw.close();
+    }
+
+    @Override
+    protected void end() throws IOException {
+        table.close();
+        connection.close();
     }
 }

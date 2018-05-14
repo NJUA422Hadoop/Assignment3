@@ -25,7 +25,8 @@ public class HBase {
         try {
             conf.set("table", table);
             conf.set("columnFamily", columnFamily);
-            new CreateTable(conf).run();
+            Runner mission = new CreateTable(conf);
+            mission.start();
         } catch(IOException ioe) {
             ioe.printStackTrace();
         }
@@ -39,7 +40,8 @@ public class HBase {
         try {
             conf.set("table", table);
             conf.set("savePath", savePath);
-            new SaveTableToLocal(conf).run();
+            Runner mission = new SaveTableToLocal(conf);
+            mission.start();
         } catch(IOException ioe) {
             ioe.printStackTrace();
         }
