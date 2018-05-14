@@ -1,8 +1,10 @@
 # Assignment3
 
-环境：Hadoop 2.7.1
+环境：
+- Hadoop 2.7.1
+- Hbase 1.2.6
 
-语言：java8
+语言：java7
 
 内容：倒排索引实验
 
