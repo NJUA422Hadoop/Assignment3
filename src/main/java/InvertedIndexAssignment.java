@@ -42,8 +42,10 @@ public class InvertedIndexAssignment extends Configured implements Tool {
         conf.set("input", args[0]);
         conf.set("output", args[1]);
 
+        String table = "Wuxia";
+
         HBase hbase = new HBase();
-        hbase.createTable("Wuxia");
+        hbase.createTable(table);
 
         // job
         Job job = Job.getInstance(conf, InvertedIndexAssignment.class.getSimpleName());
@@ -55,7 +57,7 @@ public class InvertedIndexAssignment extends Configured implements Tool {
         job.setMapOutputValueClass(InvertedIndexMapper.outputValueClass);
 
         // reducer
-        job.setReducerClass(InvertedIndexReducer.class);
+        TableMapReduceUtil.initTableReducerJob(table, InvertedIndexReducer.class, job, null, null, null, null, false);
         job.setOutputKeyClass(InvertedIndexReducer.outputKeyClass);
         job.setOutputValueClass(InvertedIndexReducer.outputValueClass);
 
