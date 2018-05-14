@@ -5,11 +5,19 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.hbase.mapreduce.TableReducer;
-
 import java.io.IOException;
+import java.util.Map;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.hbase.HBaseConfiguration;
+import org.apache.hadoop.hbase.HColumnDescriptor;
+import org.apache.hadoop.hbase.HTableDescriptor;
+import org.apache.hadoop.hbase.client.HBaseAdmin;
+import org.apache.hadoop.hbase.client.HTable;
+import org.apache.hadoop.hbase.client.Put;
+import org.apache.hadoop.hbase.client.Result;
 
 // public class InvertedIndexReducer extends TableReducer<XXX>
-public class InvertedIndexReducer extends TableReducer<Text, IntWritable, Text, Text> {
+public class InvertedIndexReducer extends TableReducer<Text,IntWritable,Text> {
   public final static Class<? extends Writable> outputKeyClass  =Text.class;
   public final static Class<? extends Writable> outputValueClass = Text.class;
   private String term = new String();
@@ -28,8 +36,8 @@ public class InvertedIndexReducer extends TableReducer<Text, IntWritable, Text, 
         if (if_first==0){
               out=out.substring(0, out.length()-1);
               f = (float) countItem / countDoc;
-              Put put = new Put(key.get());
-              put.add(Bytes.toBytes(columnFamily),Bytes.toBytes(column),Bytes.toBytes(f));
+              Put put = new Put(key.getBytes());
+              put.add(columnFamily.getBytes(),column.getBytes(),f.getBytes());
               context.write(new Text(last), new Text(String.format("%.2f,%s", f, out)));
               countItem = 0;
               countDoc = 0;
@@ -49,8 +57,8 @@ public class InvertedIndexReducer extends TableReducer<Text, IntWritable, Text, 
   public void cleanup(Context context) throws IOException, InterruptedException {
       out=out.substring(0, out.length()-1);
       f = (float) countItem / countDoc;
-      Put put = new Put(key.get());
-      put.add(Bytes.toBytes(columnFamily),Bytes.toBytes(column),Bytes.toBytes(f));
+      Put put = new Put(key.getBytes());
+      put.add(columnFamily.getBytes(),column.getBytes(),f.getBytes());
       context.write(new Text(last), new Text(String.format("%.2f,%s", f, out)));
   }
 }
