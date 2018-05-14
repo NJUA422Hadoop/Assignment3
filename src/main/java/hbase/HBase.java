@@ -21,9 +21,11 @@ public class HBase {
      * create table
      * @author RailgunHamster
      */
-    public void createTable(String table) {
+    public void createTable(String table, String columnFamily) {
         try {
-            new CreateTable(conf, table).run();
+            conf.set("table", table);
+            conf.set("columnFamily", columnFamily);
+            new CreateTable(conf).run();
         } catch(IOException ioe) {
             ioe.printStackTrace();
         }
@@ -35,7 +37,8 @@ public class HBase {
      */
     public void saveToLocal(String table) {
         try {
-            new SaveTableToLocal(table).run();
+            conf.set("table", table);
+            new SaveTableToLocal(conf).run();
         } catch(IOException ioe) {
             ioe.printStackTrace();
         }

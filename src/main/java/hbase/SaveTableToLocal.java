@@ -13,9 +13,9 @@ import java.io.*;
  * Created by WaterYe on 18-5-14.
  */
 class SaveTableToLocal {
-    private String tableName;
-    SaveTableToLocal(String tableName) {
-        this.tableName = tableName;
+    private Configuration conf;
+    SaveTableToLocal(Configuration conf) {
+        this.conf = conf;
     }
 
     void run() throws IOException {
@@ -26,7 +26,7 @@ class SaveTableToLocal {
         FileWriter fw = new FileWriter(file, true);
         PrintWriter pw = new PrintWriter(file);
         Configuration configuration = HBaseConfiguration.create();
-        HTable table = new HTable(configuration, tableName);
+        HTable table = new HTable(configuration, this.conf.get("table"));
         ResultScanner rs = table.getScanner(new Scan());
         StringBuilder sb = new StringBuilder();
         for(Result r : rs) {
