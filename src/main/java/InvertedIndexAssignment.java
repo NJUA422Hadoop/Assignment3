@@ -12,6 +12,7 @@ import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.hbase.mapreduce.TableMapReduceUtil;
 
 /**
  * InvertedIndexAssignment

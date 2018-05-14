@@ -67,6 +67,12 @@
             <artifactId>hbase-client</artifactId>
             <version>${hbaseVersion}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.hbase/hbase-server -->
+       <dependency>
+            <groupId>org.apache.hbase</groupId>
+            <artifactId>hbase-server</artifactId>
+            <version>${hbaseVersion}</version>
+        </dependency>
     </dependencies>
     <!--plugins-->
     <build>
