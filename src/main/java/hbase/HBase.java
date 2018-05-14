@@ -35,9 +35,10 @@ public class HBase {
      * save from hbase to local
      * @author WaterYe
      */
-    public void saveToLocal(String table) {
+    public void saveToLocal(String table, String savePath) {
         try {
             conf.set("table", table);
+            conf.set("savePath", savePath);
             new SaveTableToLocal(conf).run();
         } catch(IOException ioe) {
             ioe.printStackTrace();

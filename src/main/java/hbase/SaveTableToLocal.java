@@ -19,14 +19,14 @@ class SaveTableToLocal {
     }
 
     void run() throws IOException {
-        File file = new File("table.txt");
+        File file = new File(conf.get("savePath"));
         if(!file.exists()) {
             file.createNewFile();
         }
         FileWriter fw = new FileWriter(file, true);
         PrintWriter pw = new PrintWriter(file);
         Configuration configuration = HBaseConfiguration.create();
-        HTable table = new HTable(configuration, this.conf.get("table"));
+        HTable table = new HTable(configuration, conf.get("table"));
         ResultScanner rs = table.getScanner(new Scan());
         StringBuilder sb = new StringBuilder();
         for(Result r : rs) {
