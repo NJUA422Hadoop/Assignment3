@@ -59,7 +59,7 @@ public class InvertedIndexReducer extends TableReducer<Text,IntWritable,Text> {
       out=out.substring(0, out.length()-1);
       f = (float) countItem / countDoc;
       String avg=f+"";
-      Put put = new Put(key.getBytes());
+      Put put = new Put(last.getBytes());
       put.add(columnFamily.getBytes(),column.getBytes(),avg.getBytes());
       context.write(new Text(last), new Text(String.format("%s,%s", avg, out)));
   }
