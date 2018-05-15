@@ -3,14 +3,16 @@ package reducer;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
-import org.apache.hadoop.hbase.mapreduce.TableReducer;
-import java.io.IOException;
 
+import org.apache.hadoop.hbase.mapreduce.TableReducer;
 import org.apache.hadoop.hbase.client.Put;
+import org.apache.hadoop.hbase.client.Mutation;
+
+import java.io.IOException;
 
 public class InvertedIndexReducer extends TableReducer<Text,IntWritable,Text> {
   public final static Class<? extends Writable> outputKeyClass  =Text.class;
-  public final static Class<? extends Writable> outputValueClass = Text.class;
+  public final static Class<? extends Mutation> outputValueClass = Put.class;
   private String term = new String();
   private String last = " ";
   private int if_first=1;

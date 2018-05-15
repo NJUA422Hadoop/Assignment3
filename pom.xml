@@ -21,11 +21,16 @@
         <junitEngineVersion>5.1.1</junitEngineVersion>
         <junitProviderVersion>1.1.1</junitProviderVersion>
         <surefireVersion>2.19.1</surefireVersion>
-        <mavenJarPluginVersion>3.1.0</mavenJarPluginVersion>
+        <assemblyPluginVersion>3.1.0</assemblyPluginVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>${jdkVersion}</maven.compiler.source>
         <maven.compiler.target>${jdkVersion}</maven.compiler.target>
     </properties>
+    <!--
+        MacOS 大小写不敏感问题：LICENSE和license冲突
+        zip -d target/InvertedIndex-1.1-jar-with-dependencies.jar META-INF/LICENSE
+        jar tvf target/InvertedIndex-1.1-jar-with-dependencies.jar | grep -i license
+    -->
     <!--
         dependencies
     -->
@@ -77,20 +82,24 @@
     <!--plugins-->
     <build>
         <plugins>
-        <!-- 打包插件 -->
+            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-assembly-plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>${mavenJarPluginVersion}</version>
-                <!--不能要main entry（多任务）
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>${assemblyPluginVersion}</version>
                 <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>${mainEntry}</mainClass>
-                        </manifest>
-                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
                 </configuration>
-                -->
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <!--junit-->

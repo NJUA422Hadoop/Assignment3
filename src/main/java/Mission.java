@@ -9,7 +9,7 @@ import hbase.HBase;
  */
 public class Mission {
     public void Wuxia() {
-        HBase hbase = new HBase();
+        HBase hbase = HBase.shared;
         hbase.saveToLocal("Wuxia", "table.txt");
     }
 

@@ -29,7 +29,8 @@ class CreateTable extends Runner {
         TableName table = TableName.valueOf(conf.get("table"));
 
         if (admin.tableExists(table)) {
-            throw new IOException("table already exists");
+            admin.disableTable(table);
+            admin.deleteTable(table);
         }
 
         // add column family

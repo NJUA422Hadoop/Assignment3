@@ -39,15 +39,16 @@ import org.apache.hadoop.hbase.client.Put;
 public class InvertedIndexAssignment extends Configured implements Tool {
     @Override
     public int run(String[] args) throws Exception {
-        // config
-        Configuration conf = getConf();
-        conf.set("input", args[0]);
-        conf.set("output", args[1]);
-
         String table = "Wuxia";
 
-        HBase hbase = new HBase();
+        HBase hbase = HBase.shared;
         hbase.createTable(table, InvertedIndexReducer.columnFamily);
+
+        // config
+        Configuration conf = getConf();
+        hbase.set(conf);
+        conf.set("input", args[0]);
+        conf.set("output", args[1]);
 
         // job
         Job job = Job.getInstance(conf, InvertedIndexAssignment.class.getSimpleName());

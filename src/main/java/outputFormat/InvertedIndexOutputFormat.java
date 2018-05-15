@@ -12,5 +12,5 @@ import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
  * @version 0.1
  * @date 2018/4/20
  */
-public class InvertedIndexOutputFormat extends TextOutputFormat<Text, IntWritable> {
+public class InvertedIndexOutputFormat extends TextOutputFormat<Text, Text> {
 }

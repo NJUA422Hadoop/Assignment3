@@ -12,8 +12,20 @@ import org.apache.hadoop.hbase.HBaseConfiguration;
  * @date 2018/5/14
  */
 public class HBase {
-    static Configuration conf = HBaseConfiguration.create();
-    static {
+    Configuration conf = HBaseConfiguration.create();
+
+    /**
+     * 获得唯一实例
+     */
+    public static final HBase shared = new HBase();
+    private HBase() {
+        set(this.conf);
+    }
+
+    /**
+     * setting
+     */
+    public static void set(Configuration conf) {
         conf.set("hbase.zookeeper.quorum", "localhost");
     }
 
@@ -45,5 +57,12 @@ public class HBase {
         } catch(IOException ioe) {
             ioe.printStackTrace();
         }
+    }
+
+    /**
+     * get Hbase configuration
+     */
+    public Configuration getConf() {
+        return this.conf;
     }
 }
