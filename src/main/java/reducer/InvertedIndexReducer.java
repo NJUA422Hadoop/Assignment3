@@ -7,12 +7,23 @@ import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.hbase.mapreduce.TableReducer;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Mutation;
+import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
+import org.apache.hadoop.mapreduce.lib.output.MultipleOutputs;
+
+import org.apache.hadoop.conf.Configuration;
 
 import java.io.IOException;
 
-public class InvertedIndexReducer extends TableReducer<Text,IntWritable,Text> {
-  public final static Class<? extends Writable> outputKeyClass  =Text.class;
+/**
+ * @author WangYidong
+ */
+public class InvertedIndexReducer extends TableReducer<Text,IntWritable,ImmutableBytesWritable> {
+  public final static Class<? extends Writable> outputKeyClass = ImmutableBytesWritable.class;
   public final static Class<? extends Mutation> outputValueClass = Put.class;
+  public final static String intervals = "[@#]";
+  public final static String columnFamily= "information";
+  public final static String column= "avg time";
+
   private String term = new String();
   private String last = " ";
   private int if_first=1;
@@ -20,38 +31,55 @@ public class InvertedIndexReducer extends TableReducer<Text,IntWritable,Text> {
   private int countDoc;
   private String out = new String();
   private Float f;
-  public static final String intervals = "[@#]";
-  public final static String columnFamily= "information";
-  public final static String column= "avg time";
+  private MultipleOutputs mos;
+  private Configuration conf;
+
+  @Override
   public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
-      term = key.toString().split(intervals)[0];
-      if (!term.equals(last)) {
-        if (if_first==0){
-              out=out.substring(0, out.length()-1);
-              f = (float) countItem / countDoc;
-              Put put = new Put(key.getBytes());
-              put.addColumn(columnFamily.getBytes(),column.getBytes(),String.format("%.2f", f).getBytes());
-              context.write(key, put);
-              countItem = 0;
-              countDoc = 0;
-              out = new String();
-          }
-          last = term;
-          if_first=0;
+    term = key.toString().split(intervals)[0];
+    if (!term.equals(last)) {
+      if (if_first==0){
+        out=out.substring(0, out.length()-1);
+        f = (float) countItem / countDoc;
+        Put put = new Put(key.getBytes());
+        put.addColumn(columnFamily.getBytes(),column.getBytes(),String.format("%.2f", f).getBytes());
+        //HBASE
+        context.write(new ImmutableBytesWritable(term.getBytes()), put);
+        //HDFS
+        mos.write("hdfs", new Text(term), out, this.conf.get("output"));
+        countItem = 0;
+        countDoc = 0;
+        out = new String();
       }
-      int sum = 0;
-      for (IntWritable val : values) {
-          sum += val.get();
-      }
-      out=out+key.toString().split(intervals)[1] + ":" + sum + ";";
-      countItem += sum;
-      countDoc += 1;
+      last = term;
+      if_first=0;
+    }
+    int sum = 0;
+    for (IntWritable val : values) {
+      sum += val.get();
+    }
+    out=out+key.toString().split(intervals)[1] + ":" + sum + ";";
+    countItem += sum;
+    countDoc += 1;
   }
+
+  @Override
   public void cleanup(Context context) throws IOException, InterruptedException {
-      out=out.substring(0, out.length()-1);
-      f = (float) countItem / countDoc;
-      Put put = new Put(last.getBytes());
-      put.addColumn(columnFamily.getBytes(),column.getBytes(),String.format("%.2f", f).getBytes());
-      context.write(new Text(last),put);
+    out=out.substring(0, out.length()-1);
+    f = (float) countItem / countDoc;
+    Put put = new Put(last.getBytes());
+    put.addColumn(columnFamily.getBytes(),column.getBytes(),String.format("%.2f", f).getBytes());
+    //HBASE
+    context.write(new ImmutableBytesWritable(last.getBytes()),put);
+    //HDFS
+    mos.write("hdfs", new Text(last), out, this.conf.get("output"));
+    //close
+    mos.close();
+  }
+
+  @Override
+  public void setup(Context context) throws IOException, InterruptedException {
+    this.mos = new MultipleOutputs(context);
+    this.conf = context.getConfiguration();
   }
 }

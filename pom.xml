@@ -30,6 +30,7 @@
         MacOS 大小写不敏感问题：LICENSE和license冲突
         zip -d target/InvertedIndex-1.1-jar-with-dependencies.jar META-INF/LICENSE
         jar tvf target/InvertedIndex-1.1-jar-with-dependencies.jar | grep -i license
+        hadoop jar target/InvertedIndex-1.1-jar-with-dependencies.jar InvertedIndexAssignment
     -->
     <!--
         dependencies

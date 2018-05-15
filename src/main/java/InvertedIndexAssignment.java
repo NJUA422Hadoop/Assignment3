@@ -4,6 +4,7 @@ import combiner.InvertedIndexCombiner;
 import partitioner.InvertedIndexPartitioner;
 import inputFormat.InvertedIndexInputFormat;
 import outputFormat.InvertedIndexOutputFormat;
+import outputFormat.HBaseInvertedIndexOutputFormat;
 import hbase.HBase;
 
 import org.apache.hadoop.fs.Path;
@@ -14,6 +15,7 @@ import org.apache.hadoop.util.ToolRunner;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.hbase.mapreduce.TableMapReduceUtil;
 import org.apache.hadoop.hbase.client.Put;
+import org.apache.hadoop.mapreduce.lib.output.MultipleOutputs;
 
 /**
  * InvertedIndexAssignment
@@ -49,6 +51,7 @@ public class InvertedIndexAssignment extends Configured implements Tool {
         hbase.set(conf);
         conf.set("input", args[0]);
         conf.set("output", args[1]);
+        conf.set(HBaseInvertedIndexOutputFormat.OUTPUT_TABLE, table);
 
         // job
         Job job = Job.getInstance(conf, InvertedIndexAssignment.class.getSimpleName());
@@ -60,9 +63,16 @@ public class InvertedIndexAssignment extends Configured implements Tool {
         job.setMapOutputValueClass(InvertedIndexMapper.outputValueClass);
 
         // reducer
-        TableMapReduceUtil.initTableReducerJob(table, InvertedIndexReducer.class, job, null, null, null, null, false);
+        TableMapReduceUtil.initTableReducerJob(table, InvertedIndexReducer.class, job);
         job.setOutputKeyClass(InvertedIndexReducer.outputKeyClass);
         job.setOutputValueClass(InvertedIndexReducer.outputValueClass);
+        MultipleOutputs.addNamedOutput(
+            job, 
+            "hdfs",
+            InvertedIndexOutputFormat.class,
+            InvertedIndexOutputFormat.outputKeyClass,
+            InvertedIndexOutputFormat.outputValueClass
+        );
 
         // combiner
         job.setCombinerClass(InvertedIndexCombiner.class);
@@ -72,11 +82,10 @@ public class InvertedIndexAssignment extends Configured implements Tool {
 
         // input/output format
         job.setInputFormatClass(InvertedIndexInputFormat.class);
-        job.setOutputFormatClass(InvertedIndexOutputFormat.class);
+        job.setOutputFormatClass(HBaseInvertedIndexOutputFormat.class);
 
         // add input/output path
         InvertedIndexInputFormat.addInputPath(job, new Path(conf.get("input")));
-        InvertedIndexOutputFormat.setOutputPath(job, new Path(conf.get("output")));
 
         return job.waitForCompletion(true) ? 0 : 1;
     }
