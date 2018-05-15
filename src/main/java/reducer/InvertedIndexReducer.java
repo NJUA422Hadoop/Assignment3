@@ -31,7 +31,7 @@ public class InvertedIndexReducer extends TableReducer<Text,IntWritable,Text> {
               f = (float) countItem / countDoc;
               Put put = new Put(key.getBytes());
               put.addColumn(columnFamily.getBytes(),column.getBytes(),String.format("%.2f", f).getBytes());
-              context.write(key, put);
+              context.write(new Text(term), put);
               countItem = 0;
               countDoc = 0;
               out = new String();
