@@ -48,10 +48,12 @@ public class HBase {
      * save from hbase to local
      * @author WaterYe
      */
-    public void saveToLocal(String table, String savePath) {
+    public void saveToLocal(String table, String savePath, String columnFamily, String column) {
         try {
             conf.set("table", table);
             conf.set("savePath", savePath);
+            comf.set("information", columnFamily);
+            conf.set("avg time", column);
             Runner mission = new SaveTableToLocal(conf);
             mission.start();
         } catch(IOException ioe) {

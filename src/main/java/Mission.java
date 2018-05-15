@@ -1,4 +1,5 @@
 import hbase.HBase;
+import reducer.InvertedIndexReducer;
 
 /**
  * 单机任务
@@ -10,7 +11,7 @@ import hbase.HBase;
 public class Mission {
     public void Wuxia() {
         HBase hbase = HBase.shared;
-        hbase.saveToLocal("Wuxia", "table.txt");
+        hbase.saveToLocal("Wuxia", "table.txt", "information", "avg time");
     }
 
     public void defaultMission() {

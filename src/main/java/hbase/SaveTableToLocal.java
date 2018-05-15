@@ -39,7 +39,7 @@ class SaveTableToLocal extends Runner {
         StringBuilder sb = new StringBuilder();
         for(Result r : rs) {
             String word = new String(r.getRow());
-            String value = new String(r.getValue("count".getBytes(), null));
+            String value = new String(r.getValue(conf.get("columnFamily").getBytes(), conf.get("column").getBytes()));
             sb.append(word + "\t" + value + "\n");
         }
         pw.print(sb.toString());
