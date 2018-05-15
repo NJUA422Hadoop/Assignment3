@@ -86,6 +86,7 @@ public class InvertedIndexAssignment extends Configured implements Tool {
 
         // add input/output path
         InvertedIndexInputFormat.addInputPath(job, new Path(conf.get("input")));
+        InvertedIndexOutputFormat.setOutputPath(job, new Path(conf.get("output")));
 
         return job.waitForCompletion(true) ? 0 : 1;
     }
