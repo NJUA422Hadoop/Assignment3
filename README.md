@@ -10,7 +10,9 @@
 
 运行：
 
-1. hadoop jar XXX-jar-with-dependencies.jar InvertedIndexAssignment InputPath OutputPath （map reduce）
+1. 自带依赖的包：hadoop jar XXX-jar-with-dependencies.jar InvertedIndexAssignment InputPath OutputPath （map reduce）
+
+1. 集群上应该有完整的依赖，不需要整合包：hadoop jar XXX.jar InvertedIndexAssignment InputPath OutputPath （map reduce）
 
 1. java jar XXX.jar Mission Wuxia （单机处理文件）
 
