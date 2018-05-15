@@ -10,9 +10,9 @@
 
 运行：
 
-1. hadoop jar XXX.jar InvertedIndexAssignment InputPath OutputPath
+1. hadoop jar XXX-jar-with-dependencies.jar InvertedIndexAssignment InputPath OutputPath （map reduce）
 
-1. java jar XXX.jar Mission Wuxia
+1. java jar XXX.jar Mission Wuxia （单机处理文件）
 
 [项目地址](https://github.com/NJUA422Hadoop/Assignment3)
 
