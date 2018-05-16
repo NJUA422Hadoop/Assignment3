@@ -25,7 +25,7 @@ class SaveTableToLocal extends Runner {
     @Override
     protected void pre() throws IOException {
         connection = ConnectionFactory.createConnection(conf);
-        table = connection.getTable(TableName.valueOf(conf.get("Table")));
+        table = connection.getTable(TableName.valueOf(conf.get("table")));
     }
 
     @Override
