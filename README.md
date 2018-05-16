@@ -10,9 +10,15 @@
 
 运行：
 
-1. 自带依赖的包：hadoop jar XXX-jar-with-dependencies.jar InvertedIndexAssignment InputPath OutputPath （map reduce）
+1. 自带依赖的包：hadoop jar XXX-jar-with-dependencies.jar InvertedIndexAssignment InputPath OutputPath
 
-1. 集群上应该有完整的依赖，不需要整合包：hadoop jar XXX.jar InvertedIndexAssignment InputPath OutputPath （map reduce）
+MacOS由于大小写不敏感问题：LICENSE和license冲突，所以需要先运行：
+
+- zip -d XXX-jar-with-dependencies.jar META-INF/LICENSE
+
+- jar tvf XXX-jar-with-dependencies.jar | grep -i license
+
+2. 集群上应该有完整的依赖，不需要整合包：hadoop jar XXX.jar InvertedIndexAssignment InputPath OutputPath （map reduce）
 
 1. java -cp XXX.jar Mission Wuxia OutputPath （单机处理文件，请使用java7（java8似乎也兼容，但java10不行））
 
