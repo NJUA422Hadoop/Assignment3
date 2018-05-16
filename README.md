@@ -14,7 +14,7 @@
 
 1. 集群上应该有完整的依赖，不需要整合包：hadoop jar XXX.jar InvertedIndexAssignment InputPath OutputPath （map reduce）
 
-1. java jar XXX.jar Mission Wuxia （单机处理文件）
+1. java -cp XXX.jar Mission Wuxia OutputPath （单机处理文件，请使用java7（java8似乎也兼容，但java10不行））
 
 [项目地址](https://github.com/NJUA422Hadoop/Assignment3)
 

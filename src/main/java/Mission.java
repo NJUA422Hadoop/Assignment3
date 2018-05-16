@@ -9,11 +9,11 @@ import reducer.InvertedIndexReducer;
  * @date 2018/5/14
  */
 public class Mission {
-    public void Wuxia() {
+    public void Wuxia(String outputPath) {
         HBase hbase = HBase.shared;
         hbase.saveToLocal(
             "Wuxia",
-            "table.txt",
+            outputPath,
             InvertedIndexReducer.columnFamily,
             InvertedIndexReducer.column
         );
@@ -23,12 +23,17 @@ public class Mission {
     }
 
     public void run(String[] args) {
-        if (args.length != 1) {
+        if (args.length == 0) {
             return;
         }
 
         switch(args[0]) {
-            case "Wuxia": Wuxia(); break;
+            case "Wuxia":
+                if (args.length != 2) {
+                    return;
+                }
+                Wuxia(args[1]);
+            break;
             default: defaultMission();
         }
     }
