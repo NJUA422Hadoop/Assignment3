@@ -52,7 +52,7 @@ public class HBase {
         try {
             conf.set("table", table);
             conf.set("savePath", savePath);
-            comf.set("columnFamily", columnFamily);
+            conf.set("columnFamily", columnFamily);
             conf.set("column", column);
             Runner mission = new SaveTableToLocal(conf);
             mission.start();
