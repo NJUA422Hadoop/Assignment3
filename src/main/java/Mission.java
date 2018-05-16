@@ -11,7 +11,12 @@ import reducer.InvertedIndexReducer;
 public class Mission {
     public void Wuxia() {
         HBase hbase = HBase.shared;
-        hbase.saveToLocal("Wuxia", "table.txt", "information", "avg time");
+        hbase.saveToLocal(
+            "Wuxia",
+            "table.txt",
+            InvertedIndexReducer.columnFamily,
+            InvertedIndexReducer.column
+        );
     }
 
     public void defaultMission() {

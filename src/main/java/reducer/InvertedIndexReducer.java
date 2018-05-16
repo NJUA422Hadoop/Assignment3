@@ -21,8 +21,8 @@ public class InvertedIndexReducer extends TableReducer<Text,IntWritable,Immutabl
   public final static Class<? extends Writable> outputKeyClass = ImmutableBytesWritable.class;
   public final static Class<? extends Mutation> outputValueClass = Put.class;
   public final static String intervals = "[@#]";
-  public final static String columnFamily= "information";
-  public final static String column= "avg time";
+  public final static String columnFamily = "information";
+  public final static String column = "avg time";
 
   private String term = new String();
   private String last = " ";

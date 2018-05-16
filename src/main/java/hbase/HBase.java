@@ -52,8 +52,8 @@ public class HBase {
         try {
             conf.set("table", table);
             conf.set("savePath", savePath);
-            comf.set("information", columnFamily);
-            conf.set("avg time", column);
+            comf.set("columnFamily", columnFamily);
+            conf.set("column", column);
             Runner mission = new SaveTableToLocal(conf);
             mission.start();
         } catch(IOException ioe) {
