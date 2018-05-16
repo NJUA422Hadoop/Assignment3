@@ -20,7 +20,7 @@ MacOS由于大小写不敏感问题：LICENSE和license冲突，所以需要先�
 
 2. 集群上应该有完整的依赖，不需要整合包：hadoop jar XXX.jar InvertedIndexAssignment InputPath OutputPath （map reduce）
 
-1. java -cp XXX-jar-with-dependencies.jar Mission Wuxia OutputPath （单机处理文件，请使用java7（java8似乎也兼容，但java10不行））
+1. java -cp XXX-jar-with-dependencies.jar Mission Wuxia OutputFilePath （单机处理文件，请使用java7（java8似乎也兼容，但java10不行））
 
 [项目地址](https://github.com/NJUA422Hadoop/Assignment3)
 

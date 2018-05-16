@@ -9,11 +9,11 @@ import reducer.InvertedIndexReducer;
  * @date 2018/5/14
  */
 public class Mission {
-    public void Wuxia(String outputPath) {
+    public void Wuxia(String savePath) {
         HBase hbase = HBase.shared;
         hbase.saveToLocal(
             "Wuxia",
-            outputPath,
+            savePath,
             InvertedIndexReducer.columnFamily,
             InvertedIndexReducer.column
         );
