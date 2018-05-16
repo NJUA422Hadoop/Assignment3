@@ -41,7 +41,7 @@ public class InvertedIndexReducer extends TableReducer<Text,IntWritable,Immutabl
       if (if_first==0){
         out=out.substring(0, out.length()-1);
         f = (float) countItem / countDoc;
-        Put put = new Put(key.getBytes());
+        Put put = new Put(term.getBytes());
         put.addColumn(columnFamily.getBytes(),column.getBytes(),String.format("%.2f", f).getBytes());
         //HBASE
         context.write(new ImmutableBytesWritable(term.getBytes()), put);
