@@ -1,5 +1,7 @@
 package hbase;
 
+import tools.Runner;
+
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Connection;

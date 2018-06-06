@@ -1,9 +1,9 @@
-package hbase;
+package tools;
 
 import java.io.IOException;
 
-abstract class Runner {
-    void start() throws IOException {
+public abstract class Runner {
+    public void start() throws IOException {
         pre();
         run();
         end();
