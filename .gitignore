@@ -2,8 +2,7 @@
 .DS_Store
 .project
 .classpath
-.vscode/settings.json
-.vscode/test-launch.json
+.vscode
 target
 data
 *.prefs

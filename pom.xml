@@ -14,16 +14,21 @@
         properties
     -->
     <properties>
-        <mainEntry>InvertedIndexAssignment</mainEntry>
         <!-- 用jdk8编译jdk7，不要用ConcurrentHashMap这种jdk7没有的接口 -->
         <jdkVersion>7</jdkVersion>
+        <!-- hadoop/hdfs/mapreduce/client -->
         <hadoopVersion>2.7.1</hadoopVersion>
+        <!-- hbase client/server -->
         <hbaseVersion>1.2.6</hbaseVersion>
-        <ansjSegVersion>5.1.3</ansjSegVersion>
+        <!-- 说是最好的中文java分词算法（老师推荐） -->
+        <ansjSegVersion>5.1.6</ansjSegVersion>
+        <!-- junit -->
         <junitEngineVersion>5.1.1</junitEngineVersion>
         <junitProviderVersion>1.1.1</junitProviderVersion>
         <surefireVersion>2.19.1</surefireVersion>
+        <!-- 打包 -->
         <assemblyPluginVersion>3.1.0</assemblyPluginVersion>
+        <!-- other -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>${jdkVersion}</maven.compiler.source>
         <maven.compiler.target>${jdkVersion}</maven.compiler.target>
@@ -38,32 +43,27 @@
         dependencies
     -->
     <dependencies>
-        <!--junit-->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>${junitEngineVersion}</version>
             <scope>test</scope>
         </dependency>
-        <!--common-->
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-common</artifactId>
             <version>${hadoopVersion}</version>
         </dependency>
-        <!--hdfs-->
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-hdfs</artifactId>
             <version>${hadoopVersion}</version>
         </dependency>
-        <!--mapreduce client core-->
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-mapreduce-client-core</artifactId>
             <version>${hadoopVersion}</version>
         </dependency>
-        <!--clent-->
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-client</artifactId>
@@ -81,10 +81,7 @@
             <artifactId>hbase-server</artifactId>
             <version>${hbaseVersion}</version>
         </dependency>
-        <!--
-            说是最好的中文java分词算法（老师推荐）
-            https://mvnrepository.com/artifact/org.ansj/ansj_seg
-        -->
+        <!-- https://mvnrepository.com/artifact/org.ansj/ansj_seg -->
         <dependency>
             <groupId>org.ansj</groupId>
             <artifactId>ansj_seg</artifactId>
