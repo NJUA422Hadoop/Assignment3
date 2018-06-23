@@ -68,7 +68,7 @@ public abstract class BaseMission {
 
     for (int i = 0;i < jobNames.length();i++) {
       int missionNumber = Character.getNumericValue(jobNames.charAt(i)) - 1;
-      if (missionNumber < 0 && missionNumber >= missions.length) {
+      if (missionNumber < 0 || missionNumber >= missions.length) {
         continue;
       }
       this.cjob.addDependingJob(missions[missionNumber].getJob());
