@@ -67,7 +67,7 @@ public abstract class BaseMission {
     String jobNames = getDependecies();
 
     for (int i = 0;i < jobNames.length();i++) {
-      int missionNumber = Character.getNumericValue(jobNames.charAt(i));
+      int missionNumber = Character.getNumericValue(jobNames.charAt(i)) - 1;
       if (missionNumber < 0 && missionNumber >= missions.length) {
         continue;
       }
