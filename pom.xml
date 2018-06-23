@@ -26,6 +26,8 @@
         <junitEngineVersion>5.1.1</junitEngineVersion>
         <junitProviderVersion>1.1.1</junitProviderVersion>
         <surefireVersion>2.19.1</surefireVersion>
+        <!-- log4j -->
+        <log4jVersion>1.2.17</log4jVersion>
         <!-- 打包 -->
         <assemblyPluginVersion>3.1.0</assemblyPluginVersion>
         <!-- other -->
@@ -86,6 +88,12 @@
             <groupId>org.ansj</groupId>
             <artifactId>ansj_seg</artifactId>
             <version>${ansjSegVersion}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/log4j/log4j -->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4jVersion}</version>
         </dependency>
     </dependencies>
     <!--plugins-->

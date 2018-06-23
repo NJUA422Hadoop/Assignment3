@@ -1,5 +1,7 @@
 import org.ansj.splitWord.analysis.ToAnalysis;
 
+import org.apache.log4j.Logger;
+
 import hbase.HBase;
 import reducer.InvertedIndexReducer;
 
@@ -47,12 +49,17 @@ public class Mission {
      */
     public static void defaultMission() {
         String info = "参数格式不正确，正确格式：\n\tcommand/mission.bat(sh) ${MissionName} ${OutputFilePath}";
-        System.out.println(info);
+        Mission.logger.debug(info);
     }
 
+    /**
+     * log4j
+     */
+    private static Logger logger = Logger.getLogger(Mission.class);
+
     public static void main(String[] args) {
-        System.out.println("ansj_seg Test: ");
-        System.out.println(ToAnalysis.parse("我叫王宇鑫，who are you？"));
+        Mission.logger.debug("ansj_seg Test: ");
+        Mission.logger.debug(ToAnalysis.parse("我叫王宇鑫，who are you？"));
         if (!new Mission().run(args)) {
             Mission.defaultMission();
         }
