@@ -1,5 +1,10 @@
-import org.ansj.splitWord.analysis.ToAnalysis;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 
+import org.ansj.library.DicLibrary;
+import org.ansj.splitWord.analysis.ToAnalysis;
 import org.apache.log4j.Logger;
 
 import hbase.HBase;
@@ -58,10 +63,28 @@ public class Mission {
     private static Logger logger = Logger.getLogger(Mission.class);
 
     public static void main(String[] args) {
-        Mission.logger.debug("ansj_seg Test: ");
-        Mission.logger.debug(ToAnalysis.parse("我叫王宇鑫，who are you？"));
+        // load
+        Mission.ENVLoad();
+        // run
         if (!new Mission().run(args)) {
             Mission.defaultMission();
+        }
+    }
+
+    /**
+     * load... ansj_seg dictionary
+     */
+    public static void ENVLoad() {
+        URL dic = Mission.class.getClassLoader().getResource("wuxia_name.txt");
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(dic.openStream()));
+            String name = null;
+            while ((name = reader.readLine()) != null) {
+                DicLibrary.insert(DicLibrary.DEFAULT, name, "nr", DicLibrary.DEFAULT_FREQ);
+            }
+            reader.close();
+        } catch(IOException ioe) {
+            Mission.logger.error(ioe);
         }
     }
 }
