@@ -14,6 +14,7 @@ public abstract class BaseMission {
   protected Configuration conf;
   private Configured self;
   protected String[] args;
+  protected Job job;
   private ControlledJob cjob;
   private boolean init = false;
 
@@ -38,19 +39,23 @@ public abstract class BaseMission {
     return this.cjob;
   }
 
+  /**
+   * 不能在这里调用getJob()
+   */
   protected abstract void setupConf();
+  /**
+   * 不能在这里调用getJob()
+   */
   protected abstract void setupJob();
 
   private void beforeSetupJob() {
     try {
       Class<?> clazz = self.getClass();
-      Job job = Job.getInstance(conf, clazz.getSimpleName());
+      job = Job.getInstance(conf, clazz.getSimpleName());
       job.setJarByClass(clazz);
 
-      ControlledJob cjob = new ControlledJob(conf);
+      cjob = new ControlledJob(conf);
       cjob.setJob(job);
-
-      this.cjob = cjob;
     } catch(IOException ioe) {
       ioe.printStackTrace();
     }
@@ -63,16 +68,30 @@ public abstract class BaseMission {
     return "";
   }
 
-  final public void setupDependences(BaseMission[] missions) {
+  final public boolean setupDependences(BaseMission[] missions) {
+    if (this.cjob == null) {
+      return false;
+    }
+
     String jobNames = getDependecies();
 
     for (int i = 0;i < jobNames.length();i++) {
       int missionNumber = Character.getNumericValue(jobNames.charAt(i)) - 1;
+
       if (missionNumber < 0 || missionNumber >= missions.length) {
         continue;
       }
-      this.cjob.addDependingJob(missions[missionNumber].getJob());
+
+      ControlledJob _cjob = missions[missionNumber].getJob();
+
+      if (_cjob == null) {
+        continue;
+      }
+
+      this.cjob.addDependingJob(_cjob);
     }
+
+    return true;
   }
 
   /**

@@ -8,12 +8,13 @@ import mission6.Mission6;
 import tools.BaseMission;
 
 import org.apache.hadoop.conf.Configured;
+import org.apache.hadoop.mapreduce.lib.jobcontrol.ControlledJob;
 import org.apache.hadoop.mapreduce.lib.jobcontrol.JobControl;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
 /**
- * InvertedIndexAssignment for 武侠
+ * Assignment for 武侠
  * @author RailgunHamster (王宇鑫 151220114)
  * @version 2.0
  * @date 2018/6/22
@@ -32,13 +33,24 @@ public class MapReduce extends Configured implements Tool {
 
     // 设置依赖
     for (int i = 0;i < missions.length;i++) {
-      missions[i].setupDependences(missions);
+      boolean successful = missions[i].setupDependences(missions);
+      boolean failed = !successful;
+
+      if (failed) {
+        // do sth
+      }
     }
 
     // 添加job
     JobControl jobControl = new JobControl("Wuxia");
     for (int i = 0;i < missions.length;i++) {
-      jobControl.addJob(missions[i].getJob());
+      ControlledJob cjob = missions[i].getJob();
+
+      if (cjob == null) {
+        continue;
+      }
+
+      jobControl.addJob(cjob);
     }
 
     // run

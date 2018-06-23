@@ -1,7 +1,11 @@
 package mission4;
 
 import org.apache.hadoop.conf.Configured;
+import org.apache.hadoop.io.Text;
 
+import mission3.Mission3;
+import mission4.mapper.TheMapper;
+import mission4.reducer.TheReducer;
 import tools.BaseMission;;
 
 /**
@@ -11,8 +15,7 @@ import tools.BaseMission;;
  */
 
 public class Mission4 extends BaseMission {
-  public static final String input = "???";
-  public static final String output = "???";
+  public static final String output = "mission4";
 
   public Mission4(Configured self, String[] args) {
     super(self, args);
@@ -20,14 +23,19 @@ public class Mission4 extends BaseMission {
 
   @Override
   protected void setupConf() {
-    conf.set("input", input); // or args[?] or Mission3.output
-    conf.set("output", output);
-    // more settings
+    conf.set("input", args[0] + "/" + Mission3.output);
+    conf.set("output", args[1] + "/" + output);
   }
 
   @Override
   protected void setupJob() {
-    // set mapper class ... etc
+    job.setMapperClass(TheMapper.class);
+    job.setReducerClass(TheReducer.class);
+
+    job.setMapOutputKeyClass(Text.class);
+    job.setMapOutputValueClass(Text.class);
+    job.setOutputKeyClass(Text.class);
+    job.setOutputValueClass(Text.class);
   }
 
   @Override
