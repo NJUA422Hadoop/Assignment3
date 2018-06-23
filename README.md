@@ -18,9 +18,9 @@
 
 MacOS由于大小写不敏感问题：LICENSE和license冲突，所以需要先运行：
 
-- zip -d XXX-jar-with-dependencies.jar META-INF/LICENSE
+- zip -d wuxia.jar META-INF/LICENSE
 
-- jar tvf XXX-jar-with-dependencies.jar | grep -i license
+- jar tvf wuxia.jar | grep -i license
 
 2. command/mission.bat(sh) ${mission name} ${OutputFilePath} （单机处理文件，请使用java7（java8似乎也兼容，但java10不行））
 

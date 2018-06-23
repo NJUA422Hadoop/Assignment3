@@ -4,7 +4,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 import org.ansj.library.DicLibrary;
-import org.ansj.splitWord.analysis.ToAnalysis;
 import org.apache.log4j.Logger;
 
 import hbase.HBase;

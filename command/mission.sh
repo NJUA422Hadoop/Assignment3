@@ -1,1 +1,1 @@
-java -cp target/InvertedIndex-2.0-jar-with-dependencies.jar Mission $1 $2
+java -cp target/wuxia.jar Mission $1 $2
