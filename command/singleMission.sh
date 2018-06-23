@@ -1,0 +1,1 @@
+java -cp target/wuxia.jar SingleMission $1 $2

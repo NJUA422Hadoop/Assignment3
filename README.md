@@ -14,7 +14,7 @@
 
 运行：
 
-1. 自带依赖的包：hadoop jar ${jar} InvertedIndexAssignment ${InputPath} ${OutputPath}
+1. 自带依赖的包：hadoop jar ${jar} MapReduce ${InputPath} ${OutputPath}
 
 MacOS由于大小写不敏感问题：LICENSE和license冲突，所以需要先运行：
 

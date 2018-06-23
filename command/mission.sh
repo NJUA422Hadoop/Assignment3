@@ -1,1 +1,0 @@
-java -cp target/wuxia.jar Mission $1 $2
