@@ -1,9 +1,18 @@
 
+# MacOS系统
 .DS_Store
+
+# vscode配置
 .project
 .classpath
 .vscode
-target
-data
-logs
 *.prefs
+
+# maven结果
+target
+
+# 数据集
+data
+
+# log4j
+logs
