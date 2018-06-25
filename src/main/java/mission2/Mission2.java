@@ -25,7 +25,6 @@ public class Mission2 extends BaseMission {
   protected void setupConf() {
     conf.set("input", args[1] + "/" + Mission1.output);
     conf.set("output", args[1] + "/" + output);
-    // more settings
   }
 
   @Override

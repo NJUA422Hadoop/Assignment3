@@ -8,6 +8,7 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.log4j.Logger;
 import org.apache.hadoop.mapreduce.lib.jobcontrol.ControlledJob;
 
 /**
@@ -20,6 +21,9 @@ public abstract class BaseMission {
   protected Job job;
   private ControlledJob cjob;
   private boolean init = false;
+  private BaseMission[] missions;
+
+  private Logger logger = Logger.getLogger(this.getClass());
 
   protected BaseMission(Configured self, String[] args) {
     this.conf = self.getConf();
@@ -37,6 +41,7 @@ public abstract class BaseMission {
       setupConf();
       beforeSetupJob();
       setupJob();
+      afterSetupJob();
     }
     
     return this.cjob;
@@ -57,14 +62,22 @@ public abstract class BaseMission {
     try {
       job = Job.getInstance(conf, this.getClass().getSimpleName());
       job.setJarByClass(self.getClass());
+    } catch(IOException ioe) {
+      logger.error(ioe);
+    }
+  }
+
+  private void afterSetupJob() {
+    try {
+      cjob = new ControlledJob(conf);
+      cjob.setJob(job);
+
+      setupDependences();
 
       FileInputFormat.addInputPath(job, new Path(conf.get("input")));
       FileOutputFormat.setOutputPath(job, new Path(conf.get("output")));
-
-      cjob = new ControlledJob(conf);
-      cjob.setJob(job);
     } catch(IOException ioe) {
-      ioe.printStackTrace();
+      logger.error(ioe);
     }
   }
 
@@ -75,11 +88,7 @@ public abstract class BaseMission {
     return "";
   }
 
-  final public boolean setupDependences(BaseMission[] missions) {
-    if (this.cjob == null) {
-      return false;
-    }
-
+  private void setupDependences() {
     String jobNames = getDependecies();
 
     for (int i = 0;i < jobNames.length();i++) {
@@ -97,8 +106,10 @@ public abstract class BaseMission {
 
       this.cjob.addDependingJob(_cjob);
     }
+  }
 
-    return true;
+  public void setupDependences(BaseMission[] missions) {
+    this.missions = missions;
   }
 
   /**
