@@ -15,7 +15,7 @@ import tools.BaseMission;;
  */
 
 public class Mission3 extends BaseMission {
-  public static final String output = "mission3";
+  public static final String output = "3";
 
   public Mission3(Configured self, String[] args) {
     super(self, args);
@@ -23,8 +23,8 @@ public class Mission3 extends BaseMission {
 
   @Override
   protected void setupConf() {
-    conf.set("input", args[0] + "/" + Mission2.output);
-    conf.set("output", args[1] + "/" + output);
+    conf.set("input", args[1] + Mission2.output);
+    conf.set("output", args[1] + output);
   }
 
   @Override
@@ -42,5 +42,10 @@ public class Mission3 extends BaseMission {
   protected String getDependecies() {
     // 依赖任务二
     return "2";
+  }
+
+  @Override
+  public boolean isWorking() {
+    return true;
   }
 }

@@ -37,9 +37,9 @@
     </properties>
     <!--
         MacOS 大小写不敏感问题：LICENSE和license冲突
-        zip -d target/wuxia.jar META-INF/LICENSE
-        jar tvf target/wuxia.jar | grep -i license
-        hadoop jar target/wuxia.jar InvertedIndexAssignment
+zip -d target/wuxia.jar META-INF/LICENSE
+jar tvf target/wuxia.jar | grep -i license
+hadoop jar target/wuxia.jar MapReduce
     -->
     <!--
         dependencies

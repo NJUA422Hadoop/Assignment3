@@ -4,7 +4,10 @@ import java.io.IOException;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
+import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.jobcontrol.ControlledJob;
 
 /**
@@ -40,10 +43,12 @@ public abstract class BaseMission {
   }
 
   /**
+   * 这个函数用于configuration值的设置
    * 不能在这里调用getJob()
    */
   protected abstract void setupConf();
   /**
+   * 这个函数用于job的设置
    * 不能在这里调用getJob()
    */
   protected abstract void setupJob();
@@ -53,6 +58,9 @@ public abstract class BaseMission {
       Class<?> clazz = self.getClass();
       job = Job.getInstance(conf, clazz.getSimpleName());
       job.setJarByClass(clazz);
+
+      FileInputFormat.addInputPath(job, new Path(conf.get("input")));
+      FileOutputFormat.setOutputPath(job, new Path(conf.get("output")));
 
       cjob = new ControlledJob(conf);
       cjob.setJob(job);

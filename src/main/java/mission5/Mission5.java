@@ -31,13 +31,13 @@ public class Mission5 extends BaseMission {
   }
 
   @Override
-  public boolean isWorking() {
-    return false;
-  }
-
-  @Override
   protected String getDependecies() {
     // 依赖任务三
     return "3";
+  }
+
+  @Override
+  public boolean isWorking() {
+    return false;
   }
 }
