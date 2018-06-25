@@ -15,7 +15,7 @@ import tools.BaseMission;;
  */
 
 public class Mission4 extends BaseMission {
-  public static final String output = "4";
+  public static final String output = "mission4";
 
   public Mission4(Configured self, String[] args) {
     super(self, args);
@@ -23,8 +23,8 @@ public class Mission4 extends BaseMission {
 
   @Override
   protected void setupConf() {
-    conf.set("input", args[1] + Mission3.output);
-    conf.set("output", args[1] + output);
+    conf.set("input", args[1] + "/" + Mission3.output);
+    conf.set("output", args[1] + "/" + output);
   }
 
   @Override
