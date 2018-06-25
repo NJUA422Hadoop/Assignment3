@@ -55,9 +55,8 @@ public abstract class BaseMission {
 
   private void beforeSetupJob() {
     try {
-      Class<?> clazz = self.getClass();
-      job = Job.getInstance(conf, clazz.getSimpleName());
-      job.setJarByClass(clazz);
+      job = Job.getInstance(conf, this.getClass().getSimpleName());
+      job.setJarByClass(self.getClass());
 
       FileInputFormat.addInputPath(job, new Path(conf.get("input")));
       FileOutputFormat.setOutputPath(job, new Path(conf.get("output")));
