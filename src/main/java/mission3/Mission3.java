@@ -23,7 +23,7 @@ public class Mission3 extends BaseMission {
 
   @Override
   protected void setupConf() {
-    conf.set("input", args[1] + "/" + Mission2.output);
+    conf.set("input", args[1] + "/" + Mission2.output + "/part*");
     conf.set("output", args[1] + "/" + output);
   }
 
