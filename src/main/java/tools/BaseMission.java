@@ -91,10 +91,8 @@ public abstract class BaseMission {
   }
 
   private void setupDependences() {
-    String jobNames = getDependecies();
-
-    for (int i = 0;i < jobNames.length();i++) {
-      int missionNumber = Character.getNumericValue(jobNames.charAt(i)) - 1;
+    for (Character c : getDependecies().toCharArray()) {
+      int missionNumber = Character.getNumericValue(c) - 1;
 
       if (missionNumber < 0 || missionNumber >= missions.length) {
         continue;

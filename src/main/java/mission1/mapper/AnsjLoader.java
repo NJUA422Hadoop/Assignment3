@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 import org.ansj.library.DicLibrary;
+// import org.ansj.library.StopLibrary;
 import org.apache.log4j.Logger;
 
 /**
@@ -38,14 +39,25 @@ public class AnsjLoader {
       init = true;
     }
 
-    URL dic = AnsjLoader.class.getClassLoader().getResource("wuxia_name.txt");
+    ClassLoader classLoader = AnsjLoader.class.getClassLoader();
+
+    URL dic = classLoader.getResource("wuxia_name.txt");
+    // URL stop = classLoader.getResource("stop_words.txt");
     try {
       BufferedReader reader = new BufferedReader(new InputStreamReader(dic.openStream()));
-      String name = null;
-      while ((name = reader.readLine()) != null) {
-        DicLibrary.insert(DicLibrary.DEFAULT, name, "nr", DicLibrary.DEFAULT_FREQ);
+      String line = null;
+      while ((line = reader.readLine()) != null) {
+        DicLibrary.insert(DicLibrary.DEFAULT, line, "nr", DicLibrary.DEFAULT_FREQ);
       }
       reader.close();
+      /*
+      reader = new BufferedReader(new InputStreamReader(stop.openStream()));
+      line = null;
+      while((line = reader.readLine()) != null) {
+        StopLibrary.insertStopWords(StopLibrary.DEFAULT, line);
+      }
+      reader.close();
+      */
     } catch(IOException ioe) {
       logger.error(ioe);
     }

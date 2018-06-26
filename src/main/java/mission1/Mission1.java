@@ -1,13 +1,16 @@
 package mission1;
 
 import org.apache.hadoop.conf.Configured;
+import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 
+// import mission1.input.TheInputFormat;
 import mission1.mapper.TheMapper;
 import mission1.reducer.TheReducer;
 import tools.BaseMission;
 
 /**
+ * @author RailgunHasmter（王宇鑫 151220114）
  * 第一个任务：
  * 对金庸小说数据集，根据人名进行分词。保存分词结果。
  */
@@ -29,10 +32,12 @@ public class Mission1 extends BaseMission {
   protected void setupJob() {
     job.setMapperClass(TheMapper.class);
     job.setReducerClass(TheReducer.class);
+    // 不需要
+    // job.setInputFormatClass(TheInputFormat.class);
 
-    job.setMapOutputKeyClass(Text.class);
+    job.setMapOutputKeyClass(NullWritable.class);
     job.setMapOutputValueClass(Text.class);
-    job.setOutputKeyClass(Text.class);
+    job.setOutputKeyClass(NullWritable.class);
     job.setOutputValueClass(Text.class);
   }
 
