@@ -8,17 +8,19 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-import org.apache.log4j.Logger;
 import org.apache.hadoop.mapreduce.lib.jobcontrol.ControlledJob;
+
+import org.apache.log4j.Logger;
 
 /**
  * 规定了任务需要的一些功能
  */
 public abstract class BaseMission {
   protected Configuration conf;
-  private Configured self;
   protected String[] args;
   protected Job job;
+
+  private Configured self;
   private ControlledJob cjob;
   private boolean init = false;
   private BaseMission[] missions;
@@ -31,7 +33,7 @@ public abstract class BaseMission {
     this.args = args;
   }
 
-  public ControlledJob getJob() {
+  final public ControlledJob getJob() {
     if (!isWorking()) {
       return null;
     }

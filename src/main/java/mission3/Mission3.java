@@ -6,7 +6,7 @@ import org.apache.hadoop.io.Text;
 import mission2.Mission2;
 import mission3.mapper.TheMapper;
 import mission3.reducer.TheReducer;
-import tools.BaseMission;;
+import tools.BaseMission;
 
 /**
  * 第三个任务

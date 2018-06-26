@@ -5,7 +5,7 @@ import org.apache.hadoop.io.Text;
 
 import mission1.mapper.TheMapper;
 import mission1.reducer.TheReducer;
-import tools.BaseMission;;
+import tools.BaseMission;
 
 /**
  * 第一个任务：

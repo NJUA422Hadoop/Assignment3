@@ -2,7 +2,7 @@ package mission5;
 
 import org.apache.hadoop.conf.Configured;
 
-import tools.BaseMission;;
+import tools.BaseMission;
 
 /**
  * 第五个任务

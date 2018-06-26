@@ -2,7 +2,7 @@ package mission6;
 
 import org.apache.hadoop.conf.Configured;
 
-import tools.BaseMission;;
+import tools.BaseMission;
 
 /**
  * 第六个任务
