@@ -1,4 +1,4 @@
-package mission1.reducer;
+package mission1.combiner;
 
 import java.io.IOException;
 import java.util.function.Consumer;
@@ -8,7 +8,7 @@ import org.apache.hadoop.mapreduce.Reducer;
 
 import mission1.tools.TheKey;
 
-public class TheReducer extends Reducer<TheKey, Text, TheKey, Text> {
+public class TheCombiner extends Reducer<TheKey, Text, TheKey, Text> {
   private final StringBuilder sb = new StringBuilder();
 
   @Override

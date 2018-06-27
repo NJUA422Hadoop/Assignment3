@@ -3,6 +3,7 @@ package mission1;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.io.Text;
 
+import mission1.combiner.TheCombiner;
 import mission1.input.TheInputFormat;
 import mission1.mapper.TheMapper;
 import mission1.output.TheOutputFormat;
@@ -38,6 +39,7 @@ public class Mission1 extends BaseMission {
     job.setInputFormatClass(TheInputFormat.class);
     job.setOutputFormatClass(TheOutputFormat.class);
 
+    job.setCombinerClass(TheCombiner.class);
     job.setPartitionerClass(ThePartitioner.class);
 
     job.setMapOutputKeyClass(TheKey.class);
