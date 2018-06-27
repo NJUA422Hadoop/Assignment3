@@ -6,6 +6,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.InputSplit;
 import org.apache.hadoop.mapreduce.RecordReader;
@@ -13,14 +14,17 @@ import org.apache.hadoop.mapreduce.TaskAttemptContext;
 import org.apache.hadoop.mapreduce.lib.input.FileSplit;
 import org.apache.hadoop.util.LineReader;
 
-public class TheRecordReader extends RecordReader<Text, Text> {
+import mission1.tools.TheKey;
+
+public class TheRecordReader extends RecordReader<TheKey, Text> {
   private Long start;
   private Long end;
-  private Long now;
+  private Long pos;
+  private Long line;
 
   private FSDataInputStream file;
 
-  private Text key;
+  private TheKey key;
   private Text value;
 
   private LineReader reader;
@@ -42,31 +46,34 @@ public class TheRecordReader extends RecordReader<Text, Text> {
     
     reader = new LineReader(file);
     
-    now = Long.valueOf(start);
+    pos = Long.valueOf(start);
+    line = Long.valueOf(0);
 
-    key = new Text();
+    key = new TheKey();
+    key.first = new Text(path.getName());
+    key.second = new LongWritable();
     value = new Text();
   }
 
   @Override
   public boolean nextKeyValue() throws IOException, InterruptedException {
-    if (now > end) {
+    if (pos > end) {
       return false;
     }
 
-    now += reader.readLine(value);
-
-    if (value.getLength() == 0) {
+    if ((pos += reader.readLine(value)) == 0) {
       return false;
     }
 
-    // TODO
+    line++;
+
+    key.second.set(line);
 
     return true;
   }
 
   @Override
-  public Text getCurrentKey() throws IOException, InterruptedException {
+  public TheKey getCurrentKey() throws IOException, InterruptedException {
     return key;
   }
 
@@ -83,7 +90,7 @@ public class TheRecordReader extends RecordReader<Text, Text> {
       return 0;
     }
 
-    float pnow = now - start;
+    float pnow = pos - start;
 
     return Math.min(pnow / pall, 1);
   }

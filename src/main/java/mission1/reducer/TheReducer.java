@@ -3,16 +3,16 @@ package mission1.reducer;
 import java.io.IOException;
 import java.util.function.Consumer;
 
-import org.apache.hadoop.io.LongWritable;
-import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
-public class TheReducer extends Reducer<LongWritable, Text, NullWritable, Text> {
+import mission1.tools.TheKey;
+
+public class TheReducer extends Reducer<TheKey, Text, TheKey, Text> {
   private final StringBuilder sb = new StringBuilder();
 
   @Override
-  protected void reduce(LongWritable key, Iterable<Text> value, Reducer<LongWritable, Text, NullWritable, Text>.Context context)
+  protected void reduce(TheKey key, Iterable<Text> value, Reducer<TheKey, Text, TheKey, Text>.Context context)
     throws IOException, InterruptedException {
     sb.delete(0, sb.length());
 
@@ -24,6 +24,6 @@ public class TheReducer extends Reducer<LongWritable, Text, NullWritable, Text> 
       }
     });
     
-    context.write(NullWritable.get(), new Text(sb.toString()));
+    context.write(key, new Text(sb.toString()));
   }
 }

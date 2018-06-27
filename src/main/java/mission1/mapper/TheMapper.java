@@ -6,15 +6,16 @@ import java.util.List;
 import org.ansj.domain.Result;
 import org.ansj.domain.Term;
 import org.ansj.splitWord.analysis.ToAnalysis;
-import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
-public class TheMapper extends Mapper<LongWritable, Text, LongWritable, Text> {
+import mission1.tools.TheKey;
+
+public class TheMapper extends Mapper<TheKey, Text, TheKey, Text> {
   private List<String> names;
 
   @Override
-  protected void setup(Mapper<LongWritable, Text, LongWritable, Text>.Context context)
+  protected void setup(Mapper<TheKey, Text, TheKey, Text>.Context context)
       throws IOException, InterruptedException {
     AnsjLoader.shared.ENVload();
 
@@ -22,7 +23,7 @@ public class TheMapper extends Mapper<LongWritable, Text, LongWritable, Text> {
   }
 
   @Override
-  protected void map(LongWritable key, Text value, Mapper<LongWritable, Text, LongWritable, Text>.Context context)
+  protected void map(TheKey key, Text value, Mapper<TheKey, Text, TheKey, Text>.Context context)
       throws IOException, InterruptedException {
     Result result = ToAnalysis.parse(value.toString());
 
