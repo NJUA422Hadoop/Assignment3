@@ -11,7 +11,7 @@ public class SingleMission {
   }
 
   /**
-   * @return successful or not
+   * @return 是否成功
    */
   public boolean run(String[] args) {
     if (args.length == 0) {
@@ -32,7 +32,7 @@ public class SingleMission {
   }
 
   /**
-   * print info when mission failed
+   * 所有参数均不对，打印错误信息
    */
   public static void defaultMission() {
     String info = "参数格式不正确，正确格式：\n\tcommand/mission.bat(sh) ${MissionName} ${OutputFilePath}";

@@ -27,6 +27,9 @@ import tools.BaseMission;
  */
 
 public class Mission1 extends BaseMission {
+  /**
+   * 任务一输出文件夹的名字
+   */
   public static final String output = "mission1";
 
   public Mission1(Configured self, String[] args) {
@@ -55,10 +58,5 @@ public class Mission1 extends BaseMission {
 
     job.setOutputKeyClass(TheKey.class);
     job.setOutputValueClass(Text.class);
-  }
-
-  @Override
-  public boolean isWorking() {
-    return true;
   }
 }

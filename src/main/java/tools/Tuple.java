@@ -6,6 +6,16 @@ import java.io.IOException;
 
 import org.apache.hadoop.io.WritableComparable;
 
+/**
+ * Writable & Comparable Tuple class
+ * <pre>
+ * 要求所包含的类都实现了WritableComparable。
+ * 主要用于Hadoop任务
+ * </pre>
+ * @author RailgunHamster（王宇鑫 151220114）
+ * @version 1.0
+ * @date 2018/6/27
+ */
 public class Tuple<A extends WritableComparable<? super A>, B extends WritableComparable<? super B>> implements WritableComparable<Tuple<A, B>> {
   public A first;
   public B second;

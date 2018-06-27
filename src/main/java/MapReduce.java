@@ -31,7 +31,7 @@ public class MapReduce extends Configured implements Tool {
       new Mission6(this, args),
     };
 
-    // 设置依赖，注意：请按照拓扑序进行setup，保证无环，否则会造成死循环。
+    // 设置依赖，注意：请按照拓扑序进行setup，保证无环，否则会造成死循环
     for (int i = 0;i < missions.length;i++) {
       missions[i].setupDependences(missions);
     }

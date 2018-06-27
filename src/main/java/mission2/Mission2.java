@@ -29,6 +29,9 @@ import tools.BaseMission;
  */
 
 public class Mission2 extends BaseMission {
+  /**
+   * 任务二输出文件夹的名字
+   */
   public static final String output = "mission2";
 
   public Mission2(Configured self, String[] args) {
@@ -54,12 +57,6 @@ public class Mission2 extends BaseMission {
 
   @Override
   protected String getDependecies() {
-    // 依赖任务一
     return "1";
-  }
-
-  @Override
-  public boolean isWorking() {
-    return true;
   }
 }
