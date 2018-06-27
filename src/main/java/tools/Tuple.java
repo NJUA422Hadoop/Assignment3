@@ -7,11 +7,9 @@ import java.io.IOException;
 import org.apache.hadoop.io.WritableComparable;
 
 /**
- * Writable & Comparable Tuple class
- * <pre>
- * 要求所包含的类都实现了WritableComparable。
+ * 一个Tuple。
+ * 要求所包含的类都实现{@link WritableComparable}。
  * 主要用于Hadoop任务
- * </pre>
  * @author RailgunHamster（王宇鑫 151220114）
  * @version 1.0
  * @date 2018/6/27
