@@ -6,6 +6,6 @@ import org.apache.hadoop.io.LongWritable;
 import tools.Tuple;
 
 /**
- * 简化输入
+ * 简化
  */
 public class TheKey extends Tuple<Text, LongWritable> {}
