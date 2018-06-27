@@ -1,4 +1,4 @@
-package mission2.reducer;
+package mission2.combiner;
 
 import java.io.IOException;
 
@@ -7,7 +7,7 @@ import org.apache.hadoop.mapreduce.Reducer;
 
 import mission2.tools.TheKey;
 
-public class TheReducer extends Reducer<TheKey, IntWritable, TheKey, IntWritable> {
+public class TheCombiner extends Reducer<TheKey, IntWritable, TheKey, IntWritable> {
   @Override
   protected void reduce(TheKey key, Iterable<IntWritable> value,
       Reducer<TheKey, IntWritable, TheKey, IntWritable>.Context context) throws IOException, InterruptedException {

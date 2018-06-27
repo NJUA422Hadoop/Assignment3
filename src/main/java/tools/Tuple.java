@@ -50,4 +50,9 @@ public class Tuple<A extends WritableComparable<? super A>, B extends WritableCo
       return b;
     }
   }
+
+  @Override
+  public String toString() {
+    return "(" + first.toString() + ", " + second.toString() + ")";
+  }
 }

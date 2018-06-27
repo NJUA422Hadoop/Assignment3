@@ -1,11 +1,12 @@
 package mission2;
 
 import org.apache.hadoop.conf.Configured;
-import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.IntWritable;
 
 import mission1.Mission1;
 import mission2.mapper.TheMapper;
 import mission2.reducer.TheReducer;
+import mission2.tools.TheKey;
 import tools.BaseMission;
 
 /**
@@ -30,7 +31,7 @@ import tools.BaseMission;
 
 public class Mission2 extends BaseMission {
   /**
-   * 任务二输出文件夹的名字
+   * 任务二输出文件夹的名字，会被后面要依赖的任务调用。
    */
   public static final String output = "mission2";
 
@@ -49,10 +50,10 @@ public class Mission2 extends BaseMission {
     job.setMapperClass(TheMapper.class);
     job.setReducerClass(TheReducer.class);
 
-    job.setMapOutputKeyClass(Text.class);
-    job.setMapOutputValueClass(Text.class);
-    job.setOutputKeyClass(Text.class);
-    job.setOutputValueClass(Text.class);
+    job.setMapOutputKeyClass(TheKey.class);
+    job.setMapOutputValueClass(IntWritable.class);
+    job.setOutputKeyClass(TheKey.class);
+    job.setOutputValueClass(IntWritable.class);
   }
 
   @Override

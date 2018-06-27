@@ -11,4 +11,12 @@ import tools.Tuple;
  * @version 1.0
  * @date 2018/6/28
  */
-public class TheKey extends Tuple<Text, LongWritable> {}
+public class TheKey extends Tuple<Text, LongWritable> {
+  public TheKey(Text first, LongWritable second) {
+    super(first, second);
+  }
+
+  public TheKey() {
+    ;
+  }
+}

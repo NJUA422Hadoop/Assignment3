@@ -49,9 +49,10 @@ public class TheRecordReader extends RecordReader<TheKey, Text> {
     pos = Long.valueOf(start);
     line = Long.valueOf(0);
 
-    key = new TheKey();
-    key.first = new Text(path.getName());
-    key.second = new LongWritable();
+    key = new TheKey(
+      new Text(path.getName()),
+      new LongWritable()
+    );
     value = new Text();
   }
 
