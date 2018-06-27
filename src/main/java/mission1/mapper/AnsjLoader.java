@@ -4,6 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.ansj.library.DicLibrary;
 // import org.ansj.library.StopLibrary;
@@ -30,6 +34,44 @@ public class AnsjLoader {
   private boolean init = false;
 
   /**
+   * 存储资源
+   */
+  private Map<String, List<String>> sources = new HashMap<>();
+
+  /**
+   * load source
+   */
+  private void loadSource(String path) {
+    ClassLoader classLoader = AnsjLoader.class.getClassLoader();
+    URL dic = classLoader.getResource(path);
+
+    List<String> list = new ArrayList<>();
+    try {
+      BufferedReader reader = new BufferedReader(new InputStreamReader(dic.openStream()));
+      String line = null;
+      while ((line = reader.readLine()) != null) {
+        list.add(line);
+      }
+      reader.close();
+    } catch(IOException ioe) {
+      logger.error(ioe);
+    }
+
+    sources.put(path, list);
+  }
+
+  /**
+   * 获取资源列表
+   */
+  public List<String> getSource(String path) {
+    if (!sources.containsKey(path)) {
+      loadSource(path);
+    }
+
+    return sources.get(path);
+  }
+
+  /**
    * load ansj_seg dictionary
    */
   public void ENVload() {
@@ -39,27 +81,8 @@ public class AnsjLoader {
       init = true;
     }
 
-    ClassLoader classLoader = AnsjLoader.class.getClassLoader();
-
-    URL dic = classLoader.getResource("wuxia_name.txt");
-    // URL stop = classLoader.getResource("stop_words.txt");
-    try {
-      BufferedReader reader = new BufferedReader(new InputStreamReader(dic.openStream()));
-      String line = null;
-      while ((line = reader.readLine()) != null) {
-        DicLibrary.insert(DicLibrary.DEFAULT, line, "nr", DicLibrary.DEFAULT_FREQ);
-      }
-      reader.close();
-      /*
-      reader = new BufferedReader(new InputStreamReader(stop.openStream()));
-      line = null;
-      while((line = reader.readLine()) != null) {
-        StopLibrary.insertStopWords(StopLibrary.DEFAULT, line);
-      }
-      reader.close();
-      */
-    } catch(IOException ioe) {
-      logger.error(ioe);
+    for (String name : getSource("wuxia_name.txt")) {
+      DicLibrary.insert(DicLibrary.DEFAULT, name);
     }
   }
 }

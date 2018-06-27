@@ -1,6 +1,7 @@
 package mission1;
 
 import org.apache.hadoop.conf.Configured;
+import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 
@@ -35,7 +36,7 @@ public class Mission1 extends BaseMission {
     // 不需要
     // job.setInputFormatClass(TheInputFormat.class);
 
-    job.setMapOutputKeyClass(NullWritable.class);
+    job.setMapOutputKeyClass(LongWritable.class);
     job.setMapOutputValueClass(Text.class);
     job.setOutputKeyClass(NullWritable.class);
     job.setOutputValueClass(Text.class);
