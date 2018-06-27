@@ -13,9 +13,17 @@ import mission1.tools.TheKey;
 import tools.BaseMission;
 
 /**
- * @author RailgunHasmter（王宇鑫 151220114）
  * 第一个任务：
+ * <pre>
  * 对金庸小说数据集，根据人名进行分词。保存分词结果。
+ * 输入：
+ * 狄云和戚芳一走到万家大宅之前，瞧见那高墙朱门、挂灯结彩的气派，心中都是暗自嘀咕。戚芳紧紧拉住了父亲的衣袖。戚长发正待向门公询问，忽见卜垣从门里出来，心中一喜，叫道：“卜贤侄，我来啦。”
+ * 输出：
+ * 狄云 戚芳 戚芳 戚长发 卜垣
+ * </pre>
+ * @author RailgunHasmter（王宇鑫 151220114）
+ * @version 1.0
+ * @date 2018/6/26
  */
 
 public class Mission1 extends BaseMission {
