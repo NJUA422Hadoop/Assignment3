@@ -1,4 +1,4 @@
-package mission6.outputFormat;
+package mission5.output;
 
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;

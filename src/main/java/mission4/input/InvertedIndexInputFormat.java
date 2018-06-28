@@ -1,4 +1,4 @@
-package mission5.inputFormat;
+package mission4.input;
 
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 

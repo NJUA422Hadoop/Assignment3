@@ -1,4 +1,4 @@
-package mission4.outputFormat;
+package mission4.output;
 
 import org.apache.hadoop.hbase.mapreduce.TableOutputFormat;
 
