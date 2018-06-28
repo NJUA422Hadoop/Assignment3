@@ -1,26 +1,35 @@
 package mission3.reducer;
 
 import java.io.IOException;
-import java.util.function.Consumer;
 
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
-public class TheReducer extends Reducer<Text, Text, Text, Text> {
-  private final StringBuilder sb = new StringBuilder();
+import mission3.tools.TheValue;
+
+public class TheReducer extends Reducer<Text, TheValue, Text, Text> {
+  private final StringBuilder stringBuilder = new StringBuilder();
 
   @Override
-  protected void reduce(Text key, Iterable<Text> value, Reducer<Text, Text, Text, Text>.Context context)
+  protected void reduce(Text key, Iterable<TheValue> value, Reducer<Text, TheValue, Text, Text>.Context context)
     throws IOException, InterruptedException {
-    sb.delete(0, sb.length());
+    stringBuilder.delete(0, stringBuilder.length());
 
-    value.forEach(new Consumer<Text>() {
-      @Override
-      public void accept(Text t) {
-        sb.append(t);
-      }
-    });
-    
-    context.write(key, new Text(sb.toString()));
+    int sum = 0;
+    for (TheValue v : value) {
+      sum += v.second.get();
+    }
+    float fsum = sum;
+
+    stringBuilder.append("[");
+    for (TheValue v : value) {
+      stringBuilder.append(v.first);
+      stringBuilder.append(":");
+      stringBuilder.append(v.second.get() / fsum);
+      stringBuilder.append("|");
+    }
+    stringBuilder.append("]");
+
+    context.write(key, new Text(stringBuilder.toString()));
   }
 }
