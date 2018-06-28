@@ -53,6 +53,6 @@ public class Tuple<A extends WritableComparable<? super A>, B extends WritableCo
 
   @Override
   public String toString() {
-    return "(" + first.toString() + ", " + second.toString() + ")";
+    return "<" + first.toString() + ", " + second.toString() + ">";
   }
 }

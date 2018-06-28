@@ -140,6 +140,10 @@ public abstract class BaseMission {
    */
   private void setupDependences() {
     for (Character c : getDependecies().toCharArray()) {
+      if (!Character.isDigit(c)) {
+        continue;
+      }
+
       int missionNumber = Character.getNumericValue(c) - 1;
 
       if (missionNumber < 0 || missionNumber >= missions.length) {
@@ -162,8 +166,7 @@ public abstract class BaseMission {
    * Example:
    *  return "12" -> 此任务需要任务一、任务二完成后才会运行
    * </pre>
-   * @warn
-   * 字符串中数字不能超过missions的数组范围个数[1,N]
+   * 字符串中不符合规定的字符会被无视
    */
   protected String getDependecies() {
     return "";
