@@ -67,18 +67,6 @@ public class HBase {
   }
 
   /**
-   * ?
-   */
-  public void Sort() {
-    try {
-      Runner mission = new Sorter(conf);
-      mission.start();
-    } catch(IOException ioe) {
-      logger.error(ioe);
-    }
-  }
-
-  /**
    * get Hbase configuration
    */
   public Configuration getConf() {
