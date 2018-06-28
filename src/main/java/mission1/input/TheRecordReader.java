@@ -62,10 +62,12 @@ public class TheRecordReader extends RecordReader<TheKey, Text> {
       return false;
     }
 
-    if ((pos += reader.readLine(value)) == 0) {
+    int length = reader.readLine(value);
+    if (length == 0) {
       return false;
     }
 
+    pos += length;
     line++;
 
     key.second.set(line);
