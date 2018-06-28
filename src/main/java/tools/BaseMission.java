@@ -50,7 +50,7 @@ public abstract class BaseMission {
   /**
    * 用于打印log
    */
-  private Logger logger = Logger.getLogger(this.getClass());
+  private final Logger logger = Logger.getLogger(this.getClass());
 
   /**
    * 初始化

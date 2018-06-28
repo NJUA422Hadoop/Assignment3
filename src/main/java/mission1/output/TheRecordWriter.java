@@ -21,7 +21,7 @@ public class TheRecordWriter extends RecordWriter<TheKey, Text> {
 
   private Map<Text, FSDataOutputStream> fileStreams = new HashMap<>();
 
-  private static Logger logger = Logger.getLogger(TheRecordWriter.class);
+  private final Logger logger = Logger.getLogger(TheRecordWriter.class);
 
   public TheRecordWriter(TaskAttemptContext job) {
     this.job = job;

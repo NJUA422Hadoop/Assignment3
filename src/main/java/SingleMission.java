@@ -1,3 +1,5 @@
+import org.apache.log4j.Logger;
+
 /**
  * 单机任务
  * 参数：任务名称
@@ -32,11 +34,15 @@ public class SingleMission {
   }
 
   /**
+   * log4j
+   */
+  private static final Logger logger = Logger.getLogger(SingleMission.class);
+
+  /**
    * 所有参数均不对，打印错误信息
    */
   public static void defaultMission() {
-    String info = "参数格式不正确，正确格式：\n\tcommand/mission.bat(sh) ${MissionName} ${OutputFilePath}";
-    System.out.println(info);
+    logger.error("参数格式不正确，正确格式：\n\tcommand/mission.bat(sh) ${MissionName} ${OutputFilePath}");
   }
 
   public static void main(String[] args) {

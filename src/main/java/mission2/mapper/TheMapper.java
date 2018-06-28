@@ -25,6 +25,10 @@ public class TheMapper extends Mapper<Object, Text, TheKey, IntWritable> {
 
     for (Text a : names) {
       for (Text b : names) {
+        if (a == b) {
+          continue;
+        }
+
         context.write(new TheKey(a, b), one);
       }
     }

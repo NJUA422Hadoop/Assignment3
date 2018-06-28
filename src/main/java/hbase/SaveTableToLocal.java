@@ -17,41 +17,40 @@ import java.io.*;
  * Created by WaterYe on 18-5-14.
  */
 class SaveTableToLocal extends Runner {
-    private Configuration conf;
-    SaveTableToLocal(Configuration conf) throws IOException {
-        this.conf = conf;
-    }
+  SaveTableToLocal(Configuration conf) throws IOException {
+    super(conf);
+  }
 
-    private Connection connection;
-    private Table table;
-    @Override
-    protected void pre() throws IOException {
-        connection = ConnectionFactory.createConnection(conf);
-        table = connection.getTable(TableName.valueOf(conf.get("table")));
-    }
+  private Connection connection;
+  private Table table;
+  @Override
+  protected void pre() throws IOException {
+    connection = ConnectionFactory.createConnection(conf);
+    table = connection.getTable(TableName.valueOf(conf.get("table")));
+  }
 
-    @Override
-    protected void run() throws IOException {
-        File file = new File(conf.get("savePath"));
-        if(!file.exists()) {
-            file.createNewFile();
-        }
-        PrintWriter pw = new PrintWriter(file);
-        ResultScanner rs = table.getScanner(new Scan());
-        StringBuilder sb = new StringBuilder();
-        for(Result r : rs) {
-            String word = new String(r.getRow());
-            String value = new String(r.getValue(conf.get("columnFamily").getBytes(), conf.get("column").getBytes()));
-            sb.append(word + "\t" + value + "\n");
-        }
-        pw.print(sb.toString());
-        pw.flush();
-        pw.close();
+  @Override
+  protected void run() throws IOException {
+    File file = new File(conf.get("savePath"));
+    if(!file.exists()) {
+      file.createNewFile();
     }
+    PrintWriter pw = new PrintWriter(file);
+    ResultScanner rs = table.getScanner(new Scan());
+    StringBuilder sb = new StringBuilder();
+    for(Result r : rs) {
+      String word = new String(r.getRow());
+      String value = new String(r.getValue(conf.get("columnFamily").getBytes(), conf.get("column").getBytes()));
+      sb.append(word + "\t" + value + "\n");
+    }
+    pw.print(sb.toString());
+    pw.flush();
+    pw.close();
+  }
 
-    @Override
-    protected void end() throws IOException {
-        table.close();
-        connection.close();
-    }
+  @Override
+  protected void end() throws IOException {
+    table.close();
+    connection.close();
+  }
 }

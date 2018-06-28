@@ -12,6 +12,7 @@ import org.apache.hadoop.mapreduce.lib.jobcontrol.ControlledJob;
 import org.apache.hadoop.mapreduce.lib.jobcontrol.JobControl;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
+import org.apache.log4j.Logger;
 
 /**
  * Assignment for 武侠
@@ -20,6 +21,11 @@ import org.apache.hadoop.util.ToolRunner;
  * @date 2018/6/22
  */
 public class MapReduce extends Configured implements Tool {
+  /**
+   * log4j
+   */
+  private static final Logger logger = Logger.getLogger(MapReduce.class);
+
   @Override
   public int run(String[] args) throws Exception {
     BaseMission[] missions = {
@@ -55,7 +61,7 @@ public class MapReduce extends Configured implements Tool {
     // wait for end
     while(true) {
       if (jobControl.allFinished()) {
-        System.out.println(jobControl.getSuccessfulJobList());
+        logger.info(jobControl.getSuccessfulJobList());
         jobControl.stop();
         return 0;
       }
@@ -66,7 +72,7 @@ public class MapReduce extends Configured implements Tool {
     try {
       System.exit(ToolRunner.run(new MapReduce(), args));
     } catch(Exception e) {
-      e.printStackTrace();
+      logger.error(e);
     }
   }
 }

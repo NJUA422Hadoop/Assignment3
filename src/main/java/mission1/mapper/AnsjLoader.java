@@ -27,7 +27,7 @@ public class AnsjLoader {
   /**
    * 打印log
    */
-  private Logger logger = Logger.getLogger(AnsjLoader.class);
+  private final Logger logger = Logger.getLogger(AnsjLoader.class);
   /**
    * 只load一次
    */
