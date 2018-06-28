@@ -20,7 +20,8 @@ public class TheRecordReader extends RecordReader<TheKey, Text> {
   private Long start;
   private Long end;
   private Long pos;
-  private Long line;
+  private Long lineCount;
+  private Text line;
 
   private FSDataInputStream file;
 
@@ -47,7 +48,9 @@ public class TheRecordReader extends RecordReader<TheKey, Text> {
     reader = new LineReader(file);
     
     pos = Long.valueOf(start);
-    line = Long.valueOf(0);
+    lineCount = Long.valueOf(0);
+    
+    line = new Text();
 
     key = new TheKey(
       new Text(path.getName()),
@@ -62,15 +65,16 @@ public class TheRecordReader extends RecordReader<TheKey, Text> {
       return false;
     }
 
-    int length = reader.readLine(value);
-    if (length == 0) {
+    pos += reader.readLine(line);
+
+    if (line.getLength() == 0) {
       return false;
     }
 
-    pos += length;
-    line++;
+    lineCount++;
 
-    key.second.set(line);
+    key.second.set(lineCount);
+    value.set(line);
 
     return true;
   }
