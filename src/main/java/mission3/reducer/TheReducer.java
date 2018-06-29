@@ -17,7 +17,7 @@ public class TheReducer extends Reducer<Text, TheValue, Text, Text> {
 
     int sum = 0;
     for (TheValue v : value) {
-      sum += v.second.get();
+      sum += v.second;
     }
     float fsum = sum;
 
@@ -25,7 +25,7 @@ public class TheReducer extends Reducer<Text, TheValue, Text, Text> {
     for (TheValue v : value) {
       stringBuilder.append(v.first);
       stringBuilder.append(":");
-      stringBuilder.append(v.second.get() / fsum);
+      stringBuilder.append(v.second / fsum);
       stringBuilder.append("|");
     }
     stringBuilder.append("]");

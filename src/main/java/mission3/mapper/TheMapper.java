@@ -16,8 +16,8 @@ public class TheMapper extends Mapper<Object, Text, Text, TheValue> {
     return new Tuple<>(
       new Text(names[0]),
       new TheValue(
-        new Text(names[1]),
-        new IntWritable(Integer.valueOf(info[1]))
+        names[1],
+        Integer.valueOf(info[1])
       )
     );
   }

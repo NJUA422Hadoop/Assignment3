@@ -53,8 +53,8 @@ public class TheRecordReader extends RecordReader<TheKey, Text> {
     line = new Text();
 
     key = new TheKey(
-      new Text(path.getName()),
-      new LongWritable()
+      path.getName(),
+      Long.valueOf(0)
     );
     value = new Text();
   }
@@ -73,7 +73,7 @@ public class TheRecordReader extends RecordReader<TheKey, Text> {
 
     lineCount++;
 
-    key.second.set(lineCount);
+    key.second = lineCount;
     value.set(line);
 
     return true;

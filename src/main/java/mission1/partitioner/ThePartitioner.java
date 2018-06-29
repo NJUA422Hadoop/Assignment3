@@ -11,6 +11,6 @@ public class ThePartitioner extends Partitioner<TheKey, Text> {
 
   @Override
   public int getPartition(TheKey key, Text value, int numPartitions) {
-    return partitioner.getPartition(key.first, value, numPartitions);
+    return partitioner.getPartition(new Text(key.first), value, numPartitions);
   }
 }

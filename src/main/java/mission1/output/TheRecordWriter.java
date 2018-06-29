@@ -19,7 +19,7 @@ public class TheRecordWriter extends RecordWriter<TheKey, Text> {
   private TaskAttemptContext job;
   private FileSystem fileSystem;
 
-  private Map<Text, FSDataOutputStream> fileStreams = new HashMap<>();
+  private Map<String, FSDataOutputStream> fileStreams = new HashMap<>();
 
   private final Logger logger = Logger.getLogger(TheRecordWriter.class);
 
@@ -35,12 +35,12 @@ public class TheRecordWriter extends RecordWriter<TheKey, Text> {
 
   @Override
   public void write(TheKey key, Text value) throws IOException, InterruptedException {
-    Text name = key.first;
+    String name = key.first;
 
     FSDataOutputStream fileStream = fileStreams.get(name);
 
     if (fileStream == null) {
-      fileStream = fileSystem.create(new Path(name.toString()));
+      fileStream = fileSystem.create(new Path(name));
 
       fileStreams.put(name, fileStream);
     }
@@ -50,9 +50,9 @@ public class TheRecordWriter extends RecordWriter<TheKey, Text> {
 
   @Override
   public void close(TaskAttemptContext context) throws IOException, InterruptedException {
-    fileStreams.forEach(new BiConsumer<Text, FSDataOutputStream>() {
+    fileStreams.forEach(new BiConsumer<String, FSDataOutputStream>() {
       @Override
-      public void accept(Text t, FSDataOutputStream u) {
+      public void accept(String t, FSDataOutputStream u) {
         try {
           u.close();
         } catch(IOException ioe) {
