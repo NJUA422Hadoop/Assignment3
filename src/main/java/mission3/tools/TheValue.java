@@ -51,6 +51,6 @@ public class TheValue implements WritableComparable<TheValue> {
 
   @Override
   public String toString() {
-    return String.format("(%s,%s)", first, second);
+    return String.format("<%s,%s>", first, second);
   }
 }

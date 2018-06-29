@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -17,6 +18,7 @@ import mission1.tools.TheKey;
 
 public class TheRecordWriter extends RecordWriter<TheKey, Text> {
   private TaskAttemptContext job;
+  private Configuration conf;
   private FileSystem fileSystem;
 
   private Map<String, FSDataOutputStream> fileStreams = new HashMap<>();
@@ -25,9 +27,10 @@ public class TheRecordWriter extends RecordWriter<TheKey, Text> {
 
   public TheRecordWriter(TaskAttemptContext job) {
     this.job = job;
+    this.conf = this.job.getConfiguration();
 
     try {
-      fileSystem = FileSystem.newInstance(this.job.getConfiguration());
+      fileSystem = FileSystem.newInstance(this.conf);
     } catch(IOException ioe) {
       logger.error(ioe);
     }
@@ -40,12 +43,13 @@ public class TheRecordWriter extends RecordWriter<TheKey, Text> {
     FSDataOutputStream fileStream = fileStreams.get(name);
 
     if (fileStream == null) {
-      fileStream = fileSystem.create(new Path(name));
+      fileStream = fileSystem.create(new Path(conf.get("output") + "/" + name));
 
       fileStreams.put(name, fileStream);
     }
 
     fileStream.write(value.getBytes());
+    fileStream.write('\n');
   }
 
   @Override
