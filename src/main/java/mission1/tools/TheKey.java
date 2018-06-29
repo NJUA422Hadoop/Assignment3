@@ -7,7 +7,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 /**
- * {@link Tuple}&lt;String, Long&gt;的简化。
+ * Tuple&lt;String, Long&gt;
  * @author RailgunHasmter（王宇鑫 151220114）
  * @version 1.0
  * @date 2018/6/28

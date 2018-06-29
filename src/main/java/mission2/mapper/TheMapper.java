@@ -25,7 +25,7 @@ public class TheMapper extends Mapper<Object, Text, TheKey, IntWritable> {
 
     for (String a : names) {
       for (String b : names) {
-        if (a == b) {
+        if (a.equals(b)) {
           continue;
         }
 

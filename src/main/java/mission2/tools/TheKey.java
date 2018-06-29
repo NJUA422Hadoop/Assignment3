@@ -7,7 +7,7 @@ import java.io.IOException;
 import org.apache.hadoop.io.WritableComparable;
 
 /**
- * {@link Tuple}&lt;String, String&gt;的简化。
+ * Tuple&lt;String, String&gt;
  * @author RailgunHasmter（王宇鑫 151220114）
  * @version 1.0
  * @date 2018/6/28

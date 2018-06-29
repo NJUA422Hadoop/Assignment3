@@ -19,6 +19,11 @@ public class TheReducer extends Reducer<Text, TheValue, Text, Text> {
     for (TheValue v : value) {
       sum += v.second;
     }
+
+    if (sum == 0) {
+      return;
+    }
+
     float fsum = sum;
 
     stringBuilder.append("[");
