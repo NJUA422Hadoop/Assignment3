@@ -50,7 +50,24 @@ public class TheKey implements WritableComparable<TheKey> {
   }
 
   @Override
+  public boolean equals(Object obj) {
+    if (obj == null) {
+      return false;
+    } else if (obj instanceof TheKey) {
+      TheKey _obj = (TheKey) obj;
+      return first.equals(_obj.first) && second.equals(_obj.second);
+    } else {
+      return false;
+    }
+  }
+
+  @Override
   public String toString() {
     return String.format("<%s,%s>", first, second);
+  }
+
+  @Override
+  public int hashCode() {
+    return toString().hashCode();
   }
 }
