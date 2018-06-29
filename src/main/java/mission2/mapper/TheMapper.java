@@ -1,6 +1,7 @@
 package mission2.mapper;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,11 +18,7 @@ public class TheMapper extends Mapper<Object, Text, TheKey, IntWritable> {
   @Override
   protected void map(Object key, Text value, Mapper<Object, Text, TheKey, IntWritable>.Context context)
     throws IOException, InterruptedException {
-    names.clear();
-
-    for (String name : value.toString().split(" ")) {
-      names.add(name);
-    }
+    names.addAll(Arrays.asList(value.toString().split(" ")));
 
     for (String a : names) {
       for (String b : names) {
@@ -32,5 +29,7 @@ public class TheMapper extends Mapper<Object, Text, TheKey, IntWritable> {
         context.write(new TheKey(a, b), one);
       }
     }
+
+    names.clear();
   }
 }

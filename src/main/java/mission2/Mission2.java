@@ -4,6 +4,7 @@ import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.io.IntWritable;
 
 import mission1.Mission1;
+import mission2.combiner.TheCombiner;
 import mission2.mapper.TheMapper;
 import mission2.reducer.TheReducer;
 import mission2.tools.TheKey;
@@ -48,12 +49,14 @@ public class Mission2 extends BaseMission {
   @Override
   protected void setupJob() {
     job.setMapperClass(TheMapper.class);
-    job.setReducerClass(TheReducer.class);
-
     job.setMapOutputKeyClass(TheKey.class);
     job.setMapOutputValueClass(IntWritable.class);
+
+    job.setReducerClass(TheReducer.class);
     job.setOutputKeyClass(TheKey.class);
     job.setOutputValueClass(IntWritable.class);
+    
+    job.setCombinerClass(TheCombiner.class);
   }
 
   @Override
