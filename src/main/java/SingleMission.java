@@ -1,3 +1,4 @@
+import org.ansj.splitWord.analysis.ToAnalysis;
 import org.apache.log4j.Logger;
 
 /**
@@ -8,8 +9,12 @@ import org.apache.log4j.Logger;
  * @date 2018/6/22
  */
 public class SingleMission {
-  public void Wuxia(String savePath) {
+  public void wuxia(String savePath) {
     return;
+  }
+
+  public void ansj_seg() {
+    System.out.println(ToAnalysis.parse("他这个人性情不定，只是有点怕麻烦。"));
   }
 
   /**
@@ -21,11 +26,16 @@ public class SingleMission {
     }
 
     switch(args[0]) {
-      case "Wuxia":
+      case "wuxia":
         if (args.length != 2) {
           return false;
         }
-        Wuxia(args[1]);
+        wuxia(args[1]);
+      case "ansj_seg":
+        if (args.length != 1) {
+          return false;
+        }
+        ansj_seg();
       break;
         default: return false;
     }
@@ -42,7 +52,7 @@ public class SingleMission {
    * 所有参数均不对，打印错误信息
    */
   public static void defaultMission() {
-    logger.error("参数格式不正确，正确格式：\n\tcommand/mission.bat(sh) ${MissionName} ${OutputFilePath}");
+    logger.error("参数格式不正确，正确格式：\n\tcommand/mission.bat(sh) ${MissionName} [${OutputFilePath}]");
   }
 
   public static void main(String[] args) {
