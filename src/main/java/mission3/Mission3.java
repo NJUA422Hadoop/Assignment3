@@ -2,6 +2,7 @@ package mission3;
 
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.lib.input.KeyValueTextInputFormat;
 
 import mission2.Mission2;
 import mission3.mapper.TheMapper;
@@ -58,6 +59,8 @@ public class Mission3 extends BaseMission {
   protected void setupJob() {
     job.setMapperClass(TheMapper.class);
     job.setReducerClass(TheReducer.class);
+
+    job.setInputFormatClass(KeyValueTextInputFormat.class);
 
     job.setMapOutputKeyClass(Text.class);
     job.setMapOutputValueClass(TheValue.class);
