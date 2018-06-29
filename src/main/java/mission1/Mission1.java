@@ -59,4 +59,9 @@ public class Mission1 extends BaseMission {
     job.setOutputKeyClass(TheKey.class);
     job.setOutputValueClass(Text.class);
   }
+
+  @Override
+  public boolean isWorking() {
+    return true;
+  }
 }

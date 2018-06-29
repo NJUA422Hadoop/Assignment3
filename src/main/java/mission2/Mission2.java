@@ -60,4 +60,9 @@ public class Mission2 extends BaseMission {
   protected String getDependecies() {
     return "1";
   }
+
+  @Override
+  public boolean isWorking() {
+    return true;
+  }
 }
