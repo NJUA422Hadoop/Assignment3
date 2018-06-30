@@ -19,14 +19,14 @@ public class TheMapper extends Mapper<Text, Text, Text, TheValue> {
    * @param tuple,count
    * @return name, tuple
    */
-  private Tuple<Text, TheValue> split(Text tuple, Text count) {
-    String _tuple = tuple.toString();
+  public Tuple<Text, TheValue> split(Text tuple, Text count) {
+    String _tuple = tuple.toString().trim();
     String[] names = _tuple.substring(1, _tuple.length() - 1).split(",");
     return new Tuple<>(
       new Text(names[0]),
       new TheValue(
         names[1],
-        Integer.valueOf(count.toString())
+        Integer.valueOf(count.toString().trim())
       )
     );
   }

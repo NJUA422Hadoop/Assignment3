@@ -1,6 +1,8 @@
 package mission3.reducer;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
@@ -16,7 +18,9 @@ public class TheReducer extends Reducer<Text, TheValue, Text, Text> {
     stringBuilder.delete(0, stringBuilder.length());
 
     int sum = 0;
+    List<TheValue> list = new ArrayList<>();
     for (TheValue v : value) {
+      list.add(v);
       sum += v.second;
     }
 
@@ -27,12 +31,13 @@ public class TheReducer extends Reducer<Text, TheValue, Text, Text> {
     float fsum = sum;
 
     stringBuilder.append("[");
-    for (TheValue v : value) {
+    for (TheValue v : list) {
       stringBuilder.append(v.first);
       stringBuilder.append(":");
       stringBuilder.append(v.second / fsum);
       stringBuilder.append("|");
     }
+    stringBuilder.deleteCharAt(stringBuilder.length() - 1);
     stringBuilder.append("]");
 
     context.write(key, new Text(stringBuilder.toString()));

@@ -58,14 +58,14 @@ public class Mission3 extends BaseMission {
   @Override
   protected void setupJob() {
     job.setMapperClass(TheMapper.class);
-    job.setReducerClass(TheReducer.class);
-
-    job.setInputFormatClass(KeyValueTextInputFormat.class);
-
     job.setMapOutputKeyClass(Text.class);
     job.setMapOutputValueClass(TheValue.class);
+
+    job.setReducerClass(TheReducer.class);
     job.setOutputKeyClass(Text.class);
     job.setOutputValueClass(Text.class);
+
+    job.setInputFormatClass(KeyValueTextInputFormat.class);
   }
 
   @Override
@@ -75,6 +75,6 @@ public class Mission3 extends BaseMission {
 
   @Override
   public boolean isWorking() {
-    return false;
+    return true;
   }
 }
