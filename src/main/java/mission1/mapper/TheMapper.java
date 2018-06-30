@@ -5,11 +5,13 @@ import java.util.List;
 
 import org.ansj.domain.Result;
 import org.ansj.domain.Term;
+import org.ansj.library.DicLibrary;
 import org.ansj.splitWord.analysis.ToAnalysis;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
 import mission1.tools.TheKey;
+import tools.Loader;
 
 public class TheMapper extends Mapper<TheKey, Text, TheKey, Text> {
   private List<String> names;
@@ -17,17 +19,19 @@ public class TheMapper extends Mapper<TheKey, Text, TheKey, Text> {
   @Override
   protected void setup(Mapper<TheKey, Text, TheKey, Text>.Context context)
       throws IOException, InterruptedException {
-    AnsjLoader.shared.ENVload();
+    final Loader loader = new Loader(TheMapper.class);
 
-    names = AnsjLoader.shared.getSource("wuxia_name.txt");
+    for (String name : loader.getSource("wuxia_name.txt")) {
+      DicLibrary.insert(DicLibrary.DEFAULT, name);
+    }
+
+    names = loader.getSource("wuxia_name.txt");
   }
 
   @Override
   protected void map(TheKey key, Text value, Mapper<TheKey, Text, TheKey, Text>.Context context)
       throws IOException, InterruptedException {
-    Result result = ToAnalysis.parse(value.toString());
-
-    List<Term> words = result.getTerms();
+    List<Term> words = ToAnalysis.parse(value.toString().trim()).getTerms();
 
     for (Term t : words) {
       String name = t.getRealName();

@@ -1,4 +1,4 @@
-package mission1.mapper;
+package tools;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,41 +9,35 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.ansj.library.DicLibrary;
 import org.apache.log4j.Logger;
 
 /**
- * 加载Ansj_seg库，添加本任务所需词语
+ * 加载所需资源
  * @author RailgunHamster（王宇鑫 151220114）
  * @version 1.0
- * @date 2018/6/24
+ * @date 2018/6/30
  */
-public class AnsjLoader {
+public class Loader {
   /**
-   *  唯一实例
+   * 用class初始化，用于debug。
    */
-  public final static AnsjLoader shared = new AnsjLoader();
-  private AnsjLoader() {}
+  public Loader(Class<?> clazz) {
+    logger = Logger.getLogger(clazz);
+  }
   /**
    * 打印log
    */
-  private final Logger logger = Logger.getLogger(AnsjLoader.class);
-  /**
-   * 只load一次
-   */
-  private boolean init = false;
-
+  private final Logger logger;
   /**
    * 存储资源，key为地址path，value为资源每行内容的List<String>
    */
   private Map<String, List<String>> sources = new HashMap<>();
-
   /**
    * 从jar包内，加载path处的资源到Mpa中
    * @param path (String) jar包内资源的地址
    */
   private void loadSource(String path) {
-    ClassLoader classLoader = AnsjLoader.class.getClassLoader();
+    ClassLoader classLoader = Loader.class.getClassLoader();
     URL dic = classLoader.getResource(path);
 
     List<String> list = new ArrayList<>();
@@ -60,7 +54,6 @@ public class AnsjLoader {
 
     sources.put(path, list);
   }
-
   /**
    * 获取资源列表，并返回
    * @param path (String) jar包内资源的地址
@@ -72,20 +65,5 @@ public class AnsjLoader {
     }
 
     return sources.get(path);
-  }
-
-  /**
-   * 加载wuxia_name.txt到DicLibarary。只会加载一次
-   */
-  public void ENVload() {
-    if (init) {
-      return;
-    } else {
-      init = true;
-    }
-
-    for (String name : getSource("wuxia_name.txt")) {
-      DicLibrary.insert(DicLibrary.DEFAULT, name);
-    }
   }
 }

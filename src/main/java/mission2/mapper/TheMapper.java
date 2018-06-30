@@ -18,7 +18,7 @@ public class TheMapper extends Mapper<Object, Text, TheKey, IntWritable> {
   @Override
   protected void map(Object key, Text value, Mapper<Object, Text, TheKey, IntWritable>.Context context)
     throws IOException, InterruptedException {
-    names.addAll(Arrays.asList(value.toString().split(" ")));
+    names.addAll(Arrays.asList(value.toString().trim().split(" ")));
 
     for (String a : names) {
       for (String b : names) {
