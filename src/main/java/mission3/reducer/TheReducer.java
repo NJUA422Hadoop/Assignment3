@@ -19,9 +19,12 @@ public class TheReducer extends Reducer<Text, TheValue, Text, Text> {
 
     int sum = 0;
     List<TheValue> list = new ArrayList<>();
+    // value只能遍历一次，如果需要重复使用，请自行保存值
     for (TheValue v : value) {
-      list.add(v);
-      sum += v.second;
+      int count = v.second;
+      // 这里不能直接保存v，因为Iterable在下一次get之后，会跟着改变。
+      list.add(new TheValue(v.first, count));
+      sum += count;
     }
 
     if (sum == 0) {

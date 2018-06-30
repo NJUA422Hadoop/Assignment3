@@ -21,6 +21,11 @@ public class TheKey implements WritableComparable<TheKey> {
     this.second = second;
   }
 
+  public TheKey(TheKey old) {
+    this.first = old.first;
+    this.second = old.second;
+  }
+
   public TheKey() {
     ;
   }

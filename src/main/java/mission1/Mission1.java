@@ -53,6 +53,8 @@ public class Mission1 extends BaseMission {
     job.setCombinerClass(TheCombiner.class);
     job.setPartitionerClass(ThePartitioner.class);
 
+    // TheKey class 要求其必须实现Comparable<TheKey>，而不能通过继承的方式。
+    // 如果一定要继承，请参考Text的实现。例：class A extends B implements WritableComparable<B>
     job.setMapOutputKeyClass(TheKey.class);
     job.setMapOutputValueClass(Text.class);
 

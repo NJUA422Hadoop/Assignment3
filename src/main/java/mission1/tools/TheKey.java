@@ -18,7 +18,12 @@ public class TheKey implements WritableComparable<TheKey> {
 
   public TheKey(String first, Long second) {
     this.first = first;
-    this.second = second;
+    this.second = Long.valueOf(second);
+  }
+
+  public TheKey(TheKey old) {
+    this.first = old.first;
+    this.second = Long.valueOf(old.second);
   }
 
   public TheKey() {

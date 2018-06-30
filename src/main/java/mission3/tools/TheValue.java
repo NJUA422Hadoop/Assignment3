@@ -18,7 +18,12 @@ public class TheValue implements WritableComparable<TheValue> {
 
   public TheValue(String first, Integer second) {
     this.first = first;
-    this.second = second;
+    this.second = Integer.valueOf(second);
+  }
+
+  public TheValue(TheValue old) {
+    this.first = old.first;
+    this.second = Integer.valueOf(old.second);
   }
 
   public TheValue() {
