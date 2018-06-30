@@ -2,6 +2,7 @@ package mission4;
 
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Job;
 
 import mission3.Mission3;
 import mission4.mapper.TheMapper;
@@ -22,13 +23,18 @@ public class Mission4 extends BaseMission {
   }
 
   @Override
-  protected void setupConf() {
-    conf.set("input", args[1] + "/" + Mission3.output);
-    conf.set("output", args[1] + "/" + output);
+  protected void setupConf(int index) {
+    if (index == 1) {
+      conf.set("input", args[1] + "/" + Mission3.output);
+      conf.set("output", args[1] + "/" + output + "/" + index);
+    } else {
+      conf.set("input", args[1] + "/" + output + "/" + (index - 1));
+      conf.set("output", args[1] + "/" + output + "/" + index);
+    }
   }
 
   @Override
-  protected void setupJob() {
+  protected Job setupJob(Job job) {
     job.setMapperClass(TheMapper.class);
     job.setReducerClass(TheReducer.class);
 
@@ -36,6 +42,8 @@ public class Mission4 extends BaseMission {
     job.setMapOutputValueClass(Text.class);
     job.setOutputKeyClass(Text.class);
     job.setOutputValueClass(Text.class);
+
+    return job;
   }
 
   @Override
@@ -45,7 +53,12 @@ public class Mission4 extends BaseMission {
   }
 
   @Override
+  protected int times() {
+    return 2;
+  }
+
+  @Override
   public boolean isWorking() {
-    return false;
+    return true;
   }
 }

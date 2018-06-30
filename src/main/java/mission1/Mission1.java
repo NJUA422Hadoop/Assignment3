@@ -2,6 +2,7 @@ package mission1;
 
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Job;
 
 import mission1.combiner.TheCombiner;
 import mission1.input.TheInputFormat;
@@ -37,13 +38,13 @@ public class Mission1 extends BaseMission {
   }
 
   @Override
-  protected void setupConf() {
+  protected void setupConf(int index) {
     conf.set("input", args[0]);
     conf.set("output", args[1] + "/" + output);
   }
 
   @Override
-  protected void setupJob() {
+  protected Job setupJob(Job job) {
     job.setMapperClass(TheMapper.class);
     job.setReducerClass(TheReducer.class);
 
@@ -60,6 +61,8 @@ public class Mission1 extends BaseMission {
 
     job.setOutputKeyClass(TheKey.class);
     job.setOutputValueClass(Text.class);
+
+    return job;
   }
 
   @Override

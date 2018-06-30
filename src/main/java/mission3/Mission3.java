@@ -2,6 +2,7 @@ package mission3;
 
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.KeyValueTextInputFormat;
 
 import mission2.Mission2;
@@ -50,13 +51,13 @@ public class Mission3 extends BaseMission {
   }
 
   @Override
-  protected void setupConf() {
+  protected void setupConf(int index) {
     conf.set("input", args[1] + "/" + Mission2.output);
     conf.set("output", args[1] + "/" + output);
   }
 
   @Override
-  protected void setupJob() {
+  protected Job setupJob(Job job) {
     job.setMapperClass(TheMapper.class);
     job.setMapOutputKeyClass(Text.class);
     job.setMapOutputValueClass(TheValue.class);
@@ -66,6 +67,8 @@ public class Mission3 extends BaseMission {
     job.setOutputValueClass(Text.class);
 
     job.setInputFormatClass(KeyValueTextInputFormat.class);
+
+    return job;
   }
 
   @Override

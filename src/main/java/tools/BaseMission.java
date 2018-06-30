@@ -1,6 +1,8 @@
 package tools;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
@@ -9,7 +11,7 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.jobcontrol.ControlledJob;
-
+import org.apache.hadoop.mapreduce.lib.jobcontrol.JobControl;
 import org.apache.log4j.Logger;
 
 /**
@@ -28,17 +30,17 @@ public abstract class BaseMission {
    */
   protected String[] args;
   /**
-   * 任务
-   */
-  protected Job job;
-  /**
    * 主任务的实例
    */
   private Configured self;
   /**
+   * 任务
+   */
+  private List<Job> jobs = new ArrayList<>();
+  /**
    * 任务的控制类，用于多任务
    */
-  private ControlledJob cjob;
+  private List<ControlledJob> cjobs = new ArrayList<>();
   /**
    * 只初始化一次
    */
@@ -68,20 +70,28 @@ public abstract class BaseMission {
    * @return
    * isWorking()为false时，返回null。为true时，返回初始化完成的任务
    */
-  final public ControlledJob getJob() {
-    if (!isWorking()) {
-      return null;
-    }
-
-    if (!init) {
-      init = true;
-      setupConf();
-      beforeSetupJob();
-      setupJob();
-      afterSetupJob();
+  final public List<ControlledJob> getJobs() {
+    if (isWorking()) {
+      initialize();
     }
     
-    return this.cjob;
+    return cjobs;
+  }
+
+  /**
+   * 第一次getJobs()时进行的初始化
+   */
+  private void initialize() {
+    if (init) {
+      return;
+    }
+
+    init = true;
+
+    for (int i = 1;i <= times();i++) {
+      setupConf(i);
+      afterSetupJob(setupJob(beforeSetupJob(i)));
+    }
   }
 
   /**
@@ -96,35 +106,47 @@ public abstract class BaseMission {
    * @need
    * 需要添加"input"以及"output"，用于此任务输入输出地址设置
    * @warn
-   * 不能在这里调用getJob()
+   * 不能在这里调用getJobs()
+   * @param index 表示这是第几次执行该任务
    */
-  protected abstract void setupConf();
+  protected abstract void setupConf(int index);
   /**
-   * 这个函数用于job的设置。由子类实现。
+   * 这个函数用于job的设置。由子类实现
    * @warn
-   * 不能在这里调用getJob()
+   * 不能在这里调用getJobs()
+   * @param job 任务
+   * @return job 设置后的任务
    */
-  protected abstract void setupJob();
+  protected abstract Job setupJob(Job job);
 
   /**
-   * 在setupJob()之前初始化job。
+   * 在setupJob()之前初始化job
+   * @return job 设置后的job
    */
-  private void beforeSetupJob() {
+  private Job beforeSetupJob(int index) {
     try {
-      job = Job.getInstance(conf, this.getClass().getSimpleName());
+      Job job = Job.getInstance(conf, this.getClass().getSimpleName() + "_" + index);
       job.setJarByClass(self.getClass());
+
+      jobs.add(job);
+
+      return job;
     } catch(IOException ioe) {
       logger.error(ioe);
+
+      return null;
     }
   }
 
   /**
-   * 在setupJob()之后设置controlled job，依赖，以及input、output path。
+   * 在setupJob()之后设置controlled job，依赖，以及input、output path
    */
-  private void afterSetupJob() {
+  private void afterSetupJob(Job job) {
     try {
-      cjob = new ControlledJob(conf);
+      ControlledJob cjob = new ControlledJob(conf);
       cjob.setJob(job);
+
+      cjobs.add(cjob);
 
       setupDependences();
 
@@ -136,28 +158,45 @@ public abstract class BaseMission {
   }
 
   /**
-   * 根据任务的getDependencies()返回的值，设置依赖的任务。
+   * 根据任务的getDependencies()返回的值，设置依赖的任务
    */
   private void setupDependences() {
-    for (Character c : getDependecies().toCharArray()) {
-      if (!Character.isDigit(c)) {
-        continue;
-      }
+    int size = jobs.size();
 
-      int missionNumber = Character.getNumericValue(c) - 1;
-
-      if (missionNumber < 0 || missionNumber >= missions.length) {
-        continue;
-      }
-
-      ControlledJob _cjob = missions[missionNumber].getJob();
-
-      if (_cjob == null) {
-        continue;
-      }
-
-      this.cjob.addDependingJob(_cjob);
+    if (size < 1) {
+      return;
     }
+
+    if (size == 1) {
+      for (Character c : getDependecies().toCharArray()) {
+        if (!Character.isDigit(c)) {
+          continue;
+        }
+
+        int missionNumber = Character.getNumericValue(c) - 1;
+
+        if (missionNumber < 0 || missionNumber >= missions.length) {
+          continue;
+        }
+
+        List<ControlledJob> _cjobs = missions[missionNumber].getJobs();
+
+        if (_cjobs.size() == 0) {
+          continue;
+        }
+
+        cjobs.get(0).addDependingJob(_cjobs.get(_cjobs.size() - 1));
+      }
+    } else {
+      cjobs.get(size - 1).addDependingJob(cjobs.get(size - 2));
+    }
+  }
+
+  /**
+   * 规定了该任务重复的次数。默认情况一次
+   */
+  protected int times() {
+    return 1;
   }
 
   /**
@@ -178,5 +217,25 @@ public abstract class BaseMission {
    */
   public boolean isWorking() {
     return true;
+  }
+
+  /**
+   * 将baseMissions中所有任务添加至JobControl
+   */
+  public static void addAll(BaseMission[] baseMissions, JobControl jobControl) {
+    for (int i = 0;i < baseMissions.length;i++) {
+      for (ControlledJob job : baseMissions[i].getJobs()) {
+        jobControl.addJob(job);
+      }
+    }
+  }
+
+  /**
+   * 将baseMissions中的所有任务添加相应的依赖
+   */
+  public static void addDependencies(BaseMission[] baseMissions) {
+    for (int i = 0;i < baseMissions.length;i++) {
+      baseMissions[i].setupDependences(baseMissions);
+    }
   }
 }

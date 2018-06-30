@@ -2,6 +2,7 @@ package mission2;
 
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.mapreduce.Job;
 
 import mission1.Mission1;
 import mission2.combiner.TheCombiner;
@@ -41,13 +42,13 @@ public class Mission2 extends BaseMission {
   }
 
   @Override
-  protected void setupConf() {
+  protected void setupConf(int index) {
     conf.set("input", args[1] + "/" + Mission1.output);
     conf.set("output", args[1] + "/" + output);
   }
 
   @Override
-  protected void setupJob() {
+  protected Job setupJob(Job job) {
     job.setMapperClass(TheMapper.class);
     job.setMapOutputKeyClass(TheKey.class);
     job.setMapOutputValueClass(IntWritable.class);
@@ -57,6 +58,8 @@ public class Mission2 extends BaseMission {
     job.setOutputValueClass(IntWritable.class);
     
     job.setCombinerClass(TheCombiner.class);
+
+    return job;
   }
 
   @Override

@@ -38,28 +38,18 @@ public class MapReduce extends Configured implements Tool {
     };
 
     // 设置依赖，注意：请按照拓扑序进行setup，保证无环，否则会造成死循环
-    for (int i = 0;i < missions.length;i++) {
-      missions[i].setupDependences(missions);
-    }
+    BaseMission.addDependencies(missions);
 
     // 添加job
-    JobControl jobControl = new JobControl("Wuxia");
-    for (int i = 0;i < missions.length;i++) {
-      ControlledJob cjob = missions[i].getJob();
+    JobControl jobControl = new JobControl("wuxia");
+    BaseMission.addAll(missions, jobControl);
 
-      if (cjob == null) {
-        continue;
-      }
-
-      jobControl.addJob(cjob);
-    }
-
-    // run
+    // 添加线程
     Thread runner = new Thread(jobControl);
     runner.start();
 
-    // wait for end
-    while(true) {
+    // 运行，等待结束
+    while (true) {
       if (jobControl.allFinished()) {
         logger.info(jobControl.getSuccessfulJobList());
         jobControl.stop();

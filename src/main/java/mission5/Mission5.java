@@ -1,6 +1,7 @@
 package mission5;
 
 import org.apache.hadoop.conf.Configured;
+import org.apache.hadoop.mapreduce.Job;
 
 import tools.BaseMission;
 
@@ -19,15 +20,16 @@ public class Mission5 extends BaseMission {
   }
 
   @Override
-  protected void setupConf() {
+  protected void setupConf(int index) {
     conf.set("input", input); // or args[?] or Mission3.output
     conf.set("output", output);
     // more settings
   }
 
   @Override
-  protected void setupJob() {
+  protected Job setupJob(Job job) {
     // set mapper class ... etc
+    return job;
   }
 
   @Override
