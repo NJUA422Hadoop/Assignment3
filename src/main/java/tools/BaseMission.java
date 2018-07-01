@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
+import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
@@ -89,7 +90,13 @@ public abstract class BaseMission {
 
     for (int i = 1;i <= times();i++) {
       setupConf(i);
-      afterSetupJob(setupJob(beforeSetupJob(i), i));
+      boolean fail = !afterSetupJob(setupJob(beforeSetupJob(i), i));
+
+      // 如果失败，说明输出文件夹已存在，删除任务，等待下一个任务即可。
+      if (fail) {
+        jobs.remove(jobs.size() - 1);
+        cjobs.remove(cjobs.size() - 1);
+      }
     }
   }
 
@@ -142,7 +149,7 @@ public abstract class BaseMission {
   /**
    * 在setupJob()之后设置controlled job，依赖，以及input、output path
    */
-  private void afterSetupJob(Job job) {
+  private boolean afterSetupJob(Job job) {
     try {
       ControlledJob cjob = new ControlledJob(conf);
       cjob.setJob(job);
@@ -151,10 +158,21 @@ public abstract class BaseMission {
 
       setupDependences();
 
-      FileInputFormat.addInputPath(job, new Path(conf.get("input")));
-      FileOutputFormat.setOutputPath(job, new Path(conf.get("output")));
+      Path input = new Path(conf.get("input"));
+      Path output = new Path(conf.get("output"));
+
+      if (FileSystem.newInstance(conf).exists(output)) {
+        return false;
+      }
+
+      FileInputFormat.addInputPath(job, input);
+      FileOutputFormat.setOutputPath(job, output);
+
+      return true;
     } catch(IOException ioe) {
       logger.error(ioe);
+
+      return false;
     }
   }
 
