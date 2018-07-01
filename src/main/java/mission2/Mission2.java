@@ -48,7 +48,7 @@ public class Mission2 extends BaseMission {
   }
 
   @Override
-  protected Job setupJob(Job job) {
+  protected Job setupJob(Job job, int index) {
     job.setMapperClass(TheMapper.class);
     job.setMapOutputKeyClass(TheKey.class);
     job.setMapOutputValueClass(IntWritable.class);

@@ -27,7 +27,7 @@ public class Mission5 extends BaseMission {
   }
 
   @Override
-  protected Job setupJob(Job job) {
+  protected Job setupJob(Job job, int index) {
     // set mapper class ... etc
     return job;
   }

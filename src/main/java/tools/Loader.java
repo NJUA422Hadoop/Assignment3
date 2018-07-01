@@ -34,7 +34,7 @@ public class Loader {
   private Map<String, List<String>> sources = new HashMap<>();
   /**
    * 从jar包内，加载path处的资源到Mpa中
-   * @param path (String) jar包内资源的地址
+   * @param path jar包内资源的地址
    */
   private void loadSource(String path) {
     ClassLoader classLoader = Loader.class.getClassLoader();
@@ -56,7 +56,7 @@ public class Loader {
   }
   /**
    * 获取资源列表，并返回
-   * @param path (String) jar包内资源的地址
+   * @param path jar包内资源的地址
    * @return 该资源的List<String>
    */
   public List<String> getSource(String path) {

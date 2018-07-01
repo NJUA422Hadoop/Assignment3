@@ -44,7 +44,7 @@ public class Mission1 extends BaseMission {
   }
 
   @Override
-  protected Job setupJob(Job job) {
+  protected Job setupJob(Job job, int index) {
     job.setMapperClass(TheMapper.class);
     job.setReducerClass(TheReducer.class);
 

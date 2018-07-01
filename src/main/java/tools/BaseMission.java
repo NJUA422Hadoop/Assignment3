@@ -56,8 +56,8 @@ public abstract class BaseMission {
 
   /**
    * 初始化
-   * @param
-   * Configured self 主任务实例。String[] args 用户输入参数
+   * @param self 主任务实例
+   * @param args 用户输入参数
    */
   protected BaseMission(Configured self, String[] args) {
     this.conf = self.getConf();
@@ -67,8 +67,7 @@ public abstract class BaseMission {
 
   /**
    * 获取ControlledJob。只会初始化一次
-   * @return
-   * isWorking()为false时，返回null。为true时，返回初始化完成的任务
+   * @return isWorking()为false时，返回null。为true时，返回初始化完成的任务
    */
   final public List<ControlledJob> getJobs() {
     if (isWorking()) {
@@ -90,7 +89,7 @@ public abstract class BaseMission {
 
     for (int i = 1;i <= times();i++) {
       setupConf(i);
-      afterSetupJob(setupJob(beforeSetupJob(i)));
+      afterSetupJob(setupJob(beforeSetupJob(i), i));
     }
   }
 
@@ -115,12 +114,14 @@ public abstract class BaseMission {
    * @warn
    * 不能在这里调用getJobs()
    * @param job 任务
+   * @param index 任务序号
    * @return job 设置后的任务
    */
-  protected abstract Job setupJob(Job job);
+  protected abstract Job setupJob(Job job, int index);
 
   /**
    * 在setupJob()之前初始化job
+   * @param index 任务序号
    * @return job 设置后的job
    */
   private Job beforeSetupJob(int index) {
