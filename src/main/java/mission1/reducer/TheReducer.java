@@ -1,7 +1,6 @@
 package mission1.reducer;
 
 import java.io.IOException;
-import java.util.function.Consumer;
 
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
@@ -16,13 +15,10 @@ public class TheReducer extends Reducer<TheKey, Text, TheKey, Text> {
     throws IOException, InterruptedException {
     sb.delete(0, sb.length());
 
-    value.forEach(new Consumer<Text>() {
-      @Override
-      public void accept(Text t) {
-        sb.append(t);
-        sb.append(" ");
-      }
-    });
+    for (Text t : value) {
+      sb.append(t);
+      sb.append(" ");
+    }
     
     context.write(key, new Text(sb.toString().trim()));
   }

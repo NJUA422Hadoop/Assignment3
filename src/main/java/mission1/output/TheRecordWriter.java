@@ -3,7 +3,6 @@ package mission1.output;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BiConsumer;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataOutputStream;
@@ -54,15 +53,8 @@ public class TheRecordWriter extends RecordWriter<TheKey, Text> {
 
   @Override
   public void close(TaskAttemptContext context) throws IOException, InterruptedException {
-    fileStreams.forEach(new BiConsumer<String, FSDataOutputStream>() {
-      @Override
-      public void accept(String t, FSDataOutputStream u) {
-        try {
-          u.close();
-        } catch(IOException ioe) {
-          logger.error(ioe);
-        }
-      }
-    });
+    for (FSDataOutputStream u : fileStreams.values()) {
+      u.close();
+    }
   }
 }

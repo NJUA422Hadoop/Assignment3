@@ -3,7 +3,6 @@ package mission1.mapper;
 import java.io.IOException;
 import java.util.List;
 
-import org.ansj.domain.Result;
 import org.ansj.domain.Term;
 import org.ansj.library.DicLibrary;
 import org.ansj.splitWord.analysis.ToAnalysis;

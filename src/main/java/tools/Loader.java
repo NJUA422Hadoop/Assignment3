@@ -31,7 +31,7 @@ public class Loader {
   /**
    * 存储资源，key为地址path，value为资源每行内容的List<String>
    */
-  private Map<String, List<String>> sources = new HashMap<>();
+  private static Map<String, List<String>> sources = new HashMap<>();
   /**
    * 从jar包内，加载path处的资源到Mpa中
    * @param path jar包内资源的地址

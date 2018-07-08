@@ -14,12 +14,9 @@ public class TheReducer extends Reducer<Text, Text, Text, Text> {
     throws IOException, InterruptedException {
     sb.delete(0, sb.length());
 
-    value.forEach(new Consumer<Text>() {
-      @Override
-      public void accept(Text t) {
-        sb.append(t);
-      }
-    });
+    for (Text t : value) {
+      sb.append(t);
+    }
     
     context.write(key, new Text(sb.toString()));
   }
