@@ -16,6 +16,9 @@ import org.apache.log4j.Logger;
 import mission1.tools.TheKey;
 
 public class TheRecordWriter extends RecordWriter<TheKey, Text> {
+  private static final String utf8 = "UTF-8";
+  private static byte[] newline;
+
   private TaskAttemptContext job;
   private Configuration conf;
   private FileSystem fileSystem;
@@ -29,6 +32,9 @@ public class TheRecordWriter extends RecordWriter<TheKey, Text> {
     this.conf = this.job.getConfiguration();
 
     try {
+      if (newline == null) {
+        newline = "\n".getBytes(utf8);
+      }
       fileSystem = FileSystem.newInstance(this.conf);
     } catch(IOException ioe) {
       logger.error(ioe);
@@ -48,7 +54,7 @@ public class TheRecordWriter extends RecordWriter<TheKey, Text> {
     }
 
     fileStream.write(value.getBytes());
-    fileStream.write('\n');
+    fileStream.write(newline);
   }
 
   @Override
