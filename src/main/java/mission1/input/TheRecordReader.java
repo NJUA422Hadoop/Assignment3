@@ -11,6 +11,7 @@ import org.apache.hadoop.mapreduce.InputSplit;
 import org.apache.hadoop.mapreduce.RecordReader;
 import org.apache.hadoop.mapreduce.TaskAttemptContext;
 import org.apache.hadoop.mapreduce.lib.input.FileSplit;
+import org.apache.hadoop.mapreduce.lib.input.LineRecordReader;
 import org.apache.hadoop.util.LineReader;
 
 import mission1.tools.TheKey;
@@ -60,15 +61,11 @@ public class TheRecordReader extends RecordReader<TheKey, Text> {
 
   @Override
   public boolean nextKeyValue() throws IOException, InterruptedException {
-    if (pos > end) {
+    if (pos >= end) {
       return false;
     }
 
     pos += reader.readLine(line);
-
-    if (line.getLength() == 0) {
-      return false;
-    }
 
     lineCount++;
 
