@@ -24,7 +24,7 @@ public class TheMapper extends Mapper<Object, Text, Text, Text> {
               double prValue = pr * Double.parseDouble(weight);
               context.write(new Text(linkPage), new Text(String.valueOf(prValue)));
           }
-          context.write(new Text(pk), new Text("|" + tmp[2]));
+          context.write(new Text(name), new Text("|" + tmp[2]));
         }
       }
 }

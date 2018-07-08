@@ -14,7 +14,7 @@ public class TheReducer extends Reducer<Text, Text, Text, Text> {
     throws IOException, InterruptedException {
       String link = "";
       double pr = 0;
-      for(Text v:values) {
+      for(Text v : value) {
           String tmp = v.toString();
           if(tmp.startsWith("|")) {
               link = tmp.substring(tmp.indexOf("|")+1);
