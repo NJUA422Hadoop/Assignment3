@@ -1,11 +1,11 @@
-package mission6;
+package mission7;
 
 import org.apache.hadoop.conf.Configured;
-import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.io.FloatWritable;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Job;
 
-import mission6.mapper.PageRankSortMapper;
+import mission7.mapper.PageRankSortMapper;
 
 import tools.BaseMission;
 
@@ -17,11 +17,11 @@ import tools.BaseMission;
  *  wyd
  */
 
-public class Mission6 extends BaseMission {
+public class Mission7 extends BaseMission {
   public static final String input = "???";
   public static final String output = "???";
 
-  public Mission6(Configured self, String[] args) {
+  public Mission7(Configured self, String[] args) {
     super(self, args);
   }
 
@@ -44,8 +44,8 @@ public class Mission6 extends BaseMission {
 
   @Override
   protected String getDependecies() {
-    // 依赖任务四
-    return "4";
+    // 依赖任务五
+    return "5";
   }
 
   @Override

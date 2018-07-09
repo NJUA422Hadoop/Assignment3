@@ -1,4 +1,4 @@
-package mission6.reducer;
+package mission7.reducer;
 
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
