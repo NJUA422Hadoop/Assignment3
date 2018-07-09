@@ -25,7 +25,6 @@ public class TheReducer extends Reducer<Text, Text, Text, Text> {
   protected void reduce(Text key, Iterable<Text> value, Reducer<Text, Text, Text, Text>.Context context)
     throws IOException, InterruptedException {
     for(Text v : value) {
-      String name=key.toString();
       String str = v.toString();
       String res="[";
       String tempStr;
@@ -36,7 +35,6 @@ public class TheReducer extends Reducer<Text, Text, Text, Text> {
         String []ts=tempStr.split(":");
         ts[0]=replacestr(ts[0]);
         res=res+ts[0]+":"+ts[1];
-        //System.out.println(tempStr);
         while(str.indexOf('|',index2+1)!=-1 && str.indexOf('|',index2+1)!=-1){
           String tempStr2;
           index1=str.indexOf('|',index2);
@@ -45,7 +43,6 @@ public class TheReducer extends Reducer<Text, Text, Text, Text> {
           String []ts2=tempStr2.split(":");
           ts2[0]=replacestr(ts2[0]);
           res=res+"|"+ts2[0]+":"+ts2[1];
-          //System.out.println(tempStr2);
         }
         index1=index2;
       }
