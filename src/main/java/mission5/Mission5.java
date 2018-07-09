@@ -43,19 +43,16 @@ public class Mission5 extends BaseMission {
       conf.set("input", args[1] + "/" + output + "/" + (index - 1));
       conf.set("output", args[1] + "/" + output + "/" + index);
     }
-    // more settings
   }
 
   @Override
   protected Job setupJob(Job job, int index) {
-    // set mapper class ... etc
     if (index == 1) {
       job.setMapperClass(InitialMapper.class);
   
       job.setMapOutputKeyClass(Text.class);
       job.setMapOutputValueClass(Text.class);
-    }
-    else {
+    } else {
       job.setMapperClass(TheMapper.class);
       job.setReducerClass(TheReducer.class);
   
@@ -80,6 +77,6 @@ public class Mission5 extends BaseMission {
 
   @Override
   public boolean isWorking() {
-    return false;
+    return true;
   }
 }
