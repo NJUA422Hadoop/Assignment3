@@ -30,22 +30,24 @@ public class TheReducer extends Reducer<Text, Text, Text, Text> {
           String tempStr;
           int index1=str.indexOf('[');
           int index2=str.indexOf('|');
-          tempStr = str.substring(index1 + 1, index2);
-          String []ts=tempStr.split(":");
-          ts[0]=replacestr(ts[0]);
-          res=res+ts[0]+":"+ts[1];
-          //System.out.println(tempStr);
-          while(str.indexOf('|',index2+1)!=-1 && str.indexOf('|',index2+1)!=-1){
-            String tempStr2;
-            index1=str.indexOf('|',index2);
-            index2=str.indexOf('|',index1+1);
-            tempStr2 = str.substring(index1+1, index2);
-            String []ts2=tempStr2.split(":");
-            ts2[0]=replacestr(ts2[0]);
-            res=res+"|"+ts2[0]+":"+ts2[1];
-            //System.out.println(tempStr2);
+          if(index2!=-1){
+            tempStr = str.substring(index1 + 1, index2);
+            String []ts=tempStr.split(":");
+            ts[0]=replacestr(ts[0]);
+            res=res+ts[0]+":"+ts[1];
+            //System.out.println(tempStr);
+            while(str.indexOf('|',index2+1)!=-1 && str.indexOf('|',index2+1)!=-1){
+              String tempStr2;
+              index1=str.indexOf('|',index2);
+              index2=str.indexOf('|',index1+1);
+              tempStr2 = str.substring(index1+1, index2);
+              String []ts2=tempStr2.split(":");
+              ts2[0]=replacestr(ts2[0]);
+              res=res+"|"+ts2[0]+":"+ts2[1];
+              //System.out.println(tempStr2);
+            }
+            index1=index2;
           }
-          index1=index2;
           index2=str.indexOf(']');
           tempStr = str.substring(index1 + 1, index2);
           String []ts3=tempStr.split(":");

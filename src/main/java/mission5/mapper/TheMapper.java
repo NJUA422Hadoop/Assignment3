@@ -15,7 +15,7 @@ public class TheMapper extends Mapper<Object, Text, Text, Text> {
       throws IOException, InterruptedException {
     conf = context.getConfiguration();
   }
-  
+
   private static String findlabel(String str) {
     double max=0;
     String res="";
@@ -23,31 +23,33 @@ public class TheMapper extends Mapper<Object, Text, Text, Text> {
     String tempStr;
     int index1=str.indexOf('[');
     int index2=str.indexOf('|');
-    tempStr = str.substring(index1 + 1, index2);
-    String labelname1=labelname(tempStr);
-    double labelweight1=labelweight(tempStr);
-    if(hm.containsKey(labelname1)){
-        double newweight=hm.get(labelname1)+labelweight1;
-        hm.put(labelname1,newweight);
-    }
-    else {
-        hm.put(labelname1, labelweight1);
-    }
-    index1=str.indexOf('|',index2);
-    index2=str.indexOf('|',index1+1);
-    while(index1!=-1 &&index2!=-1){
+    if(index2!=-1){
       tempStr = str.substring(index1 + 1, index2);
-      String labelname2=labelname(tempStr);
-      double labelweight2=labelweight(tempStr);
-      if(hm.containsKey(labelname2)){
-        double newweight=hm.get(labelname2)+labelweight2;
-        hm.put(labelname2,newweight);
-      }
+      String labelname1=labelname(tempStr);
+      double labelweight1=labelweight(tempStr);
+      if(hm.containsKey(labelname1)){
+          double newweight=hm.get(labelname1)+labelweight1;
+          hm.put(labelname1,newweight);
+        }
       else {
-        hm.put(labelname2, labelweight2);
-      }
-      index1=str.indexOf('|',index2);
-      index2=str.indexOf('|',index1+1);
+          hm.put(labelname1, labelweight1);
+        }
+        index1=str.indexOf('|',index2);
+        index2=str.indexOf('|',index1+1);
+        while(index1!=-1 &&index2!=-1){
+          tempStr = str.substring(index1 + 1, index2);
+          String labelname2=labelname(tempStr);
+          double labelweight2=labelweight(tempStr);
+          if(hm.containsKey(labelname2)){
+            double newweight=hm.get(labelname2)+labelweight2;
+            hm.put(labelname2,newweight);
+          }
+          else {
+            hm.put(labelname2, labelweight2);
+          }
+          index1=str.indexOf('|',index2);
+          index2=str.indexOf('|',index1+1);
+        }
     }
     index2=str.indexOf(']');
     tempStr = str.substring(index1 + 1, index2);
@@ -68,7 +70,7 @@ public class TheMapper extends Mapper<Object, Text, Text, Text> {
     }
     return res;
   }
-  
+
   private static  String labelname(String str){
     int index1=str.indexOf(',');
     int index2=str.indexOf(':');
@@ -92,7 +94,7 @@ public class TheMapper extends Mapper<Object, Text, Text, Text> {
     String[] tmp = line.split("\t");
     String name = tmp[0];
     if(tmp.length > 2) {
-    String label=findlabel(tmp[1]);
+      String label=findlabel(tmp[2]);
       conf.set(name,label);
     }
     context.write(new Text(name), new Text(tmp[1]+"\t"+tmp[2]));
