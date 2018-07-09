@@ -1,23 +1,21 @@
-package mission4.mapper;
+package mission5.mapper;
 
 import java.io.IOException;
+import java.util.HashMap;
 
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
 public class TheMapper extends Mapper<Object, Text, Text, Text> {
-
+  private Configuration conf;
 
   @Override
   protected void setup(Mapper<Object, Text, Text, Text>.Context context)
       throws IOException, InterruptedException {
-    final Loader loader = new Loader(TheMapper.class);
-
-    Configuration conf = context.getConfiguration();
-    for (String name : loader.getSource("wuxia_name.txt")) {
-      conf.set(name, name);
-    }
+    conf = context.getConfiguration();
   }
+
   private static String findlabel(String str) {
      double max=0;
      String res="";
@@ -102,7 +100,7 @@ public class TheMapper extends Mapper<Object, Text, Text, Text> {
         String label=findlabel(tmp[1]);
         conf.set(name,label);
       }
-      context.write(name, tmp[1]+"\t"+tmp[2]);
+      context.write(new Text(name), new Text(tmp[1]+"\t"+tmp[2]));
   }
 
 }

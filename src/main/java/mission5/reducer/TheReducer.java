@@ -3,12 +3,19 @@ package mission5.reducer;
 import java.io.IOException;
 import java.util.function.Consumer;
 
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
 public class TheReducer extends Reducer<Text, Text, Text, Text> {
+  private Configuration conf;
 
-  private static String replacestr(String str){
+  @Override
+  protected void setup(Reducer<Text, Text, Text, Text>.Context context) throws IOException, InterruptedException {
+    conf = context.getConfiguration();
+  }
+
+  private String replacestr(String str){
       String []res=str.split(":");
       res[1]=conf.get(res[0]);
       return res[0]+':'+res[1];
@@ -45,7 +52,7 @@ public class TheReducer extends Reducer<Text, Text, Text, Text> {
           String []ts3=tempStr.split(",");
           ts3[0]=replacestr(ts3[0]);
           res=res+"|"+ts3[0]+","+ts3[1]+"]";
-          context.write(key, new Text(conf.get(key.toString())+'\t'+res)));
+          context.write(key, new Text(conf.get(key.toString())+'\t'+res));
         }
   }
 }
