@@ -3,6 +3,8 @@ package mission6;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.mapreduce.Job;
 
+import mission6.mapper.PageRankSortMapper;
+
 import tools.BaseMission;
 
 /**
@@ -30,6 +32,11 @@ public class Mission6 extends BaseMission {
 
   @Override
   protected Job setupJob(Job job, int index) {
+    job.setJarByClass(PageRankSort.class);
+    jJob.setOutputKeyClass(FloatWritable.class);
+    job.setOutputValueClass(Text.class);
+    job.setSortComparatorClass(PageRankSort.FloatComparator.class);
+    job.setMapperClass(PageRankSort.PageRankSortMapper.class);
     // set mapper class ... etc
     return job;
   }
