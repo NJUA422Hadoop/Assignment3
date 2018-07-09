@@ -45,7 +45,7 @@ public class TheReducer extends Reducer<Text, Text, Text, Text> {
           String []ts3=tempStr.split(",");
           ts3[0]=replacestr(ts3[0]);
           res=res+"|"+ts3[0]+","+ts3[1]+"]";
-          context.write(key, new Text(conf.get(key.toString()+'\t'+res)));
+          context.write(key, new Text(conf.get(key.toString())+'\t'+res)));
         }
   }
 }
