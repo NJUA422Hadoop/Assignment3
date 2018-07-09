@@ -2,6 +2,8 @@ package mission5;
 
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.lib.input.KeyValueTextInputFormat;
+
 
 import tools.BaseMission;
 
@@ -39,6 +41,7 @@ public class Mission5 extends BaseMission {
   @Override
   protected Job setupJob(Job job, int index) {
     // set mapper class ... etc
+    job.setInputFormatClass(KeyValueTextInputFormat.class);
     return job;
   }
 
