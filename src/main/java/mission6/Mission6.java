@@ -50,7 +50,7 @@ public class Mission6 extends BaseMission {
   protected Job setupJob(Job job, int index) {
     job.setMapperClass(PageRankSortMapper.class);
     job.setReducerClass(PageRankSortReducer.class);
-    //job.setSortComparatorClass(PageRankSortMapper.FloatComparator.class);
+    job.setSortComparatorClass(PageRankSortMapper.FloatComparator.class);
     job.setOutputKeyClass(FloatWritable.class);
     job.setOutputValueClass(Text.class);
     // set mapper class ... etc
