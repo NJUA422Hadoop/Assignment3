@@ -18,14 +18,11 @@
         <jdkVersion>7</jdkVersion>
         <!-- hadoop/hdfs/mapreduce/client -->
         <hadoopVersion>2.7.1</hadoopVersion>
-        <!-- hbase client/server -->
-        <hbaseVersion>1.2.6</hbaseVersion>
         <!-- 说是最好的中文java分词算法（老师推荐） -->
         <ansjSegVersion>5.1.6</ansjSegVersion>
         <!-- junit -->
-        <junitEngineVersion>5.1.1</junitEngineVersion>
-        <junitProviderVersion>1.1.1</junitProviderVersion>
-        <surefireVersion>2.19.1</surefireVersion>
+        <junitEngineVersion>5.2.0</junitEngineVersion>
+        <junitRunnerVersion>1.2.0</junitRunnerVersion>
         <!-- log4j -->
         <log4jVersion>1.2.17</log4jVersion>
         <!-- 打包 -->
@@ -50,8 +47,13 @@
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
+            <artifactId>junit-jupiter-engine</artifactId>
             <version>${junitEngineVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-runner</artifactId>
+            <version>${junitRunnerVersion}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -73,18 +75,6 @@
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-client</artifactId>
             <version>${hadoopVersion}</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.hbase/hbase-client -->
-        <dependency>
-            <groupId>org.apache.hbase</groupId>
-            <artifactId>hbase-client</artifactId>
-            <version>${hbaseVersion}</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.hbase/hbase-server -->
-       <dependency>
-            <groupId>org.apache.hbase</groupId>
-            <artifactId>hbase-server</artifactId>
-            <version>${hbaseVersion}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.ansj/ansj_seg -->
         <dependency>
@@ -135,23 +125,6 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <!--junit-->
-            <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${surefireVersion}</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.junit.platform</groupId>
-                        <artifactId>junit-platform-surefire-provider</artifactId>
-                        <version>${junitProviderVersion}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.junit.jupiter</groupId>
-                        <artifactId>junit-jupiter-engine</artifactId>
-                        <version>${junitEngineVersion}</version>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
     </build>
