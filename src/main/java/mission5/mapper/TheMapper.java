@@ -70,14 +70,14 @@ public class TheMapper extends Mapper<Object, Text, Text, Text> {
   }
   
   private static  String labelname(String str){
-    int index1=str.indexOf(':');
-    int index2=str.indexOf(',');
+    int index1=str.indexOf(',');
+    int index2=str.indexOf(':');
     String tempStr = str.substring(index1 + 1, index2);
     return tempStr;
   }
 
   private static  double labelweight(String str){
-    int index1=str.indexOf(',');
+    int index1=str.indexOf(':');
     int index2=str.length();
     String tempStr;
     tempStr = str.substring(index1 + 1, index2);

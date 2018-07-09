@@ -15,9 +15,9 @@ public class TheReducer extends Reducer<Text, Text, Text, Text> {
   }
 
   private String replacestr(String str){
-    String []res=str.split(":");
+    String []res=str.split(",");
     res[1]=conf.get(res[0]);
-    return res[0]+':'+res[1];
+    return res[0]+','+res[1];
   }
 
   @Override
@@ -30,24 +30,24 @@ public class TheReducer extends Reducer<Text, Text, Text, Text> {
       int index1=str.indexOf('[');
       int index2=str.indexOf('|');
       tempStr = str.substring(index1 + 1, index2);
-      String []ts=tempStr.split(",");
+      String []ts=tempStr.split(":");
       ts[0]=replacestr(ts[0]);
-      res=res+ts[0]+","+ts[1];
+      res=res+ts[0]+":"+ts[1];
       while(str.indexOf('|',index2+1)!=-1 && str.indexOf('|',index2+1)!=-1){
         String tempStr2;
         index1=str.indexOf('|',index2);
         index2=str.indexOf('|',index1+1);
         tempStr2 = str.substring(index1+1, index2);
-        String []ts2=tempStr2.split(",");
+        String []ts2=tempStr2.split(":");
         ts2[0]=replacestr(ts2[0]);
-        res=res+"|"+ts2[0]+","+ts2[1];
+        res=res+"|"+ts2[0]+":"+ts2[1];
       }
       index1=index2;
       index2=str.indexOf(']');
       tempStr = str.substring(index1 + 1, index2);
-      String []ts3=tempStr.split(",");
+      String []ts3=tempStr.split(":");
       ts3[0]=replacestr(ts3[0]);
-      res=res+"|"+ts3[0]+","+ts3[1]+"]";
+      res=res+"|"+ts3[0]+":"+ts3[1]+"]";
       context.write(key, new Text(conf.get(key.toString())+'\t'+res));
     }
   }
