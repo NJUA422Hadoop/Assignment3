@@ -10,7 +10,7 @@ public class InitialReducer extends Reducer<Text, Text, Text, Text> {
   protected void reduce(Text key, Iterable<Text> value, Reducer<Text, Text, Text, Text>.Context context)
     throws IOException, InterruptedException {
         for(Text v : value) {
-            context.write(v, key);
+            context.write(key, v);
     }
   }
 }

@@ -56,8 +56,6 @@ public class Mission4 extends BaseMission {
       job.setMapOutputValueClass(Text.class);
       job.setOutputKeyClass(Text.class);
       job.setOutputValueClass(Text.class);
-
-      job.setInputFormatClass(KeyValueTextInputFormat.class);
     }
     else {
       job.setMapperClass(TheMapper.class);
@@ -67,8 +65,6 @@ public class Mission4 extends BaseMission {
       job.setMapOutputValueClass(Text.class);
       job.setOutputKeyClass(Text.class);
       job.setOutputValueClass(Text.class);
-
-      job.setInputFormatClass(KeyValueTextInputFormat.class);
     }
     
     return job;
@@ -82,7 +78,7 @@ public class Mission4 extends BaseMission {
 
   @Override
   protected int times() {
-    return 20;
+    return 4;
   }
 
   @Override
