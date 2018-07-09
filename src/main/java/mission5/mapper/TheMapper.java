@@ -28,28 +28,28 @@ public class TheMapper extends Mapper<Object, Text, Text, Text> {
       String labelname1=labelname(tempStr);
       double labelweight1=labelweight(tempStr);
       if(hm.containsKey(labelname1)){
-          double newweight=hm.get(labelname1)+labelweight1;
-          hm.put(labelname1,newweight);
-        }
+        double newweight=hm.get(labelname1)+labelweight1;
+        hm.put(labelname1,newweight);
+      }
       else {
-          hm.put(labelname1, labelweight1);
+        hm.put(labelname1, labelweight1);
+      }
+      index1=str.indexOf('|',index2);
+      index2=str.indexOf('|',index1+1);
+      while(index1!=-1 &&index2!=-1){
+        tempStr = str.substring(index1 + 1, index2);
+        String labelname2=labelname(tempStr);
+        double labelweight2=labelweight(tempStr);
+        if(hm.containsKey(labelname2)){
+          double newweight=hm.get(labelname2)+labelweight2;
+          hm.put(labelname2,newweight);
+        }
+        else {
+          hm.put(labelname2, labelweight2);
         }
         index1=str.indexOf('|',index2);
         index2=str.indexOf('|',index1+1);
-        while(index1!=-1 &&index2!=-1){
-          tempStr = str.substring(index1 + 1, index2);
-          String labelname2=labelname(tempStr);
-          double labelweight2=labelweight(tempStr);
-          if(hm.containsKey(labelname2)){
-            double newweight=hm.get(labelname2)+labelweight2;
-            hm.put(labelname2,newweight);
-          }
-          else {
-            hm.put(labelname2, labelweight2);
-          }
-          index1=str.indexOf('|',index2);
-          index2=str.indexOf('|',index1+1);
-        }
+      }
     }
     index2=str.indexOf(']');
     tempStr = str.substring(index1 + 1, index2);
