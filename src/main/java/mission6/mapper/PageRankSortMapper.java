@@ -6,7 +6,6 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.io.FloatWritable;
 
-
 public class PageRankSortMapper extends Mapper<Object, Text, Text, Text> {
     private Text page = new Text();
     private FloatWritable pr = new FloatWritable();
