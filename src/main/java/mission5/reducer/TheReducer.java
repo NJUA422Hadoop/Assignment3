@@ -1,13 +1,13 @@
 package mission5.reducer;
 
 import java.io.IOException;
-import java.util.function.Consumer;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
 public class TheReducer extends Reducer<Text, Text, Text, Text> {
+  /*
   private Configuration conf;
 
   @Override
@@ -20,12 +20,13 @@ public class TheReducer extends Reducer<Text, Text, Text, Text> {
       res[1]=conf.get(res[0]);
       return res[0]+':'+res[1];
   }
-
+  */
   @Override
   protected void reduce(Text key, Iterable<Text> value, Reducer<Text, Text, Text, Text>.Context context)
     throws IOException, InterruptedException {
       for(Text v : value) {
         context.write(key, v);
+      }
         /*
           String name=key.toString();
           String str = v.toString();
@@ -56,6 +57,5 @@ public class TheReducer extends Reducer<Text, Text, Text, Text> {
           res=res+"|"+ts3[0]+","+ts3[1]+"]";
           context.write(key, new Text(conf.get(key.toString())+'\t'+res));
           */
-        }
   }
 }
