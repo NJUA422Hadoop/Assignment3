@@ -8,10 +8,10 @@ import org.apache.hadoop.io.FloatWritable;
 
 public class PageRankSortReducer extends Reducer<FloatWritable, Text, Text, Text> {
     @Override
-    protected void reduce(FloatWritable key, Iterable<Text> value, Reducer<Text, Text, Text, Text>.Context context)
+    protected void reduce(FloatWritable key, Iterable<Text> value, Reducer<FloatWritable, Text, Text, Text>.Context context)
         throws IOException, InterruptedException {
             for(Text v : value) {
-                context.write(key, v);
+                context.write(new Text(key.toString()), v);
         }
     }
 }
