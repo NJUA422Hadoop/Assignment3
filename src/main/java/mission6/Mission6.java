@@ -65,6 +65,6 @@ public class Mission6 extends BaseMission {
 
   @Override
   public boolean isWorking() {
-    return true;
+    return false;
   }
 }

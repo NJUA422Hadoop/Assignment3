@@ -4,6 +4,7 @@ import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.KeyValueTextInputFormat;
 
+import mission3.Mission3;
 
 import tools.BaseMission;
 
@@ -24,8 +25,7 @@ import tools.BaseMission;
  */
 
 public class Mission5 extends BaseMission {
-  public static final String input = "???";
-  public static final String output = "???";
+  public static final String output = "mission5";
 
   public Mission5(Configured self, String[] args) {
     super(self, args);
@@ -33,8 +33,13 @@ public class Mission5 extends BaseMission {
 
   @Override
   protected void setupConf(int index) {
-    conf.set("input", input); // or args[?] or Mission3.output
-    conf.set("output", output);
+    if (index == 1) {
+      conf.set("input", args[1] + "/" + Mission3.output);
+      conf.set("output", args[1] + "/" + output + "/" + index);
+    } else {
+      conf.set("input", args[1] + "/" + output + "/" + (index - 1));
+      conf.set("output", args[1] + "/" + output + "/" + index);
+    }
     // more settings
   }
 
@@ -53,6 +58,6 @@ public class Mission5 extends BaseMission {
 
   @Override
   public boolean isWorking() {
-    return false;
+    return true;
   }
 }
