@@ -25,6 +25,8 @@ public class TheReducer extends Reducer<Text, Text, Text, Text> {
   protected void reduce(Text key, Iterable<Text> value, Reducer<Text, Text, Text, Text>.Context context)
     throws IOException, InterruptedException {
       for(Text v : value) {
+        context.write(key, v);
+        /*
           String name=key.toString();
           String str = v.toString();
           String res="[";
@@ -53,6 +55,7 @@ public class TheReducer extends Reducer<Text, Text, Text, Text> {
           ts3[0]=replacestr(ts3[0]);
           res=res+"|"+ts3[0]+","+ts3[1]+"]";
           context.write(key, new Text(conf.get(key.toString())+'\t'+res));
+          */
         }
   }
 }

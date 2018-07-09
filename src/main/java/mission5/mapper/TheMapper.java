@@ -93,6 +93,8 @@ public class TheMapper extends Mapper<Object, Text, Text, Text> {
   @Override
   protected void map(Object key, Text value, Mapper<Object, Text, Text, Text>.Context context)
     throws IOException, InterruptedException {
+    context.write(new Text("c"), new Text("d"));
+        /*
       String line = value.toString();
       String[] tmp = line.split("\t");
       String name = tmp[0];
@@ -101,6 +103,7 @@ public class TheMapper extends Mapper<Object, Text, Text, Text> {
         conf.set(name,label);
       }
       context.write(new Text(name), new Text(tmp[1]+"\t"+tmp[2]));
+      */
   }
 
 }

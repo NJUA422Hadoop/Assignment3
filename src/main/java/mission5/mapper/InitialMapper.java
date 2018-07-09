@@ -29,12 +29,15 @@ public class InitialMapper extends Mapper<Object, Text, Text, Text> {
   @Override
   protected void map(Object key, Text value, Mapper<Object, Text, Text, Text>.Context context)
     throws IOException, InterruptedException {
+      context.write(new Text("a"), new Text("b"));
+      /*
       String str = value.toString();
       String[] tmp = str.split("\t");
       tmp[1]=mychangestr(tmp[1]);
       name.set(tmp[0]);
       out.set( tmp[0]+"\t" + tmp[1]);
       context.write(name, out);
+      */
   }
 
 }

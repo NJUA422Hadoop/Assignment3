@@ -1,10 +1,14 @@
 package mission5;
 
 import org.apache.hadoop.conf.Configured;
+import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.KeyValueTextInputFormat;
 
 import mission3.Mission3;
+import mission5.mapper.InitialMapper;
+import mission5.mapper.TheMapper;
+import mission5.reducer.TheReducer;
 
 import tools.BaseMission;
 
@@ -19,7 +23,7 @@ import tools.BaseMission;
  * 卜垣   [狄云:0.25|戚芳:0.5|戚长发:0.25]
  * 输出: 任务的标签信息
  * </pre>
- * @author WaterYe（王尧 151220112）
+ * @author wyd（王一栋 151220113）
  * @version 1.0
  * @date 2018/7/7
  */
@@ -46,7 +50,24 @@ public class Mission5 extends BaseMission {
   @Override
   protected Job setupJob(Job job, int index) {
     // set mapper class ... etc
-    job.setInputFormatClass(KeyValueTextInputFormat.class);
+    if (index == 1) {
+      job.setMapperClass(InitialMapper.class);
+      job.setReducerClass(TheReducer.class);
+  
+      job.setMapOutputKeyClass(Text.class);
+      job.setMapOutputValueClass(Text.class);
+      job.setOutputKeyClass(Text.class);
+      job.setOutputValueClass(Text.class);
+    }
+    else {
+      job.setMapperClass(TheMapper.class);
+      job.setReducerClass(TheReducer.class);
+  
+      job.setMapOutputKeyClass(Text.class);
+      job.setMapOutputValueClass(Text.class);
+      job.setOutputKeyClass(Text.class);
+      job.setOutputValueClass(Text.class);
+    }
     return job;
   }
 
@@ -57,7 +78,12 @@ public class Mission5 extends BaseMission {
   }
 
   @Override
+  protected int times() {
+    return 1;
+  }
+
+  @Override
   public boolean isWorking() {
-    return true;
+    return false;
   }
 }
