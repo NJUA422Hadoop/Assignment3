@@ -16,7 +16,7 @@ public class TheMapper extends Mapper<Object, Text, Text, Text> {
     conf = context.getConfiguration();
   }
 
-  private static String findlabel(String str) {
+  public static String findlabel(String str) {
     double max=0;
     String res="";
     HashMap<String, Double> hm = new HashMap<>();

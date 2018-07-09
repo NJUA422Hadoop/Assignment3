@@ -10,6 +10,7 @@
 
 # idea配置
 .idea
+*.iml
 
 # maven结果
 target
@@ -19,4 +20,3 @@ data
 
 # log4j
 logs
-*.iml
