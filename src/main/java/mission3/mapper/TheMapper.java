@@ -9,6 +9,8 @@ import mission3.tools.TheValue;
 import tools.Tuple;
 
 public class TheMapper extends Mapper<Text, Text, Text, TheValue> {
+  private static final Text text = new Text();
+
   /**
    * 将输入的key、value对，映射成Tuple<Text, TheValue>并返回。
    * <pre>
@@ -22,8 +24,9 @@ public class TheMapper extends Mapper<Text, Text, Text, TheValue> {
   public Tuple<Text, TheValue> split(Text tuple, Text count) {
     String _tuple = tuple.toString().trim();
     String[] names = _tuple.substring(1, _tuple.length() - 1).split(",");
+    text.set(names[0]);
     return new Tuple<>(
-      new Text(names[0]),
+      text,
       new TheValue(
         names[1],
         Integer.valueOf(count.toString().trim())
