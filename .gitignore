@@ -8,6 +8,9 @@
 .vscode
 *.prefs
 
+# idea配置
+.idea
+
 # maven结果
 target
 
@@ -16,3 +19,4 @@ data
 
 # log4j
 logs
+*.iml
