@@ -2,6 +2,8 @@ package mission6;
 
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.io.FloatWritable;
+import org.apache.hadoop.io.Text;
 
 import mission6.mapper.PageRankSortMapper;
 
@@ -32,11 +34,10 @@ public class Mission6 extends BaseMission {
 
   @Override
   protected Job setupJob(Job job, int index) {
-    job.setJarByClass(PageRankSort.class);
-    jJob.setOutputKeyClass(FloatWritable.class);
+    job.setOutputKeyClass(FloatWritable.class);
     job.setOutputValueClass(Text.class);
-    job.setSortComparatorClass(PageRankSort.FloatComparator.class);
-    job.setMapperClass(PageRankSort.PageRankSortMapper.class);
+    job.setSortComparatorClass(PageRankSortMapper.FloatComparator.class);
+    job.setMapperClass(PageRankSortMapper.class);
     // set mapper class ... etc
     return job;
   }

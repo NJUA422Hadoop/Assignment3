@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.io.FloatWritable;
+
 
 public class PageRankSortMapper extends Mapper<Object, Text, Text, Text> {
     private Text page = new Text();
@@ -16,7 +18,7 @@ public class PageRankSortMapper extends Mapper<Object, Text, Text, Text> {
             String[] tmp = line.split("\t");
             page.set(tmp[0]);
             pr.set(Float.parseFloat(tmp[1]));
-            context.write(pr, page);
+            context.write(new Text(pr.toString()), page);
         }
     
     public static class FloatComparator extends FloatWritable.Comparator {
