@@ -2,19 +2,13 @@ package mission5.mapper;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
-import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
 public class TheMapper extends Mapper<Object, Text, Text, Text> {
-  private Configuration conf;
-
-  @Override
-  protected void setup(Mapper<Object, Text, Text, Text>.Context context)
-      throws IOException, InterruptedException {
-    conf = context.getConfiguration();
-  }
+  private Map<String, String> map = new HashMap<>();
 
   public static String findlabel(String str) {
     double max=0;
@@ -94,8 +88,8 @@ public class TheMapper extends Mapper<Object, Text, Text, Text> {
     String[] tmp = line.split("\t");
     String name = tmp[0];
     if(tmp.length > 2) {
-      String label=findlabel(tmp[2]);
-      conf.set(name,label);
+      String label = map.getOrDefault(name, findlabel(tmp[2]));
+      map.put(name, label);
     }
     context.write(new Text(name), new Text(tmp[1]+"\t"+tmp[2]));
   }
