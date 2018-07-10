@@ -12,6 +12,8 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.util.LineReader;
 
+import mission5.mapper.TheMapper;
+
 public class TheReducer extends Reducer<Text, Text, Text, Text> {
   private Text text = new Text();
   private Map<String, String> map = new HashMap<>();
@@ -20,19 +22,28 @@ public class TheReducer extends Reducer<Text, Text, Text, Text> {
   protected void setup(Reducer<Text, Text, Text, Text>.Context context) throws IOException, InterruptedException {
     Configuration conf = context.getConfiguration();
 
-    FileSystem fs = FileSystem.get(conf);
+    FileSystem fs = FileSystem.newInstance(conf);
 
-    FSDataInputStream in = fs.open(new Path(conf.get("output") + "/labels.txt"));
-    LineReader lineReader = new LineReader(in);
+    Path path = new Path(conf.get("output") + TheMapper.tempPath);
 
-    int length = -1;
-    while (length != 0) {
-      length = lineReader.readLine(text);
-      String[] line = text.toString().trim().split("\t");
-      map.put(line[0], line[1]);
+    FSDataInputStream in = fs.open(path);
+
+    byte[] buffer = new byte[in.available()];
+
+    in.read(buffer);
+    Text t = new Text(buffer);
+
+    String[] tuples = t.toString().split(TheMapper.newline);
+    
+    for (String tuple : tuples) {
+      String[] split = tuple.split(TheMapper.delimeter);
+      String name = split[0];
+      String label = split[1];
+      map.put(name, label);
     }
 
-    lineReader.close();
+    in.close();
+    fs.close();
   }
 
   private String replacestr(String str){

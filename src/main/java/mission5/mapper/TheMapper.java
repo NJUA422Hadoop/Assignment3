@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -98,31 +99,35 @@ public class TheMapper extends Mapper<Object, Text, Text, Text> {
   }
 
   private static final String utf8 = "UTF-8";
-  private static byte[] newline;
-  private static byte[] lt;
+  public static final String delimeter = "\t";
+  public static final String newline = "\n";
+  private static byte[] _delimeter;
+  private static byte[] _newline;
+  public static final String tempPath = "/_temp/labels.txt";
 
   @Override
   protected void cleanup(Mapper<Object, Text, Text, Text>.Context context) throws IOException, InterruptedException {
-    if (newline == null) {
-      newline = "\n".getBytes(utf8);
+    if (_delimeter == null) {
+      _delimeter = delimeter.getBytes(utf8);
     }
-    if (lt == null) {
-      lt = "\t".getBytes(utf8);
+    if (_newline == null) {
+      _newline = newline.getBytes(utf8);
     }
     
     Configuration conf = context.getConfiguration();
 
-    FileSystem fs = FileSystem.get(conf);
+    FileSystem fs = FileSystem.newInstance(conf);
     
-    FSDataOutputStream out = fs.create(new Path(conf.get("output") + "/" + "labels.txt"));
+    FSDataOutputStream out = fs.create(new Path(conf.get("output") + tempPath));
 
     for (Map.Entry<String, String> t : map.entrySet()) {
       out.write(t.getKey().getBytes(utf8));
-      out.write(lt);
+      out.write(_delimeter);
       out.write(t.getValue().getBytes(utf8));
-      out.write(newline);
+      out.write(_newline);
     }
 
     out.close();
+    fs.close();
   }
 }
