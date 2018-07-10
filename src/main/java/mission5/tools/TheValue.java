@@ -100,7 +100,7 @@ public class TheValue implements WritableComparable<TheValue> {
     // random
     List<String> names = new ArrayList<>();
     for (Tuple<String, Double> t : list) {
-      if (t.second.equals(t.second)) {
+      if (t.second.equals(max.second)) {
         names.add(t.first);
       }
     }
