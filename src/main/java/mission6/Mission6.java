@@ -41,7 +41,7 @@ public class Mission6 extends BaseMission {
 
   @Override
   protected void setupConf(int index) {
-    conf.set("input", args[1] + "/" + Mission4.output + "/4"); // or args[?]
+    conf.set("input", args[1] + "/" + Mission4.output + "/30"); // or args[?]
     conf.set("output", args[1] + "/" + output);
     // more settings
   }
@@ -65,6 +65,6 @@ public class Mission6 extends BaseMission {
 
   @Override
   public boolean isWorking() {
-    return false;
+    return true;
   }
 }

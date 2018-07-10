@@ -3,7 +3,7 @@ import re
 import os
 
 
-txt_file=open('test.txt', 'r');
+txt_file=open('m7.txt', 'r', encoding='UTF-8');
 csv_file_result1 = open('node.csv', 'w');
 csv_file_result1.write('ID,Name,Label,Weight\n');
 
