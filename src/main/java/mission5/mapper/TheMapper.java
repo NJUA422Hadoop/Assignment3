@@ -15,16 +15,10 @@ import org.apache.hadoop.mapreduce.Mapper;
 import mission5.tools.TheValue;
 
 public class TheMapper extends Mapper<Text, Text, Text, TheValue> {
-  /**
-   * 考虑这次map过程中不影响本次对label的搜索。采用两个map。
-   */
-  public static final boolean twoMaps = true;
-
   private TheValue tvalue = new TheValue();
   private Text text = new Text();
   private boolean _final = false;
-  private Map<String, String> inmap = new HashMap<>();
-  private Map<String, String> outmap = new HashMap<>();
+  private Map<String, String> map = new HashMap<>();
 
   @Override
   protected void map(Text key, Text value, Mapper<Text, Text, Text, TheValue>.Context context)
@@ -32,11 +26,11 @@ public class TheMapper extends Mapper<Text, Text, Text, TheValue> {
     String name = key.toString();
     tvalue.set(value.toString());
     if (_final) {
-      name = String.format("%s\t%s", name, inmap.getOrDefault(name, name));
-      tvalue.addLabel(inmap);
+      name = String.format("%s\t%s", name, map.getOrDefault(name, name));
+      tvalue.addLabel(map);
     } else {
       String label = tvalue.max();
-      outmap.put(key.toString(), inmap.getOrDefault(label, label));
+      map.put(key.toString(), map.getOrDefault(label, label));
     }
     text.set(name);
     context.write(text, tvalue);
@@ -56,10 +50,6 @@ public class TheMapper extends Mapper<Text, Text, Text, TheValue> {
   protected void setup(Mapper<Text, Text, Text, TheValue>.Context context) throws IOException, InterruptedException {
     conf = context.getConfiguration();
     fs = FileSystem.newInstance(conf);
-
-    if (!twoMaps) {
-      outmap = inmap;
-    }
 
     if (conf.get("final") != null) {
       _final = true;
@@ -84,7 +74,7 @@ public class TheMapper extends Mapper<Text, Text, Text, TheValue> {
       String[] split = tuple.split(TheMapper.delimeter);
       String name = split[0];
       String label = split[1];
-      inmap.put(name, label);
+      map.put(name, label);
     }
 
     in.close();
@@ -105,7 +95,7 @@ public class TheMapper extends Mapper<Text, Text, Text, TheValue> {
 
     FSDataOutputStream out = fs.create(new Path(conf.get("output") + tempPath));
 
-    for (Map.Entry<String, String> t : outmap.entrySet()) {
+    for (Map.Entry<String, String> t : map.entrySet()) {
       out.write(t.getKey().getBytes(utf8));
       out.write(_delimeter);
       out.write(t.getValue().getBytes(utf8));
