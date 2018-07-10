@@ -11,5 +11,5 @@ with codecs.open('test/m7.txt', encoding='utf-8') as file:
     else:
       maps[label] = 0
 
-for label in maps:
+for label in sorted(maps, key=lambda k: maps[k], reverse=True):
   print(label, maps[label])
