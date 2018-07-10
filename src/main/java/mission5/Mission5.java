@@ -21,7 +21,7 @@ import tools.BaseMission;
  * 卜垣   [狄云:0.25|戚芳:0.5|戚长发:0.25]
  * 输出: 任务的标签信息
  * </pre>
- * @author wyd（王一栋 151220113）
+ * @author wyd（王一栋 151220113）& RailgunHamster（王宇鑫 151220114）
  * @version 1.0
  * @date 2018/7/7
  */
@@ -54,7 +54,6 @@ public class Mission5 extends BaseMission {
   @Override
   protected Job setupJob(Job job, int index) {
     job.setMapperClass(TheMapper.class);
-
     job.setMapOutputKeyClass(Text.class);
     job.setMapOutputValueClass(TheValue.class);
 

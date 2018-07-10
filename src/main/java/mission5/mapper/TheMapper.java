@@ -68,10 +68,10 @@ public class TheMapper extends Mapper<Text, Text, Text, TheValue> {
     in.read(buffer);
     Text t = new Text(buffer);
 
-    String[] tuples = t.toString().split(DeprecatedMapper.newline);
+    String[] tuples = t.toString().split(TheMapper.newline);
     
     for (String tuple : tuples) {
-      String[] split = tuple.split(DeprecatedMapper.delimeter);
+      String[] split = tuple.split(TheMapper.delimeter);
       String name = split[0];
       String label = split[1];
       map.put(name, label);

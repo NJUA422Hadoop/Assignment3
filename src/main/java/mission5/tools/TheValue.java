@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.apache.hadoop.io.WritableComparable;
 
@@ -18,8 +19,11 @@ import tools.Tuple;
  * @date 2018/7/10
  */
 public class TheValue implements WritableComparable<TheValue> {
-  private static String clear = null;
   private List<Tuple<String, Double>> list = new ArrayList<>();
+
+  public TheValue(TheValue old) {
+    set(old);
+  }
 
   public TheValue(List<Tuple<String, Double>> values) {
     set(values);
@@ -30,11 +34,7 @@ public class TheValue implements WritableComparable<TheValue> {
   }
 
   public TheValue() {
-    set(clear);
-  }
-
-  public void add(Tuple<String, Double> value) {
-    list.add(value);
+    clear();
   }
 
   public void addLabel(Map<String, String> map) {
@@ -43,22 +43,32 @@ public class TheValue implements WritableComparable<TheValue> {
     }
   }
 
-  public void set(int index, Tuple<String, Double> value) {
-    list.set(index, value);
+  public void set(TheValue old) {
+    clear();
+
+    if (old == null) {
+      return;
+    }
+
+    for (Tuple<String, Double> t : old.list) {
+      list.add(new Tuple<String, Double>(t.first, Double.valueOf(t.second)));
+    }
   }
 
   public void set(List<Tuple<String, Double>> values) {
-    list.clear();
+    clear();
 
     if (values == null) {
       return;
     }
 
-    list.addAll(values);
+    for (Tuple<String, Double> t : values) {
+      list.add(new Tuple<String, Double>(t.first, Double.valueOf(t.second)));
+    }
   }
 
   public void set(String str) {
-    list.clear();
+    clear();
 
     if (str == null) {
       return;
@@ -71,6 +81,10 @@ public class TheValue implements WritableComparable<TheValue> {
     }
   }
 
+  public void clear() {
+    list.clear();
+  }
+
   public int size() {
     return list.size();
   }
@@ -79,15 +93,25 @@ public class TheValue implements WritableComparable<TheValue> {
     Tuple<String, Double> max = new Tuple<>("", -1.0);
     for (Tuple<String, Double> t : list) {
       if (t.second > max.second) {
-        max = new Tuple<>(t.first, t.second);
+        max = t;
       }
     }
 
-    return max.first;
+    // random
+    List<String> names = new ArrayList<>();
+    for (Tuple<String, Double> t : list) {
+      if (t.second == max.second) {
+        names.add(t.first);
+      }
+    }
+
+    Random random = new Random(System.currentTimeMillis());
+    return names.get(random.nextInt(names.size()));
   }
 
   @Override
   public void readFields(DataInput in) throws IOException {
+    clear();
     // read length
     int length = in.readInt();
     // read
