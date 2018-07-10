@@ -28,9 +28,8 @@ public class Mission7 extends BaseMission {
 
   @Override
   protected void setupConf(int index) {
-    conf.set("input", args[1] + "/" + Mission5.output + "/1"); // or args[?]
+    conf.set("input", args[1] + "/" + Mission5.output + "/" + Mission5.resultPath);
     conf.set("output", args[1] + "/" + output);
-    // more settings
   }
 
   @Override
@@ -38,7 +37,6 @@ public class Mission7 extends BaseMission {
     job.setOutputKeyClass(Text.class);
     job.setOutputValueClass(Text.class);
     job.setMapperClass(TheMapper.class);
-    // set mapper class ... etc
     return job;
   }
 
