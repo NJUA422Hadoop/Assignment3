@@ -92,7 +92,7 @@ public class TheValue implements WritableComparable<TheValue> {
   public String max() {
     Tuple<String, Double> max = new Tuple<>("", -1.0);
     for (Tuple<String, Double> t : list) {
-      if (t.second > max.second) {
+      if (t.second.compareTo(max.second) == 1) {
         max = t;
       }
     }
@@ -100,7 +100,7 @@ public class TheValue implements WritableComparable<TheValue> {
     // random
     List<String> names = new ArrayList<>();
     for (Tuple<String, Double> t : list) {
-      if (t.second == max.second) {
+      if (t.second.equals(t.second)) {
         names.add(t.first);
       }
     }

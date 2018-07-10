@@ -61,7 +61,7 @@ public class TheMapper extends Mapper<Text, Text, Text, TheValue> {
       outmap = inmap;
     }
 
-    if (conf.get("final") == "Y") {
+    if (conf.get("final") != null) {
       _final = true;
     }
 

@@ -36,15 +36,13 @@ public class Mission5 extends BaseMission {
 
   @Override
   protected void setupConf(int index) {
-    boolean _final = index == times();
-    conf.set("final", _final ? "Y" : "N");
-
     if (index == 1) {
       conf.set("input", args[1] + "/" + Mission3.output);
       conf.set("output", args[1] + "/" + output + "/" + index);
-    } else if (_final) {
+    } else if (index == times()) {
       conf.set("input", args[1] + "/" + output + "/" + (index - 1));
       conf.set("output", args[1] + "/" + output + "/" + resultPath);
+      conf.set("final", "true");
     } else {
       conf.set("input", args[1] + "/" + output + "/" + (index - 1));
       conf.set("output", args[1] + "/" + output + "/" + index);
