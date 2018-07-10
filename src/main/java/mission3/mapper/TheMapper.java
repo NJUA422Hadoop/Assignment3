@@ -9,7 +9,7 @@ import mission3.tools.TheValue;
 import tools.Tuple;
 
 public class TheMapper extends Mapper<Text, Text, Text, TheValue> {
-  private static final Text text = new Text();
+  private final Text text = new Text();
 
   /**
    * 将输入的key、value对，映射成Tuple<Text, TheValue>并返回。

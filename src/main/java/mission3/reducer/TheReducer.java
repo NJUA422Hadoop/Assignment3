@@ -10,7 +10,7 @@ import org.apache.hadoop.mapreduce.Reducer;
 import mission3.tools.TheValue;
 
 public class TheReducer extends Reducer<Text, TheValue, Text, Text> {
-  private static final Text text = new Text();
+  private final Text text = new Text();
   private final StringBuilder stringBuilder = new StringBuilder();
 
   @Override

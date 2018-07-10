@@ -8,7 +8,7 @@ import org.apache.hadoop.mapreduce.Reducer;
 import mission2.tools.TheKey;
 
 public class TheCombiner extends Reducer<TheKey, IntWritable, TheKey, IntWritable> {
-  private static final IntWritable intw = new IntWritable();
+  private final IntWritable intw = new IntWritable();
 
   @Override
   protected void reduce(TheKey key, Iterable<IntWritable> value,

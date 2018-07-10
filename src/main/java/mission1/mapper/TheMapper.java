@@ -13,7 +13,7 @@ import mission1.tools.TheKey;
 import tools.Loader;
 
 public class TheMapper extends Mapper<TheKey, Text, TheKey, Text> {
-  private static final Text text = new Text();
+  private final Text text = new Text();
   private List<String> names;
 
   @Override
