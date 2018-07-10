@@ -15,6 +15,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 import mission5.tools.TheValue;
 
 public class TheMapper extends Mapper<Text, Text, Text, TheValue> {
+  private TheValue tvalue = new TheValue();
   private Text text = new Text();
   private boolean _final = false;
   private Map<String, String> map = new HashMap<>();
@@ -23,7 +24,7 @@ public class TheMapper extends Mapper<Text, Text, Text, TheValue> {
   protected void map(Text key, Text value, Mapper<Text, Text, Text, TheValue>.Context context)
       throws IOException, InterruptedException {
     String name = key.toString();
-    TheValue tvalue = new TheValue(value.toString());
+    tvalue.set(value.toString());
     if (_final) {
       name = String.format("%s\t%s", name, map.getOrDefault(name, name));
       tvalue.addLabel(map);

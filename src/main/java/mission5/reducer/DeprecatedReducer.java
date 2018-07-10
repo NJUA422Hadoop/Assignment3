@@ -10,7 +10,6 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
-import org.apache.hadoop.util.LineReader;
 
 import mission5.mapper.DeprecatedMapper;
 
@@ -47,15 +46,9 @@ public class DeprecatedReducer extends Reducer<Text, Text, Text, Text> {
   }
 
   private String replacestr(String str){
-<<<<<<< HEAD
-    String []res=str.split(",");
-    //res[1]=conf.get(res[0]);
-    return res[0]+','+res[1];
-=======
       String []res=str.split(",");
       res[1]=map.get(res[0]);
       return res[0]+','+res[1];
->>>>>>> 6921502f6951a1940b60a03b5537aedf8e32a39b
   }
 
   @Override

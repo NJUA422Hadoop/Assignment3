@@ -18,10 +18,11 @@ import tools.Tuple;
  * @date 2018/7/10
  */
 public class TheValue implements WritableComparable<TheValue> {
+  private static String clear = null;
   private List<Tuple<String, Double>> list = new ArrayList<>();
 
   public TheValue(List<Tuple<String, Double>> values) {
-    list.addAll(values);
+    set(values);
   }
 
   public TheValue(String str) {
@@ -29,7 +30,7 @@ public class TheValue implements WritableComparable<TheValue> {
   }
 
   public TheValue() {
-    ;
+    set(clear);
   }
 
   public void add(Tuple<String, Double> value) {
@@ -46,8 +47,22 @@ public class TheValue implements WritableComparable<TheValue> {
     list.set(index, value);
   }
 
+  public void set(List<Tuple<String, Double>> values) {
+    list.clear();
+
+    if (values == null) {
+      return;
+    }
+
+    list.addAll(values);
+  }
+
   public void set(String str) {
     list.clear();
+
+    if (str == null) {
+      return;
+    }
 
     String[] tuples = str.substring(1, str.length() - 1).split("\\|");
     for (String tuple : tuples) {
