@@ -8,6 +8,10 @@
 .vscode
 *.prefs
 
+# idea配置
+.idea
+*.iml
+
 # maven结果
 target
 
