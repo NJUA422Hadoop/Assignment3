@@ -20,17 +20,22 @@ public class TheMapper extends Mapper<Text, Text, Text, TheValue> {
   private boolean _final = false;
   private Map<String, String> map = new HashMap<>();
 
+  public static String getOrDefault(Map<String, String> map, String key, String _default) {
+    String value = map.get(key);
+    return value == null ? _default : value;
+  }
+
   @Override
   protected void map(Text key, Text value, Mapper<Text, Text, Text, TheValue>.Context context)
       throws IOException, InterruptedException {
     String name = key.toString();
     tvalue.set(value.toString());
     if (_final) {
-      name = String.format("%s\t%s", name, map.getOrDefault(name, name));
+      name = String.format("%s\t%s", name, getOrDefault(map, name, name));
       tvalue.addLabel(map);
     } else {
       String label = tvalue.max();
-      map.put(key.toString(), map.getOrDefault(label, label));
+      map.put(key.toString(), getOrDefault(map, label, label));
     }
     text.set(name);
     context.write(text, tvalue);
