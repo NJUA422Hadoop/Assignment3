@@ -3,12 +3,11 @@ package mission5;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.lib.input.KeyValueTextInputFormat;
 
 import mission3.Mission3;
-import mission5.mapper.InitialMapper;
 import mission5.mapper.TheMapper;
-import mission5.reducer.TheReducer;
-
+import mission5.tools.TheValue;
 import tools.BaseMission;
 
  /**
@@ -22,13 +21,14 @@ import tools.BaseMission;
  * 卜垣   [狄云:0.25|戚芳:0.5|戚长发:0.25]
  * 输出: 任务的标签信息
  * </pre>
- * @author wyd（王一栋 151220113）
+ * @author wyd（王一栋 151220113）& RailgunHamster（王宇鑫 151220114）
  * @version 1.0
  * @date 2018/7/7
  */
 
 public class Mission5 extends BaseMission {
   public static final String output = "mission5";
+  public static final String resultPath = "result";
 
   public Mission5(Configured self, String[] args) {
     super(self, args);
@@ -39,6 +39,10 @@ public class Mission5 extends BaseMission {
     if (index == 1) {
       conf.set("input", args[1] + "/" + Mission3.output);
       conf.set("output", args[1] + "/" + output + "/" + index);
+    } else if (index == times()) {
+      conf.set("input", args[1] + "/" + output + "/" + (index - 1));
+      conf.set("output", args[1] + "/" + output + "/" + resultPath);
+      conf.set("final", "true");
     } else {
       conf.set("input", args[1] + "/" + output + "/" + (index - 1));
       conf.set("output", args[1] + "/" + output + "/" + index);
@@ -47,20 +51,12 @@ public class Mission5 extends BaseMission {
 
   @Override
   protected Job setupJob(Job job, int index) {
-    if (index == 1) {
-      job.setMapperClass(InitialMapper.class);
+    job.setMapperClass(TheMapper.class);
+    job.setMapOutputKeyClass(Text.class);
+    job.setMapOutputValueClass(TheValue.class);
 
-      job.setMapOutputKeyClass(Text.class);
-      job.setMapOutputValueClass(Text.class);
-    } else {
-      job.setMapperClass(TheMapper.class);
-      job.setReducerClass(TheReducer.class);
+    job.setInputFormatClass(KeyValueTextInputFormat.class);
 
-      job.setMapOutputKeyClass(Text.class);
-      job.setMapOutputValueClass(Text.class);
-      job.setOutputKeyClass(Text.class);
-      job.setOutputValueClass(Text.class);
-    }
     return job;
   }
 
@@ -72,7 +68,7 @@ public class Mission5 extends BaseMission {
 
   @Override
   protected int times() {
-    return 3;
+    return 10;
   }
 
   @Override

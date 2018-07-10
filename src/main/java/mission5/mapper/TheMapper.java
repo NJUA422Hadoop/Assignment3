@@ -12,91 +12,32 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
-public class TheMapper extends Mapper<Object, Text, Text, Text> {
+import mission5.tools.TheValue;
+
+public class TheMapper extends Mapper<Text, Text, Text, TheValue> {
+  private TheValue tvalue = new TheValue();
+  private Text text = new Text();
+  private boolean _final = false;
   private Map<String, String> map = new HashMap<>();
 
-  public static String findlabel(String str) {
-    double max=0;
-    String res="";
-    HashMap<String, Double> hm = new HashMap<>();
-    String tempStr;
-    int index1=str.indexOf('[');
-    int index2=str.indexOf('|');
-    if(index2!=-1){
-      tempStr = str.substring(index1 + 1, index2);
-      String labelname1=labelname(tempStr);
-      double labelweight1=labelweight(tempStr);
-      if(hm.containsKey(labelname1)){
-        double newweight=hm.get(labelname1)+labelweight1;
-        hm.put(labelname1,newweight);
-      }
-      else {
-        hm.put(labelname1, labelweight1);
-      }
-      index1=str.indexOf('|',index2);
-      index2=str.indexOf('|',index1+1);
-      while(index1!=-1 &&index2!=-1){
-        tempStr = str.substring(index1 + 1, index2);
-        String labelname2=labelname(tempStr);
-        double labelweight2=labelweight(tempStr);
-        if(hm.containsKey(labelname2)){
-          double newweight=hm.get(labelname2)+labelweight2;
-          hm.put(labelname2,newweight);
-        }
-        else {
-          hm.put(labelname2, labelweight2);
-        }
-        index1=str.indexOf('|',index2);
-        index2=str.indexOf('|',index1+1);
-      }
-    }
-    index2=str.indexOf(']');
-    tempStr = str.substring(index1 + 1, index2);
-    String labelname3=labelname(tempStr);
-    double labelweight3=labelweight(tempStr);
-    if(hm.containsKey(labelname3)){
-      double newweight=hm.get(labelname3)+labelweight3;
-      hm.put(labelname3,newweight);
-    }
-    else {
-      hm.put(labelname3, labelweight3);
-    }
-    for (String key : hm.keySet()) {
-      if(hm.get(key)>max){
-        max=hm.get(key);
-        res=key;
-      }
-    }
-    return res;
-  }
-
-  private static  String labelname(String str){
-    int index1=str.indexOf(',');
-    int index2=str.indexOf(':');
-    String tempStr = str.substring(index1 + 1, index2);
-    return tempStr;
-  }
-
-  private static  double labelweight(String str){
-    int index1=str.indexOf(':');
-    int index2=str.length();
-    String tempStr;
-    tempStr = str.substring(index1 + 1, index2);
-    double res=Double.parseDouble(tempStr);
-    return res;
-  }
-
   @Override
-  protected void map(Object key, Text value, Mapper<Object, Text, Text, Text>.Context context)
-    throws IOException, InterruptedException {
-    String line = value.toString();
-    String[] tmp = line.split("\t");
-    String name = tmp[0];
-    if(tmp.length > 2) {
-      map.put(name, findlabel(tmp[2]));
+  protected void map(Text key, Text value, Mapper<Text, Text, Text, TheValue>.Context context)
+      throws IOException, InterruptedException {
+    String name = key.toString();
+    tvalue.set(value.toString());
+    if (_final) {
+      name = String.format("%s\t%s", name, map.getOrDefault(name, name));
+      tvalue.addLabel(map);
+    } else {
+      String label = tvalue.max();
+      map.put(key.toString(), map.getOrDefault(label, label));
     }
-    context.write(new Text(name), new Text(tmp[1]+"\t"+tmp[2]));
+    text.set(name);
+    context.write(text, tvalue);
   }
+
+  private Configuration conf;
+  private FileSystem fs;
 
   private static final String utf8 = "UTF-8";
   public static final String delimeter = "\t";
@@ -106,18 +47,52 @@ public class TheMapper extends Mapper<Object, Text, Text, Text> {
   public static final String tempPath = "/_temp/labels.txt";
 
   @Override
-  protected void cleanup(Mapper<Object, Text, Text, Text>.Context context) throws IOException, InterruptedException {
+  protected void setup(Mapper<Text, Text, Text, TheValue>.Context context) throws IOException, InterruptedException {
+    conf = context.getConfiguration();
+    fs = FileSystem.newInstance(conf);
+
+    if (conf.get("final") != null) {
+      _final = true;
+    }
+
+    Path inPath = new Path(conf.get("input") + tempPath);
+
+    if (!fs.exists(inPath)) {
+      return;
+    }
+
+    FSDataInputStream in = fs.open(inPath);
+
+    byte[] buffer = new byte[in.available()];
+
+    in.read(buffer);
+    Text t = new Text(buffer);
+
+    String[] tuples = t.toString().split(TheMapper.newline);
+    
+    for (String tuple : tuples) {
+      String[] split = tuple.split(TheMapper.delimeter);
+      String name = split[0];
+      String label = split[1];
+      map.put(name, label);
+    }
+
+    in.close();
+  }
+
+  @Override
+  protected void cleanup(Mapper<Text, Text, Text, TheValue>.Context context) throws IOException, InterruptedException {
+    if (_final) {
+      return;
+    }
+
     if (_delimeter == null) {
       _delimeter = delimeter.getBytes(utf8);
     }
     if (_newline == null) {
       _newline = newline.getBytes(utf8);
     }
-    
-    Configuration conf = context.getConfiguration();
 
-    FileSystem fs = FileSystem.newInstance(conf);
-    
     FSDataOutputStream out = fs.create(new Path(conf.get("output") + tempPath));
 
     for (Map.Entry<String, String> t : map.entrySet()) {
