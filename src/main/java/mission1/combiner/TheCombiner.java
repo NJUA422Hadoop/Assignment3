@@ -8,6 +8,7 @@ import org.apache.hadoop.mapreduce.Reducer;
 import mission1.tools.TheKey;
 
 public class TheCombiner extends Reducer<TheKey, Text, TheKey, Text> {
+  private final Text text = new Text();
   private final StringBuilder sb = new StringBuilder();
 
   @Override
@@ -20,6 +21,7 @@ public class TheCombiner extends Reducer<TheKey, Text, TheKey, Text> {
       sb.append(" ");
     }
     
-    context.write(key, new Text(sb.toString().trim()));
+    text.set(sb.toString().trim());
+    context.write(key, text);
   }
 }

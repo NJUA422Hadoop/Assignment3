@@ -1,24 +1,61 @@
 package mission5.reducer;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FSDataInputStream;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
+import org.apache.hadoop.util.LineReader;
+
+import mission5.mapper.TheMapper;
 
 public class TheReducer extends Reducer<Text, Text, Text, Text> {
-
-  private Configuration conf;
+  private Text text = new Text();
+  private Map<String, String> map = new HashMap<>();
 
   @Override
   protected void setup(Reducer<Text, Text, Text, Text>.Context context) throws IOException, InterruptedException {
-    conf = context.getConfiguration();
+    Configuration conf = context.getConfiguration();
+
+    FileSystem fs = FileSystem.newInstance(conf);
+
+    Path path = new Path(conf.get("output") + TheMapper.tempPath);
+
+    FSDataInputStream in = fs.open(path);
+
+    byte[] buffer = new byte[in.available()];
+
+    in.read(buffer);
+    Text t = new Text(buffer);
+
+    String[] tuples = t.toString().split(TheMapper.newline);
+    
+    for (String tuple : tuples) {
+      String[] split = tuple.split(TheMapper.delimeter);
+      String name = split[0];
+      String label = split[1];
+      map.put(name, label);
+    }
+
+    in.close();
+    fs.close();
   }
 
   private String replacestr(String str){
+<<<<<<< HEAD
     String []res=str.split(",");
     //res[1]=conf.get(res[0]);
     return res[0]+','+res[1];
+=======
+      String []res=str.split(",");
+      res[1]=map.get(res[0]);
+      return res[0]+','+res[1];
+>>>>>>> 6921502f6951a1940b60a03b5537aedf8e32a39b
   }
 
   @Override
@@ -51,7 +88,7 @@ public class TheReducer extends Reducer<Text, Text, Text, Text> {
       String []ts3=tempStr.split(":");
       ts3[0]=replacestr(ts3[0]);
       res=res+"|"+ts3[0]+":"+ts3[1]+"]";
-      context.write(key, new Text(conf.get(key.toString())+'\t'+res));
+      context.write(key, new Text(map.get(key.toString())+'\t'+res));
     }
   }
 }

@@ -10,6 +10,7 @@ import org.apache.hadoop.mapreduce.Reducer;
 import mission3.tools.TheValue;
 
 public class TheReducer extends Reducer<Text, TheValue, Text, Text> {
+  private final Text text = new Text();
   private final StringBuilder stringBuilder = new StringBuilder();
 
   @Override
@@ -43,6 +44,7 @@ public class TheReducer extends Reducer<Text, TheValue, Text, Text> {
     stringBuilder.deleteCharAt(stringBuilder.length() - 1);
     stringBuilder.append("]");
 
-    context.write(key, new Text(stringBuilder.toString()));
+    text.set(stringBuilder.toString());
+    context.write(key, text);
   }
 }

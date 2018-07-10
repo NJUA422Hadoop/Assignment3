@@ -49,13 +49,13 @@ public class Mission5 extends BaseMission {
   protected Job setupJob(Job job, int index) {
     if (index == 1) {
       job.setMapperClass(InitialMapper.class);
-  
+
       job.setMapOutputKeyClass(Text.class);
       job.setMapOutputValueClass(Text.class);
     } else {
       job.setMapperClass(TheMapper.class);
       job.setReducerClass(TheReducer.class);
-  
+
       job.setMapOutputKeyClass(Text.class);
       job.setMapOutputValueClass(Text.class);
       job.setOutputKeyClass(Text.class);
@@ -72,7 +72,11 @@ public class Mission5 extends BaseMission {
 
   @Override
   protected int times() {
+<<<<<<< HEAD
     return 1;
+=======
+    return 3;
+>>>>>>> 6921502f6951a1940b60a03b5537aedf8e32a39b
   }
 
   @Override

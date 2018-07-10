@@ -8,6 +8,8 @@ import org.apache.hadoop.mapreduce.Reducer;
 import mission2.tools.TheKey;
 
 public class TheCombiner extends Reducer<TheKey, IntWritable, TheKey, IntWritable> {
+  private final IntWritable intw = new IntWritable();
+
   @Override
   protected void reduce(TheKey key, Iterable<IntWritable> value,
       Reducer<TheKey, IntWritable, TheKey, IntWritable>.Context context) throws IOException, InterruptedException {
@@ -17,6 +19,7 @@ public class TheCombiner extends Reducer<TheKey, IntWritable, TheKey, IntWritabl
       sum += i.get();
     }
 
-    context.write(key, new IntWritable(sum));
+    intw.set(sum);
+    context.write(key, intw);
   }
 }

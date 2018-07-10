@@ -13,6 +13,7 @@ import mission1.tools.TheKey;
 import tools.Loader;
 
 public class TheMapper extends Mapper<TheKey, Text, TheKey, Text> {
+  private final Text text = new Text();
   private List<String> names;
 
   @Override
@@ -36,7 +37,8 @@ public class TheMapper extends Mapper<TheKey, Text, TheKey, Text> {
       String name = t.getRealName();
 
       if (names.contains(name)) {
-        context.write(key, new Text(name));
+        text.set(name);
+        context.write(key, text);
       }
     }
   }
