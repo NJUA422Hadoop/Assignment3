@@ -9,17 +9,17 @@ with codecs.open(file_name, encoding=encode) as file:
   labels = {}
   maps = {}
   with codecs.open(edge_csv, mode='w', encoding=encode) as edge_file:
-    edge_file.write('source,target\n')
+    edge_file.write('source,target,weight\n')
     for line in file.readlines():
-      split = line.split("\t")
+      split = line.split('\t')
       label = split[0]
       name = split[1]
       labels[name] = label
       value = split[2][1:-2]
-      v_split = value.split("|")
+      v_split = value.split('|')
       for v in v_split:
-        _v_split_left = v.split(",")
-        _v_split_right = _v_split_left[1].split(":")
+        _v_split_left = v.split(',')
+        _v_split_right = _v_split_left[1].split(':')
         v_name = _v_split_left[0]
         v_label = _v_split_right[0]
         v_weight = float(_v_split_right[1])
@@ -27,19 +27,23 @@ with codecs.open(file_name, encoding=encode) as file:
           maps[v_name] = 0
         maps[v_name] += v_weight
         edge_file.write(
-          '{source},{target}\n'.format(
+          '{source},{target},{weight}\n'.format(
             source=name,
-            target=v_name
+            target=v_name,
+            weight=v_weight
           )
         )
   with codecs.open(node_csv, mode='w', encoding=encode) as node_file:
     node_file.write('ID,label,name,weight\n')
+    count = 0
     for name in maps:
+      count += 1
       node_file.write(
         '{ID},{label},{name},{weight}\n'.format(
           ID=name,
           label=name,
-          name=labels[name],
+          #name=labels[name],
+          name='1' if count%2==0 else '2',
           weight=maps[name]
         )
       )
