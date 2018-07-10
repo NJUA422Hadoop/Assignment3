@@ -19,7 +19,6 @@ import tools.BaseMission;
  */
 
 public class Mission7 extends BaseMission {
-  public static final String input = "mission5";
   public static final String output = "mission7";
 
   public Mission7(Configured self, String[] args) {
@@ -48,6 +47,6 @@ public class Mission7 extends BaseMission {
 
   @Override
   public boolean isWorking() {
-    return false;
+    return true;
   }
 }

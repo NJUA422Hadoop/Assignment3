@@ -11,6 +11,7 @@ import java.util.Random;
 
 import org.apache.hadoop.io.WritableComparable;
 
+import mission5.mapper.TheMapper;
 import tools.Tuple;
 
 /**
@@ -39,7 +40,7 @@ public class TheValue implements WritableComparable<TheValue> {
 
   public void addLabel(Map<String, String> map) {
     for (Tuple<String, Double> t : list) {
-      t.first = String.format("%s,%s", t.first, map.getOrDefault(t.first, t.first));
+      t.first = String.format("%s,%s", t.first, TheMapper.getOrDefault(map, t.first, t.first));
     }
   }
 
