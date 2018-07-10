@@ -15,7 +15,8 @@ with codecs.open(file_name, encoding=encode) as file:
       label = split[0]
       name = split[1]
       labels[name] = label
-      value = split[2][1:-2]
+      value = split[2][1:]
+      value = value.split(']')[0]
       v_split = value.split('|')
       for v in v_split:
         _v_split_left = v.split(',')
