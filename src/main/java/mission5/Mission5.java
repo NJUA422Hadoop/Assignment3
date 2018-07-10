@@ -72,15 +72,11 @@ public class Mission5 extends BaseMission {
 
   @Override
   protected int times() {
-<<<<<<< HEAD
-    return 1;
-=======
-    return 3;
->>>>>>> 6921502f6951a1940b60a03b5537aedf8e32a39b
+    return 4;
   }
 
   @Override
   public boolean isWorking() {
-    return true;
+    return false;
   }
 }
