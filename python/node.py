@@ -9,7 +9,7 @@ with codecs.open(file_name, encoding=encode) as file:
   labels = {}
   maps = {}
   with codecs.open(edge_csv, mode='w', encoding=encode) as edge_file:
-    edge_file.write('source,target,weight\n')
+    edge_file.write('source,target\n')
     for line in file.readlines():
       split = line.split('\t')
       label = split[0]
@@ -28,10 +28,9 @@ with codecs.open(file_name, encoding=encode) as file:
           maps[v_name] = 0
         maps[v_name] += v_weight
         edge_file.write(
-          '{source},{target},{weight}\n'.format(
+          '{source},{target}\n'.format(
             source=name,
-            target=v_name,
-            weight=v_weight
+            target=v_name
           )
         )
   with codecs.open(node_csv, mode='w', encoding=encode) as node_file:
@@ -43,8 +42,7 @@ with codecs.open(file_name, encoding=encode) as file:
         '{ID},{label},{name},{weight}\n'.format(
           ID=name,
           label=name,
-          #name=labels[name],
-          name='1' if count%2==0 else '2',
+          name=labels[name],
           weight=maps[name]
         )
       )
