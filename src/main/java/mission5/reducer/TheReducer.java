@@ -17,7 +17,7 @@ public class TheReducer extends Reducer<Text, Text, Text, Text> {
 
   private String replacestr(String str){
     String []res=str.split(",");
-    res[1]=conf.get(res[0]);
+    //res[1]=conf.get(res[0]);
     return res[0]+','+res[1];
   }
 

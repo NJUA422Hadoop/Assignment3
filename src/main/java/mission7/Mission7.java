@@ -5,7 +5,8 @@ import org.apache.hadoop.io.FloatWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 
-import mission7.mapper.PageRankSortMapper;
+import mission5.Mission5;
+import mission7.mapper.TheMapper;
 
 import tools.BaseMission;
 
@@ -18,8 +19,8 @@ import tools.BaseMission;
  */
 
 public class Mission7 extends BaseMission {
-  public static final String input = "???";
-  public static final String output = "???";
+  public static final String input = "mission5";
+  public static final String output = "mission7";
 
   public Mission7(Configured self, String[] args) {
     super(self, args);
@@ -27,17 +28,16 @@ public class Mission7 extends BaseMission {
 
   @Override
   protected void setupConf(int index) {
-    conf.set("input", input); // or args[?]
-    conf.set("output", output);
+    conf.set("input", args[1] + "/" + Mission5.output + "/1"); // or args[?]
+    conf.set("output", args[1] + "/" + output);
     // more settings
   }
 
   @Override
   protected Job setupJob(Job job, int index) {
-    job.setOutputKeyClass(FloatWritable.class);
+    job.setOutputKeyClass(Text.class);
     job.setOutputValueClass(Text.class);
-    job.setSortComparatorClass(PageRankSortMapper.FloatComparator.class);
-    job.setMapperClass(PageRankSortMapper.class);
+    job.setMapperClass(TheMapper.class);
     // set mapper class ... etc
     return job;
   }
@@ -50,6 +50,6 @@ public class Mission7 extends BaseMission {
 
   @Override
   public boolean isWorking() {
-    return false;
+    return true;
   }
 }
