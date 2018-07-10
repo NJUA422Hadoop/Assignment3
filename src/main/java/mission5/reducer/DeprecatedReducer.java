@@ -12,9 +12,9 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.util.LineReader;
 
-import mission5.mapper.TheMapper;
+import mission5.mapper.DeprecatedMapper;
 
-public class TheReducer extends Reducer<Text, Text, Text, Text> {
+public class DeprecatedReducer extends Reducer<Text, Text, Text, Text> {
   private Text text = new Text();
   private Map<String, String> map = new HashMap<>();
 
@@ -24,7 +24,7 @@ public class TheReducer extends Reducer<Text, Text, Text, Text> {
 
     FileSystem fs = FileSystem.newInstance(conf);
 
-    Path path = new Path(conf.get("output") + TheMapper.tempPath);
+    Path path = new Path(conf.get("output") + DeprecatedMapper.tempPath);
 
     FSDataInputStream in = fs.open(path);
 
@@ -33,10 +33,10 @@ public class TheReducer extends Reducer<Text, Text, Text, Text> {
     in.read(buffer);
     Text t = new Text(buffer);
 
-    String[] tuples = t.toString().split(TheMapper.newline);
+    String[] tuples = t.toString().split(DeprecatedMapper.newline);
     
     for (String tuple : tuples) {
-      String[] split = tuple.split(TheMapper.delimeter);
+      String[] split = tuple.split(DeprecatedMapper.delimeter);
       String name = split[0];
       String label = split[1];
       map.put(name, label);
