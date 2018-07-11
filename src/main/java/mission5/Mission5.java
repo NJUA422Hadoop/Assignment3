@@ -68,7 +68,7 @@ public class Mission5 extends BaseMission {
 
   @Override
   protected int times() {
-    return 4;
+    return 6;
   }
 
   @Override
